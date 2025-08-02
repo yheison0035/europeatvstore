@@ -19,22 +19,39 @@ export function CartProvider({ children }) {
   }, [cartItems]);
 
   const toggleItem = (product) => {
-    const exists = cartItems.find((item) => item.id === product.id);
+    const exists = cartItems.find(
+      (item) => item.id === product.id && item.color === product.color
+    );
+
     setCartItems((prev) =>
       exists
-        ? prev.filter((item) => item.id !== product.id)
+        ? prev.filter(
+            (item) => !(item.id === product.id && item.color === product.color)
+          )
         : [...prev, product]
     );
   };
 
-  const isInCart = (productId) =>
-    cartItems.some((item) => item.id === productId);
+  const addToCart = (product) => {
+    console.log(product);
+    const exists = cartItems.some(
+      (item) => item.id === product.id && item.color === product.color
+    );
+    if (!exists) {
+      setCartItems((prev) => [...prev, product]);
+    }
+  };
+
+  const isInCart = (product) =>
+    cartItems.some(
+      (item) => item.id === product.id && item.color === product.color
+    );
 
   const cartCount = cartItems.length;
 
   return (
     <CartContext.Provider
-      value={{ cartItems, toggleItem, isInCart, cartCount }}
+      value={{ cartItems, toggleItem, addToCart, isInCart, cartCount }}
     >
       {children}
     </CartContext.Provider>

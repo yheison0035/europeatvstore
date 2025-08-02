@@ -3,7 +3,7 @@ export default function Hero() {
     <section className="bg-red-50 py-10 md:py-20 px-4 text-center">
       <div className="max-w-3xl mx-auto">
         <h2 className="text-3xl md:text-5xl font-extrabold text-gray-800 leading-tight">
-          ¡Tu producto estrella de televentas, directo a tu casa!
+          AQUI VAN BANNERS DE PUBLICIDAD
         </h2>
         <p className="mt-4 text-lg text-gray-600">
           Compra ahora el producto más útil y necesario del mercado. Entregas en
