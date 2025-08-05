@@ -13,7 +13,7 @@ import Menu from "@/components/header/menu";
 import BoxCart from "@/components/header/boxCart";
 
 export default function Header() {
-  const { cartItems, cartCount, toggleItem } = useCart();
+  const { cartItems, cartCount, removeFromCart } = useCart();
   const [showCart, setShowCart] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -30,7 +30,7 @@ export default function Header() {
 
           <Link href="/" className="flex items-center gap-2">
             <img src="/logo.png" alt="logo" width={50} height={50} />
-            <h1 className="text-sm md:text-lg font-semibold text-gray-600 hidden sm:inline">
+            <h1 className="text-sm md:text-lg font-semibold text-gray-600 md:hidden hidden sm:inline">
               EUROPEATVSTORE
             </h1>
           </Link>
@@ -71,7 +71,7 @@ export default function Header() {
             </button>
 
             {showCart && (
-              <BoxCart cartItems={cartItems} toggleItem={toggleItem} />
+              <BoxCart cartItems={cartItems} removeFromCart={removeFromCart} />
             )}
           </div>
         </div>

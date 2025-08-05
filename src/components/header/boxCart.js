@@ -1,7 +1,8 @@
 import { ShoppingCartIcon, TrashIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 
-export default function BoxCart({ cartItems, toggleItem }) {
+export default function BoxCart({ cartItems, removeFromCart }) {
+  console.log(cartItems);
   return (
     <div className="absolute right-0 mt-2 w-72 bg-white border border-gray-200 shadow-lg rounded-md z-50 p-4">
       <h3 className="text-sm text-gray-400 font-bold mb-2">Carrito</h3>
@@ -16,6 +17,7 @@ export default function BoxCart({ cartItems, toggleItem }) {
             >
               <div>
                 <p className="text-gray-600 font-medium">
+                  <span className="font-semibold">{item.quantity} </span>
                   {item.name} - {item.color}
                 </p>
                 <p className="text-red-600 font-semibold">
@@ -23,7 +25,7 @@ export default function BoxCart({ cartItems, toggleItem }) {
                 </p>
               </div>
               <button
-                onClick={() => toggleItem(item)}
+                onClick={() => removeFromCart(item)}
                 className="text-gray-400 hover:text-red-500"
                 title="Eliminar del carrito"
               >

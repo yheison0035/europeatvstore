@@ -3,6 +3,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { EyeIcon, PlusIcon } from "@heroicons/react/24/solid";
 import { useCart } from "@/context/cartContext";
+import formatSlug from "@/customs/formats";
 
 const products = [
   {
@@ -79,12 +80,6 @@ export default function ProductCatalog() {
   const filteredProducts = products.filter((product) =>
     product.name.toLowerCase().includes(search.toLowerCase())
   );
-
-  const formatSlug = (name) =>
-    name
-      .toLowerCase()
-      .replace(/\s+/g, "-")
-      .replace(/[^\w-]+/g, "");
 
   const handleColorSelect = (productId, color) => {
     setSelectedColors((prev) => ({ ...prev, [productId]: color }));
@@ -195,7 +190,6 @@ export default function ProductCatalog() {
                       addToCart({
                         ...product,
                         color: selectedColor,
-                        id: `${product.id}-${selectedColor}`,
                       })
                     }
                     className="flex items-center justify-center gap-2 text-sm px-4 py-2 rounded-md font-medium border cursor-pointer bg-white text-green-600 border-green-600"

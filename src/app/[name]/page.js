@@ -87,7 +87,7 @@ export default function DetailProduct() {
   const [mainImage, setMainImage] = useState(null);
   const [selectedColor, setSelectedColor] = useState(null);
   const [showFullDesc, setShowFullDesc] = useState(false);
-  const { isInCart, toggleItem } = useCart();
+  const { addToCart } = useCart();
 
   useEffect(() => {
     if (name) {
@@ -121,8 +121,9 @@ export default function DetailProduct() {
       alert("Por favor selecciona un color antes de continuar.");
       return;
     }
-    const item = { ...product, quantity: count, color: selectedColor };
-    toggleItem(item);
+    const item = { ...product, color: selectedColor };
+    addToCart(item);
+    router.push("/cart");
   };
 
   return (
@@ -226,7 +227,6 @@ export default function DetailProduct() {
           <button
             onClick={() => {
               handleAddToCart();
-              router.push("/carrito");
             }}
             className="flex-1 flex items-center cursor-pointer justify-center gap-2 bg-green-600 hover:bg-green-700 text-white py-2 rounded-full text-sm font-semibold"
           >
