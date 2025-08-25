@@ -12,6 +12,7 @@ import Checkout from "@/components/checkout/checkout";
 export default function Cart() {
   const { cartItems, removeFromCart } = useCart();
   const [quantities, setQuantities] = useState({});
+  const [activeCheckout, setActiveCheckout] = useState(false);
 
   useEffect(() => {
     const initialQuantities = {};
@@ -133,15 +134,17 @@ export default function Cart() {
             <span>Total</span>
             <span>${calculateTotal().toLocaleString()}</span>
           </div>
-          <Link
-            href="/checkout"
+          <button
             className="flex w-full mt-6 justify-center bg-black text-white py-2 rounded-xl hover:opacity-90 transition cursor-pointer"
+            onClick={() => {
+              setActiveCheckout(true);
+            }}
           >
             <label>Finalizar compra</label>
-          </Link>
+          </button>
         </div>
       </div>
-      <Checkout />
+      {activeCheckout && <Checkout />}
     </div>
   );
 }
