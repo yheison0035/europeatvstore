@@ -7,6 +7,7 @@ import Counter from "@/components/product/counter";
 import { TrashIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import formatSlug from "@/customs/formats";
+import Checkout from "@/components/checkout/checkout";
 
 export default function Cart() {
   const { cartItems, removeFromCart } = useCart();
@@ -101,6 +102,29 @@ export default function Cart() {
 
         <div className="border p-6 rounded-xl shadow-md bg-gray-50 h-fit">
           <h2 className="text-xl font-semibold mb-4 text-gray-800">Resumen</h2>
+          <div className="border p-4 rounded-xl shadow-sm my-2 flex justify-between items-center">
+            <label className="flex items-center gap-2 text-gray-700 text-sm">
+              <input
+                type="checkbox"
+                checked
+                readOnly
+                className="accent-black"
+              />
+              Envío gratis
+            </label>
+            <span className="font-semibold text-green-600">Gratis</span>
+          </div>
+          <div className="border p-4 rounded-xl shadow-sm mb-6 my-2 flex justify-between items-center">
+            <label className="flex items-center gap-2 text-gray-700 text-sm">
+              <input
+                type="checkbox"
+                checked
+                readOnly
+                className="accent-black"
+              />
+              Pago Contra Entrega
+            </label>
+          </div>
           <div className="flex justify-between mb-2 text-sm text-gray-600">
             <span>Subtotal</span>
             <span>${calculateTotal().toLocaleString()}</span>
@@ -109,11 +133,15 @@ export default function Cart() {
             <span>Total</span>
             <span>${calculateTotal().toLocaleString()}</span>
           </div>
-          <button className="w-full mt-6 bg-black text-white py-2 rounded-xl hover:opacity-90 transition">
-            Finalizar compra
-          </button>
+          <Link
+            href="/checkout"
+            className="flex w-full mt-6 justify-center bg-black text-white py-2 rounded-xl hover:opacity-90 transition cursor-pointer"
+          >
+            <label>Finalizar compra</label>
+          </Link>
         </div>
       </div>
+      <Checkout />
     </div>
   );
 }
