@@ -33,7 +33,7 @@ export default function CartDrawer({ open, onClose }) {
       >
         <div className="flex items-center justify-between p-4 border-b border-gray-300">
           <h2 className="text-lg font-semibold">Tu carrito</h2>
-          <button onClick={onClose}>
+          <button onClick={onClose} className="cursor-pointer">
             <XMarkIcon className="w-6 h-6" />
           </button>
         </div>
