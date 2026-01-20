@@ -7,18 +7,19 @@ import { useCart } from "@/context/cartContext";
 export default function SearchItem({ product }) {
   const { addToCart, getItem, ready } = useCart();
 
-  if (!ready) {
-    return <div className="p-6 text-sm text-gray-400">Cargando carrito...</div>;
-  }
+  const itemInCart = ready ? getItem(product.id) : null;
 
-  const itemInCart = getItem(product.id);
-  const [qty, setQty] = useState(itemInCart?.quantity || 1);
+  const [qty, setQty] = useState(1);
 
   useEffect(() => {
     if (itemInCart) {
       setQty(itemInCart.quantity);
     }
   }, [itemInCart]);
+
+  if (!ready) {
+    return <div className="p-6 text-sm text-gray-400">Cargando carrito...</div>;
+  }
 
   const outOfStock = product.stock === 0;
   const alreadyInCart = Boolean(itemInCart);
@@ -47,15 +48,17 @@ export default function SearchItem({ product }) {
         </p>
 
         <div className="mt-1">
-          <span className="text-sm line-through text-gray-400 mr-2">
-            ${product.oldPrice.toLocaleString()}
-          </span>
+          {product.oldPrice && (
+            <span className="text-sm line-through text-gray-400 mr-2">
+              ${product.oldPrice.toLocaleString()}
+            </span>
+          )}
           <span className="text-lg font-bold text-[var(--cta-primary)]">
             ${product.price.toLocaleString()}
           </span>
         </div>
 
-        <p className="text-sm text-[var(--text-secondary)]">
+        <p className="text-sm text-gray-500">
           Stock disponible: {product.stock}
         </p>
 
@@ -70,7 +73,7 @@ export default function SearchItem({ product }) {
         <div className="flex items-center gap-3">
           <button
             onClick={() => setQty(Math.max(1, qty - 1))}
-            className="border rounded p-1 cursor-pointer"
+            className="border rounded p-1"
           >
             <MinusIcon className="w-4 h-4" />
           </button>
@@ -79,7 +82,7 @@ export default function SearchItem({ product }) {
 
           <button
             onClick={() => setQty(Math.min(product.stock, qty + 1))}
-            className="border rounded p-1 cursor-pointer"
+            className="border rounded p-1"
           >
             <PlusIcon className="w-4 h-4" />
           </button>
@@ -89,18 +92,17 @@ export default function SearchItem({ product }) {
           disabled={outOfStock}
           onClick={() => addToCart(product, qty)}
           className="
-                bg-[var(--cta-primary)]
-                text-white
-                py-2 rounded-lg
-                font-medium
-                disabled:opacity-50
-                disabled:cursor-not-allowed
-                cursor-pointer
-            "
+            bg-[var(--cta-primary)]
+            text-white
+            py-2 rounded-lg
+            font-medium
+            disabled:opacity-50
+            disabled:cursor-not-allowed
+          "
         >
           {outOfStock
             ? "Sin stock"
-            : itemInCart
+            : alreadyInCart
               ? "Actualizar carrito"
               : "Añadir al carrito"}
         </button>
