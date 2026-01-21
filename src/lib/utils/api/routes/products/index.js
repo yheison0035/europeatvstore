@@ -10,5 +10,5 @@ export async function getProductById(id) {
 
 export async function searchProducts(term) {
   if (!term || term.length < 2) return { data: [] };
-  return apiFetch(`/inventory/search/${term}`);
+  return apiFetch(`/ecommerce/search/${term}`);
 }

@@ -1,110 +1,166 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { PlusIcon, MinusIcon } from "@heroicons/react/24/outline";
 import { useCart } from "@/context/cartContext";
+import { getColorHexByName } from "@/utils/getColor";
+import { useToast } from "@/context/toastContext";
 
 export default function SearchItem({ product }) {
-  const { addToCart, getItem, ready } = useCart();
+  const { addToCart, getItemsByProduct, ready } = useCart();
+  const toast = useToast();
 
-  const itemInCart = ready ? getItem(product.id) : null;
-
+  const [selectedColor, setSelectedColor] = useState(null);
+  const [colorStock, setColorStock] = useState(0);
   const [qty, setQty] = useState(1);
+  const [error, setError] = useState(null);
 
-  useEffect(() => {
-    if (itemInCart) {
-      setQty(itemInCart.quantity);
+  if (!ready) return null;
+
+  const hasColors = product.colors?.length > 0;
+
+  const itemsInCart = getItemsByProduct(product.id);
+
+  const handleAdd = () => {
+    if (hasColors && !selectedColor) {
+      setError("Selecciona un color para continuar");
+      return;
     }
-  }, [itemInCart]);
 
-  if (!ready) {
-    return <div className="p-6 text-sm text-gray-400">Cargando carrito...</div>;
-  }
+    if (qty > colorStock) {
+      setError(`Solo hay ${colorStock} unidades disponibles`);
+      return;
+    }
 
-  const outOfStock = product.stock === 0;
-  const alreadyInCart = Boolean(itemInCart);
+    const result = addToCart(
+      {
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        oldPrice: product.oldPrice ?? null,
+        discount: product.discount ?? 0,
+        image: product.image,
+        color: selectedColor,
+        stock: colorStock,
+      },
+      qty,
+    );
+
+    if (!result.ok) {
+      toast.error(
+        `Ya tienes todo el stock disponible de ${selectedColor} en el carrito`,
+      );
+      return;
+    }
+
+    toast.success("Producto añadido al carrito");
+    setError(null);
+  };
 
   return (
-    <div
-      className="
-        grid grid-cols-1 md:grid-cols-[120px_1fr_220px]
-        gap-6
-        p-6
-        border-b border-[var(--border-soft)]
-        bg-white
-      "
-    >
-      <div className="flex items-center justify-center">
-        <div className="w-24 h-24 bg-gray-100 rounded-lg flex items-center justify-center">
-          <span className="text-xs text-gray-400">IMG</span>
-        </div>
-      </div>
-
-      <div className="flex flex-col gap-1">
-        <p className="font-semibold text-base">{product.name}</p>
-
-        <p className="text-sm text-[var(--text-secondary)]">
-          {product.description}
-        </p>
-
-        <div className="mt-1">
-          {product.oldPrice && (
-            <span className="text-sm line-through text-gray-400 mr-2">
-              ${product.oldPrice.toLocaleString()}
-            </span>
-          )}
-          <span className="text-lg font-bold text-[var(--cta-primary)]">
-            ${product.price.toLocaleString()}
-          </span>
-        </div>
-
-        <p className="text-sm text-gray-500">
-          Stock disponible: {product.stock}
-        </p>
-
-        {alreadyInCart && (
-          <span className="text-xs text-green-600 mt-1">
-            ✔ Ya está en el carrito
-          </span>
+    <div className="grid grid-cols-1 md:grid-cols-[100px_1fr_220px] gap-5 p-5 border-b bg-white">
+      <div className="w-24 h-24 bg-gray-100 rounded-xl overflow-hidden">
+        {product.image && (
+          <img
+            src={product.image}
+            alt={product.name}
+            className="w-full h-full object-cover"
+          />
         )}
       </div>
 
-      <div className="flex flex-col justify-center gap-3">
-        <div className="flex items-center gap-3">
+      <div className="flex flex-col gap-1">
+        <p className="font-semibold text-gray-900">{product.name}</p>
+        <p className="text-sm text-gray-500">{product.description}</p>
+
+        {hasColors && (
+          <div className="mt-2">
+            <p className="text-xs font-medium mb-1">Color</p>
+            <div className="flex gap-2">
+              {product.colors.map((c) => (
+                <button
+                  key={c.name}
+                  onClick={() => {
+                    setSelectedColor(c.name);
+                    setColorStock(c.stock);
+                    setError(null);
+
+                    const existing = itemsInCart.find(
+                      (i) => i.color === c.name,
+                    );
+                    setQty(existing ? existing.quantity : 1);
+                  }}
+                  className={`w-4 h-4 rounded-full border cursor-pointer ${
+                    selectedColor === c.name
+                      ? "border-black scale-110"
+                      : "border-gray-400"
+                  }`}
+                  style={{ backgroundColor: getColorHexByName(c.name) }}
+                  title={`${c.name} (${c.stock})`}
+                />
+              ))}
+            </div>
+
+            {selectedColor && (
+              <p className="text-xs text-gray-500 mt-1">
+                Stock {selectedColor}: {colorStock}
+              </p>
+            )}
+          </div>
+        )}
+
+        <div className="mt-2 flex items-center gap-2">
+          {product.oldPrice && (
+            <span className="text-sm line-through text-gray-400">
+              ${product.oldPrice.toLocaleString()}
+            </span>
+          )}
+          <span className="text-xl font-bold text-[var(--cta-primary)]">
+            ${product.price.toLocaleString()}
+          </span>
+
+          {product.discount > 0 && (
+            <span className="text-xs bg-red-100 text-red-600 px-2 py-0.5 rounded-full">
+              -{product.discount}%
+            </span>
+          )}
+        </div>
+        {selectedColor &&
+          itemsInCart.some((i) => i.color === selectedColor) && (
+            <p className="text-xs text-green-600 mt-1">
+              ✔ Este color ya está en tu carrito
+            </p>
+          )}
+        {error && <p className="text-xs text-red-500 mt-1">{error}</p>}
+      </div>
+
+      <div className="flex flex-col gap-3 items-start">
+        <div className="flex items-center border rounded-lg h-9 overflow-hidden">
           <button
             onClick={() => setQty(Math.max(1, qty - 1))}
-            className="border rounded p-1"
+            className="h-full px-3 flex items-center justify-center text-gray-500 hover:text-gray-800 hover:bg-gray-50 cursor-pointer"
           >
             <MinusIcon className="w-4 h-4" />
           </button>
 
-          <span className="font-medium">{qty}</span>
+          <span className="h-full px-4 flex items-center justify-center text-sm font-semibold min-w-[40px]">
+            {qty}
+          </span>
 
           <button
-            onClick={() => setQty(Math.min(product.stock, qty + 1))}
-            className="border rounded p-1"
+            disabled={!selectedColor || qty >= colorStock}
+            onClick={() => setQty((q) => q + 1)}
+            className="h-full px-3 flex items-center justify-center text-gray-500 hover:text-gray-800 hover:bg-gray-50 disabled:opacity-40 cursor-pointer"
           >
             <PlusIcon className="w-4 h-4" />
           </button>
         </div>
 
         <button
-          disabled={outOfStock}
-          onClick={() => addToCart(product, qty)}
-          className="
-            bg-[var(--cta-primary)]
-            text-white
-            py-2 rounded-lg
-            font-medium
-            disabled:opacity-50
-            disabled:cursor-not-allowed
-          "
+          onClick={handleAdd}
+          className="w-full bg-[var(--cta-primary)] text-white py-2 rounded-lg font-medium hover:opacity-90 transition cursor-pointer"
         >
-          {outOfStock
-            ? "Sin stock"
-            : alreadyInCart
-              ? "Actualizar carrito"
-              : "Añadir al carrito"}
+          Añadir al carrito
         </button>
       </div>
     </div>

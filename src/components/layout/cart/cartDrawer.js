@@ -44,7 +44,7 @@ export default function CartDrawer({ open, onClose }) {
               Tu carrito está vacío
             </p>
           ) : (
-            items.map((item) => <CartItem key={item.id} item={item} />)
+            items.map((item) => <CartItem key={item.key} item={item} />)
           )}
         </div>
 

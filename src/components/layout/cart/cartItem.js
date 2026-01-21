@@ -2,66 +2,107 @@
 
 import { MinusIcon, PlusIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { useCart } from "@/context/cartContext";
+import { getColorHexByName } from "@/utils/getColor";
 
 export default function CartItem({ item }) {
-  const { addToCart, removeFromCart } = useCart();
+  const { addToCart, removeFromCart, decreaseItem } = useCart();
 
   const isLowStock = item.stock <= 3;
 
   return (
-    <div className="flex gap-4 py-4 border-b border-gray-300">
-      <div className="w-20 h-20 bg-gray-100 rounded-lg flex items-center justify-center">
-        <span className="text-xs text-gray-400">IMG</span>
+    <div className="flex gap-4 py-5 border-b border-gray-200">
+      <div className="w-20 h-20 bg-gray-100 rounded-xl flex items-center justify-center overflow-hidden">
+        {item.image ? (
+          <img
+            src={item.image}
+            alt={item.name}
+            className="w-full h-full object-cover"
+          />
+        ) : (
+          <span className="text-xs text-gray-400">IMG</span>
+        )}
       </div>
 
-      <div className="flex-1">
-        <p className="font-medium text-sm">
-          {item.name} <span className="text-gray-400">- {item.color}</span>
+      <div className="flex-1 flex flex-col gap-1">
+        <p className="font-semibold text-sm text-gray-900 leading-tight">
+          {item.name}
         </p>
 
-        <p className="text-xs text-gray-500">${item.price.toLocaleString()}</p>
+        {item.color && (
+          <div className="flex items-center gap-2 text-xs text-gray-500">
+            <span>Color:</span>
+            <span className="flex items-center gap-1">
+              <span
+                className="w-3 h-3 rounded-full border"
+                style={{ backgroundColor: getColorHexByName(item.color) }}
+              />
+              <span className="capitalize">{item.color}</span>
+            </span>
+          </div>
+        )}
+
+        <div className="flex items-center gap-2 mt-1">
+          {item.oldPrice && (
+            <span className="text-xs text-gray-400 line-through">
+              ${item.oldPrice.toLocaleString()}
+            </span>
+          )}
+
+          <span className="text-sm font-bold text-gray-900">
+            ${item.price.toLocaleString()}
+          </span>
+
+          {item.discount > 0 && (
+            <span className="text-[10px] font-semibold bg-red-100 text-red-600 px-2 py-0.5 rounded-full">
+              -{item.discount}%
+            </span>
+          )}
+        </div>
 
         <p
-          className={`
-            text-xs mt-1
-            ${isLowStock ? "text-orange-600" : "text-gray-400"}
-          `}
+          className={`text-xs mt-1 ${
+            isLowStock ? "text-orange-600" : "text-gray-400"
+          }`}
         >
           {isLowStock
             ? `¡Solo quedan ${item.stock} disponibles!`
             : `Stock disponible: ${item.stock}`}
         </p>
 
-        <div className="flex items-center gap-2 mt-2">
-          <button
-            onClick={() => addToCart(item, -1)}
-            className="border rounded p-1 cursor-pointer"
-            disabled={item.quantity <= 1}
-          >
-            <MinusIcon className="w-4 h-4" />
-          </button>
+        <div className="flex items-center mt-3">
+          <div className="flex items-center border rounded-lg overflow-hidden">
+            <button
+              onClick={() => decreaseItem(item.key)}
+              disabled={item.quantity <= 1}
+              className="px-2 py-1 text-gray-500 hover:text-gray-800 disabled:opacity-40 cursor-pointer"
+            >
+              <MinusIcon className="w-4 h-4" />
+            </button>
 
-          <span className="text-sm font-medium">{item.quantity}</span>
+            <span className="px-3 text-sm font-medium min-w-[32px] text-center">
+              {item.quantity}
+            </span>
 
-          <button
-            onClick={() => addToCart(item, 1)}
-            className="border rounded p-1 cursor-pointer"
-            disabled={item.quantity >= item.stock}
-          >
-            <PlusIcon className="w-4 h-4" />
-          </button>
+            <button
+              onClick={() => addToCart(item, 1)}
+              disabled={item.quantity >= item.stock}
+              className="px-2 py-1 text-gray-500 hover:text-gray-800 disabled:opacity-40 cursor-pointer"
+            >
+              <PlusIcon className="w-4 h-4" />
+            </button>
+          </div>
         </div>
       </div>
 
       <div className="flex flex-col items-end justify-between">
-        <span className="text-sm font-semibold">
+        <span className="text-sm font-bold text-gray-900">
           ${(item.price * item.quantity).toLocaleString()}
         </span>
 
         <button
-          onClick={() => removeFromCart(item.id)}
-          className="text-gray-400 hover:text-red-500 cursor-pointer"
+          onClick={() => removeFromCart(item.key)}
           title="Eliminar producto"
+          className="text-gray-400 hover:text-red-500 transition cursor-pointer"
         >
           <TrashIcon className="w-4 h-4" />
         </button>

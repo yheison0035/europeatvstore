@@ -3,11 +3,11 @@ export function mapSearchProduct(product) {
     id: product.id,
     name: product.name,
     price: product.price,
-    oldPrice: product.price + 30000, // QUEMADO
+    oldPrice: product.oldPrice,
+    discount: product.discount,
     stock: product.stock,
-    sku: product.sku,
-    color: product.color,
-    image: "/logo.png", // QUEMADO
-    description: `Color: ${product.color}`, // QUEMADO
+    colors: product.colors,
+    image: product.image,
+    description: product.description,
   };
 }
