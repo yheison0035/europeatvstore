@@ -14,6 +14,7 @@ export default function SearchItem({ product }) {
   const [colorStock, setColorStock] = useState(0);
   const [qty, setQty] = useState(1);
   const [error, setError] = useState(null);
+  const [expanded, setExpanded] = useState(false);
 
   if (!ready) return null;
 
@@ -57,6 +58,13 @@ export default function SearchItem({ product }) {
     setError(null);
   };
 
+  const MAX_CHARS = 100;
+  const isLongText = product.description?.length > MAX_CHARS;
+
+  const shortDescription = isLongText
+    ? product.description.slice(0, MAX_CHARS) + "..."
+    : product.description;
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-[100px_1fr_220px] gap-5 p-5 border-b bg-white">
       <div className="w-24 h-24 bg-gray-100 rounded-xl overflow-hidden">
@@ -71,7 +79,24 @@ export default function SearchItem({ product }) {
 
       <div className="flex flex-col gap-1">
         <p className="font-semibold text-gray-900">{product.name}</p>
-        <p className="text-sm text-gray-500">{product.description}</p>
+        <div className="text-sm text-gray-500">
+          <p
+            className={`transition-all duration-300 ${
+              expanded ? "line-clamp-none" : "line-clamp-2"
+            }`}
+          >
+            {expanded ? product.description : shortDescription}
+          </p>
+
+          {isLongText && (
+            <button
+              onClick={() => setExpanded(!expanded)}
+              className="mt-1 text-xs font-medium text-[var(--cta-primary)] hover:underline"
+            >
+              {expanded ? "Ocultar" : "Leer más"}
+            </button>
+          )}
+        </div>
 
         {hasColors && (
           <div className="mt-2">
