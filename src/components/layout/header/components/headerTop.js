@@ -14,18 +14,25 @@ export default function HeaderTop() {
       className="
         max-w-7xl mx-auto px-4 py-4
         grid grid-cols-1 gap-4
-        md:grid-cols-[auto_1fr_auto] md:items-center
+        md:grid-cols-[auto_1fr_auto]
+        md:items-center
       "
     >
       <div className="flex justify-center md:justify-start">
-        <Image src="/logo.png" alt="EUROPEATVSTORE" width={70} height={70} />
+        <Image
+          src="/logo.png"
+          alt="EUROPEATVSTORE – Tecnología y Hogar"
+          width={70}
+          height={70}
+          priority
+        />
       </div>
 
       <div className="flex justify-center w-full">
         <SearchBar />
       </div>
 
-      <div className="flex justify-center md:justify-end gap-6">
+      <div className="flex justify-center md:justify-end gap-6 text-[var(--text-primary)]">
         <UserIcon />
         <CartIcon count={count} />
       </div>

@@ -8,7 +8,6 @@ import {
   ArrowLeftIcon,
 } from "@heroicons/react/24/outline";
 
-/* ---------------- CONFIG ENVÍOS ---------------- */
 const SHIPPING_RULES = [
   { min: 0, max: 50000, price: 16000 },
   { min: 50001, max: 99999, price: 21000 },
@@ -43,26 +42,34 @@ export default function CartSummary({ onClose }) {
   const total = subtotal + shipping;
 
   return (
-    <div className="border-t border-gray-300 p-4 space-y-4">
-      <div className="flex justify-between text-sm">
+    <div className="border-t border-[var(--border-soft)] p-4 space-y-4">
+      <div className="flex justify-between text-sm text-[var(--text-secondary)]">
         <span>Subtotal</span>
-        <span className="font-medium">${subtotal.toLocaleString()}</span>
+        <span className="font-medium text-[var(--text-primary)]">
+          ${subtotal.toLocaleString()}
+        </span>
       </div>
 
       <div className="flex justify-between text-sm">
         <div className="flex flex-col">
-          <span>Envío</span>
-          <span className="text-xs text-gray-500">{shippingMessage}</span>
+          <span className="text-[var(--text-secondary)]">Envío</span>
+          <span className="text-xs text-[var(--text-muted)]">
+            {shippingMessage}
+          </span>
         </div>
         <span
-          className={`font-medium ${shipping === 0 ? "text-green-600" : ""}`}
+          className={`font-medium ${
+            shipping === 0
+              ? "text-[var(--success)]"
+              : "text-[var(--text-primary)]"
+          }`}
         >
           {shippingLabel}
         </span>
       </div>
 
       <div className="flex justify-between text-base font-semibold">
-        <span>Total</span>
+        <span className="text-[var(--text-primary)]">Total</span>
         <span className="text-[var(--cta-primary)]">
           ${total.toLocaleString()}
         </span>
@@ -75,7 +82,7 @@ export default function CartSummary({ onClose }) {
           flex items-center justify-center gap-2
           w-full
           bg-[var(--cta-primary)]
-          text-white
+          text-[var(--text-inverted)]
           py-3 rounded-lg
           font-medium
           hover:opacity-90
@@ -93,7 +100,7 @@ export default function CartSummary({ onClose }) {
           flex items-center justify-center gap-2
           w-full
           bg-[var(--success)]
-          text-white
+          text-[var(--text-inverted)]
           py-3 rounded-lg
           font-medium
           hover:opacity-90
@@ -110,7 +117,7 @@ export default function CartSummary({ onClose }) {
           onClick={onClose}
           className="
             inline-flex items-center gap-1
-            text-sm text-gray-500
+            text-sm text-[var(--text-muted)]
             hover:text-[var(--brand-primary)]
             underline underline-offset-4
             transition

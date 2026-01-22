@@ -21,16 +21,14 @@ export default function SearchBar() {
       }
 
       const res = await searchProducts(query);
-
-      if (Array.isArray(res)) {
-        setResults(res);
-      } else if (res?.success && Array.isArray(res.data)) {
+      if (res?.success && Array.isArray(res.data)) {
         setResults(res.data);
+      } else if (Array.isArray(res)) {
+        setResults(res);
       } else {
         setResults([]);
       }
     }
-
     run();
   }, [query, searchProducts]);
 
@@ -40,39 +38,41 @@ export default function SearchBar() {
         setOpen(false);
       }
     }
-
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   useEffect(() => {
-    if (results.length > 0) {
-      setOpen(true);
-    }
+    if (results.length > 0) setOpen(true);
   }, [results]);
 
   return (
     <div ref={containerRef} className="relative w-full max-w-4xl">
       <div className="relative">
-        <MagnifyingGlassIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-6 h-6 text-[var(--text-muted)]" />
+        <MagnifyingGlassIcon
+          className="absolute left-4 top-1/2 -translate-y-1/2 w-6 h-6
+          text-[var(--text-muted)]"
+        />
 
         <input
-          type="text"
-          placeholder="Buscar productos, masajeadores, gimnasio en casa, hidrolavadoras..."
+          type="search"
+          aria-label="Buscar productos"
+          placeholder="Buscar productos: hidrolavadoras, masajeadores, cocina, streaming…"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          onFocus={() => {
-            if (results.length > 0) setOpen(true);
-          }}
+          onFocus={() => results.length > 0 && setOpen(true)}
           className="
             w-full
             pl-14 pr-4 py-2
-            text-base
             rounded-xl
             border border-[var(--border-soft)]
+            bg-[var(--bg-page)]
+            text-[var(--text-primary)]
+            placeholder:text-[var(--text-muted)]
             focus:ring-2 focus:ring-[var(--brand-primary)]
             outline-none
-            shadow-sm
+            shadow-[var(--shadow-sm)]
+            cursor-pointer
           "
         />
       </div>

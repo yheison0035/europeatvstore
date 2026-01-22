@@ -1,38 +1,60 @@
 :root {
-  /* BRAND */
-  --brand-primary: #0b1e3b; /* Azul marino del logo */
+  /* ================= BRAND ================= */
+  --brand-primary: #0b1e3b; /* Azul marino principal */
   --brand-secondary: #123a63; /* Azul profundo */
   --brand-accent: #d4af37; /* Dorado premium */
 
-  /* BACKGROUNDS */
+  /* ================= BACKGROUNDS ================= */
   --bg-page: #ffffff;
   --bg-soft: #f8fafc;
+  --bg-muted: #f1f5f9;
   --bg-dark: #020617;
   --bg-brand: var(--brand-primary);
 
-  /* TEXT */
+  /* ================= TEXT ================= */
   --text-primary: #0b1e3b;
-  --text-secondary: #475569;
+  --text-secondary: #334155;
   --text-muted: #64748b;
   --text-inverted: #ffffff;
   --text-accent: var(--brand-accent);
 
-  /* ACTION */
+  /* ================= ACTION / CTA ================= */
   --cta-primary: #d72638;
   --cta-primary-hover: #b91c2d;
-  --success: #16a34a;
+  --cta-secondary: var(--brand-accent);
+  --cta-secondary-hover: #bfa134;
 
-  /* BORDERS */
+  /* ================= STATUS ================= */
+  --success: #16a34a;
+  --warning: #ea580c;
+  --danger: #dc2626;
+
+  /* ================= BORDERS ================= */
   --border-soft: #e5e7eb;
   --border-strong: #cbd5e1;
 
-  /* RADIUS */
+  /* ================= RADIUS ================= */
   --radius-sm: 6px;
   --radius-md: 10px;
   --radius-lg: 16px;
+  --radius-xl: 22px;
 
-  /* SHADOWS */
+  /* ================= SHADOWS ================= */
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
   --shadow-md: 0 6px 16px rgba(11, 30, 59, 0.15);
   --shadow-lg: 0 30px 60px rgba(11, 30, 59, 0.25);
+
+  /* ================= CATEGORY TOKENS ================= */
+  --category-bg: var(--bg-page);
+  --category-bg-hover: var(--bg-soft);
+  --category-border: var(--border-soft);
+
+  --category-icon-bg: rgba(11, 30, 59, 0.06);
+  --category-icon-bg-hover: rgba(212, 175, 55, 0.18);
+
+  --category-icon-color: var(--brand-primary);
+  --category-icon-color-hover: var(--brand-accent);
+
+  --category-title-color: var(--text-primary);
+  --category-link-color: var(--brand-accent);
 }

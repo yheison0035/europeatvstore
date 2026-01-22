@@ -11,8 +11,20 @@ export default function CartIcon() {
 
   return (
     <>
-      <button onClick={() => setOpen(true)} className="relative cursor-pointer">
-        <ShoppingCartIcon className="w-6 h-6" />
+      <button
+        onClick={() => setOpen(true)}
+        className="relative cursor-pointer"
+        aria-label="Carrito de compras"
+      >
+        <ShoppingCartIcon
+          className="
+            w-6 h-6
+            text-[var(--text-primary)]
+            hover:text-[var(--brand-accent)]
+            transition
+          "
+        />
+
         {count > 0 && (
           <span
             className="
@@ -21,6 +33,7 @@ export default function CartIcon() {
               text-white text-xs
               w-5 h-5 rounded-full
               flex items-center justify-center
+              shadow
             "
           >
             {count}
