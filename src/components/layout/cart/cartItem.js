@@ -5,25 +5,23 @@ import { useCart } from "@/context/cartContext";
 import { getColorHexByName } from "@/utils/getColor";
 
 export default function CartItem({ item }) {
-  const { addToCart, removeFromCart, decreaseItem } = useCart();
+  const { updateItemQuantity, removeFromCart } = useCart();
 
   const isLowStock = item.stock <= 3;
 
+  function increase() {
+    if (item.quantity < item.stock) {
+      updateItemQuantity(item.key, item.quantity + 1);
+    }
+  }
+
+  function decrease() {
+    updateItemQuantity(item.key, item.quantity - 1);
+  }
+
   return (
-    <div
-      className="
-        flex gap-4 py-5
-        border-b border-(--border-soft)
-      "
-    >
-      <div
-        className="
-          w-20 h-20
-          rounded-xl
-          flex items-center justify-center
-          overflow-hidden
-        "
-      >
+    <div className="flex gap-4 py-5 border-b border-(--border-soft)">
+      <div className="w-20 h-20 rounded-xl flex items-center justify-center overflow-hidden bg-(--bg-soft)">
         {item.image ? (
           <img
             src={item.image}
@@ -65,15 +63,7 @@ export default function CartItem({ item }) {
           </span>
 
           {item.discount > 0 && (
-            <span
-              className="
-                text-[10px] font-semibold
-                bg-red-100
-                text-(--danger)
-                px-2 py-0.5
-                rounded-full
-              "
-            >
+            <span className="text-[10px] font-semibold bg-red-100 text-(--danger) px-2 py-0.5 rounded-full">
               -{item.discount}%
             </span>
           )}
@@ -89,26 +79,12 @@ export default function CartItem({ item }) {
             : `Stock disponible: ${item.stock}`}
         </p>
 
+        {/* Controles */}
         <div className="flex items-center mt-3">
-          <div
-            className="
-              flex items-center
-              border border-(--border-soft)
-              rounded-lg
-              overflow-hidden
-            "
-          >
+          <div className="flex items-center border border-(--border-soft) rounded-lg overflow-hidden">
             <button
-              onClick={() => decreaseItem(item.key)}
-              disabled={item.quantity <= 1}
-              className="
-                px-2 py-1
-                text-(--text-muted)]
-                hover:text-(--text-primary)
-                disabled:opacity-40
-                transition
-                cursor-pointer
-              "
+              onClick={decrease}
+              className="px-2 py-1 hover:bg-(--bg-soft) cursor-pointer"
             >
               <MinusIcon className="w-4 h-4" />
             </button>
@@ -118,16 +94,9 @@ export default function CartItem({ item }) {
             </span>
 
             <button
-              onClick={() => addToCart(item, 1)}
+              onClick={increase}
               disabled={item.quantity >= item.stock}
-              className="
-                px-2 py-1
-                text-(--text-muted)
-                hover:text-(--text-primary)
-                disabled:opacity-40
-                transition
-                cursor-pointer
-              "
+              className="px-2 py-1 hover:bg-(--bg-soft) disabled:opacity-40 cursor-pointer"
             >
               <PlusIcon className="w-4 h-4" />
             </button>
@@ -143,12 +112,7 @@ export default function CartItem({ item }) {
         <button
           onClick={() => removeFromCart(item.key)}
           title="Eliminar producto"
-          className="
-            text-(--text-muted)
-            hover:text-(--danger)
-            transition
-            cursor-pointer
-          "
+          className="text-(--text-muted) hover:text-(--danger) transition cursor-pointer"
         >
           <TrashIcon className="w-4 h-4" />
         </button>

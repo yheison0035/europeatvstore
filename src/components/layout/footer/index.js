@@ -136,6 +136,7 @@ export default function Footer() {
                 <a
                   href="https://wa.me/573147337602"
                   className="hover:text-(--brand-accent)"
+                  target="_blank"
                 >
                   314 733 7602
                 </a>

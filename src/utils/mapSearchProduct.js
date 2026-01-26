@@ -9,5 +9,6 @@ export function mapSearchProduct(product) {
     colors: product.colors,
     image: product.image,
     description: product.description,
+    category: product.category,
   };
 }

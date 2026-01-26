@@ -27,19 +27,18 @@ export function CartProvider({ children }) {
   }, [items, ready]);
 
   function addToCart(product, qty = 1) {
-    const key = `${product.id}-${product.color}`;
-
-    const existing = items.find((p) => p.key === key);
-
-    if (existing && existing.quantity >= product.stock) {
-      return { ok: false, reason: "NO_STOCK" };
+    const safeQty = Number(qty);
+    if (!Number.isFinite(safeQty) || safeQty <= 0) {
+      return { ok: false };
     }
+
+    const key = `${product.id}-${product.color}`;
 
     setItems((prev) => {
       const current = prev.find((p) => p.key === key);
 
       if (current) {
-        const newQty = Math.min(current.quantity + qty, product.stock);
+        const newQty = Math.min(current.quantity + safeQty, product.stock);
 
         return prev.map((p) =>
           p.key === key ? { ...p, quantity: newQty } : p,
@@ -51,7 +50,7 @@ export function CartProvider({ children }) {
         {
           key,
           ...product,
-          quantity: Math.min(qty, product.stock),
+          quantity: Math.min(safeQty, product.stock),
         },
       ];
     });
@@ -59,16 +58,19 @@ export function CartProvider({ children }) {
     return { ok: true };
   }
 
-  function removeFromCart(key) {
-    setItems((prev) => prev.filter((p) => p.key !== key));
-  }
+  function updateItemQuantity(key, newQty) {
+    const qty = Number(newQty);
+    if (!Number.isFinite(qty)) return;
 
-  function decreaseItem(key) {
     setItems((prev) =>
       prev
-        .map((p) => (p.key === key ? { ...p, quantity: p.quantity - 1 } : p))
+        .map((p) => (p.key === key ? { ...p, quantity: Math.max(0, qty) } : p))
         .filter((p) => p.quantity > 0),
     );
+  }
+
+  function removeFromCart(key) {
+    setItems((prev) => prev.filter((p) => p.key !== key));
   }
 
   function clearCart() {
@@ -86,8 +88,8 @@ export function CartProvider({ children }) {
       value={{
         items,
         addToCart,
+        updateItemQuantity,
         removeFromCart,
-        decreaseItem,
         clearCart,
         count,
         ready,

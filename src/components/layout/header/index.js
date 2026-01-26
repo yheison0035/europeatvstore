@@ -6,13 +6,13 @@ import HeaderTop from "./components/headerTop";
 export default function Header() {
   return (
     <header
+      role="banner"
       className="
-        w-full
+        fixed top-0 left-0 w-full
         bg-(--bg-page)
         border-b border-(--border-soft)
-        overflow-visible
+        z-50
       "
-      role="banner"
     >
       <HeaderTop />
       <HeaderNav />
