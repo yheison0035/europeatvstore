@@ -38,19 +38,19 @@ export default function ListProductHeader({
       }}
       className="
         hidden md:block fixed
-        bg-[var(--bg-page)]
-        shadow-[var(--shadow-lg)]
+        bg-(--bg-page)
+        shadow-(--shadow-lg)
         rounded-xl
-        z-[9999]
+        z-9999
         p-6
       "
       style={megaMenuStyle}
     >
       <div className="mb-4">
-        <p className="text-lg font-semibold text-[var(--text-primary)]">
+        <p className="text-lg font-semibold text-(--text-primary)">
           {formatText(hoveredCat.cat.name, "capitalize")}
         </p>
-        <p className="text-sm text-[var(--text-muted)] mt-1">
+        <p className="text-sm text-(--text-muted) mt-1">
           {hoveredCat.cat.description}
         </p>
       </div>
@@ -68,11 +68,11 @@ export default function ListProductHeader({
                 className="
                   group relative
                   rounded-xl
-                  border border-[var(--border-soft)]
-                  bg-[var(--bg-page)]
+                  border border-(--border-soft)
+                  bg-(--bg-page)
                   p-3
                   flex flex-col
-                  hover:shadow-[var(--shadow-md)]
+                  hover:shadow-(--shadow-md)
                   transition
                   cursor-pointer
                 "
@@ -81,8 +81,8 @@ export default function ListProductHeader({
                   <span
                     className="
                       absolute top-2 left-2 z-10
-                      bg-[var(--danger)]
-                      text-[var(--text-inverted)]
+                      bg-(--danger)
+                      text-(--text-inverted)
                       text-xs font-semibold
                       px-2 py-0.5
                       rounded-full
@@ -108,17 +108,17 @@ export default function ListProductHeader({
                 </div>
 
                 <div className="mt-3">
-                  <p className="text-sm font-medium text-[var(--text-primary)] line-clamp-2">
+                  <p className="text-sm font-medium text-(--text-primary) line-clamp-2">
                     {product.name}
                   </p>
 
                   <div className="mt-2 flex flex-col leading-tight">
                     {product.oldPrice && (
-                      <span className="text-xs text-[var(--text-muted)] line-through">
+                      <span className="text-xs text-(--text-muted) line-through">
                         ${product.oldPrice.toLocaleString()}
                       </span>
                     )}
-                    <span className="text-lg font-bold text-[var(--cta-primary)]">
+                    <span className="text-lg font-bold text-(--cta-primary)">
                       ${product.price.toLocaleString()}
                     </span>
                   </div>
@@ -128,8 +128,8 @@ export default function ListProductHeader({
                     className="
                       mt-2 inline-block
                       text-xs font-semibold
-                      text-[var(--brand-primary)]
-                      hover:text-[var(--brand-accent)]
+                      text-(--brand-primary)
+                      hover:text-(--brand-accent)
                       transition
                     "
                   >
@@ -141,18 +141,18 @@ export default function ListProductHeader({
           })}
         </div>
       ) : (
-        <p className="text-sm text-[var(--text-muted)]">
+        <p className="text-sm text-(--text-muted)">
           No hay productos destacados en esta categoría.
         </p>
       )}
 
-      <div className="mt-6 pt-4 border-t border-[var(--border-soft)] text-center">
+      <div className="mt-6 pt-4 border-t border-(--border-soft) text-center">
         <Link
           href={`/${slugifyCategory(hoveredCat.cat.name)}`}
           className="
             text-sm font-medium
-            text-[var(--brand-primary)]
-            hover:text-[var(--brand-accent)]
+            text-(--brand-primary)
+            hover:text-(--brand-accent)
             transition
           "
         >

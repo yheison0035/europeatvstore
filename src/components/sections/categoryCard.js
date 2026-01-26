@@ -57,11 +57,11 @@ export default function CategoryCard({ category }) {
         group relative
         rounded-xl
         p-4 sm:p-6
-        bg-[var(--category-bg)]
-        border border-[var(--border-soft)]
-        shadow-[var(--shadow-sm)]
-        hover:shadow-[var(--shadow-md)]
-        hover:bg-[var(--category-bg-hover)]
+        bg-(--category-bg)
+        border border-(--border-soft)
+        shadow-(--shadow-sm)
+        hover:shadow-(--shadow-md)
+        hover:bg-(--category-bg-hover)
         transition-all duration-300
         hover:-translate-y-1
         cursor-pointer
@@ -73,25 +73,25 @@ export default function CategoryCard({ category }) {
             w-12 h-12 sm:w-14 sm:h-14
             rounded-xl
             flex items-center justify-center
-            bg-[var(--category-icon-bg)]
-            group-hover:bg-[var(--category-icon-bg-hover)]
+            bg-(--category-icon-bg)
+            group-hover:bg-(--category-icon-bg-hover)
             transition
           "
         >
           <Icon
             className="
               w-6 h-6 sm:w-7 sm:h-7
-              text-[var(--category-icon-color)]
-              group-hover:text-[var(--category-icon-color-hover)]
+              text-(--category-icon-color)
+              group-hover:text-(--category-icon-color-hover)
             "
           />
         </div>
 
-        <span className="text-xs sm:text-sm font-semibold text-[var(--text-primary)]">
+        <span className="text-xs sm:text-sm font-semibold text-(--text-primary)">
           {category.name}
         </span>
 
-        <span className="text-[11px] sm:text-xs font-medium text-[var(--brand-accent)]">
+        <span className="text-[11px] sm:text-xs font-medium text-(--brand-accent)">
           Explorar →
         </span>
       </div>

@@ -46,10 +46,10 @@ export default function MobileHeaderNav({
             key={item.slug}
             ref={(el) => (itemRefs.current[item.slug] = el)}
             onClick={() => onNavigate(item.slug)}
-            className={`flex-shrink-0 pb-1 ${
+            className={`shrink-0 pb-1 ${
               activeSlug === item.slug
                 ? "border-b-2 border-white font-semibold"
-                : "opacity-80 hover:text-[var(--brand-accent)]"
+                : "opacity-80 hover:text-(--brand-accent)"
             }`}
           >
             {formatText(item.label, "capitalize")}

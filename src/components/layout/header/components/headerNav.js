@@ -35,7 +35,7 @@ export default function HeaderNav() {
 
   return (
     <>
-      <nav className="bg-[var(--brand-primary)] text-white relative z-40">
+      <nav className="bg-(--brand-primary) text-white relative z-40">
         <div className="max-w-7xl mx-auto px-4">
           <MobileHeaderNav
             categories={categories}
@@ -54,7 +54,6 @@ export default function HeaderNav() {
         </div>
       </nav>
 
-      {/* 👇 EL MEGA MENÚ VA AQUÍ */}
       {hoveredCat && (
         <ListProductHeader
           hoveredCat={hoveredCat}

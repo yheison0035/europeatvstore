@@ -13,7 +13,7 @@ export default function CartItem({ item }) {
     <div
       className="
         flex gap-4 py-5
-        border-b border-[var(--border-soft)]
+        border-b border-(--border-soft)
       "
     >
       <div
@@ -31,21 +31,21 @@ export default function CartItem({ item }) {
             className="w-full h-full object-contain"
           />
         ) : (
-          <span className="text-xs text-[var(--text-muted)]">IMG</span>
+          <span className="text-xs text-(--text-muted)">IMG</span>
         )}
       </div>
 
       <div className="flex-1 flex flex-col gap-1">
-        <p className="font-semibold text-sm text-[var(--text-primary)] leading-tight">
+        <p className="font-semibold text-sm text-(--text-primary) leading-tight">
           {item.name}
         </p>
 
         {item.color && (
-          <div className="flex items-center gap-2 text-xs text-[var(--text-muted)]">
+          <div className="flex items-center gap-2 text-xs text-(--text-muted)">
             <span>Color:</span>
             <span className="flex items-center gap-1">
               <span
-                className="w-3 h-3 rounded-full border border-[var(--border-strong)]"
+                className="w-3 h-3 rounded-full border border-(--border-strong)"
                 style={{ backgroundColor: getColorHexByName(item.color) }}
               />
               <span className="capitalize">{item.color}</span>
@@ -55,12 +55,12 @@ export default function CartItem({ item }) {
 
         <div className="flex items-center gap-2 mt-1">
           {item.oldPrice && (
-            <span className="text-xs text-[var(--text-muted)] line-through">
+            <span className="text-xs text-(--text-muted) line-through">
               ${item.oldPrice.toLocaleString()}
             </span>
           )}
 
-          <span className="text-sm font-bold text-[var(--cta-primary)]">
+          <span className="text-sm font-bold text-(--cta-primary)">
             ${item.price.toLocaleString()}
           </span>
 
@@ -69,7 +69,7 @@ export default function CartItem({ item }) {
               className="
                 text-[10px] font-semibold
                 bg-red-100
-                text-[var(--danger)]
+                text-(--danger)
                 px-2 py-0.5
                 rounded-full
               "
@@ -81,7 +81,7 @@ export default function CartItem({ item }) {
 
         <p
           className={`text-xs mt-1 ${
-            isLowStock ? "text-[var(--warning)]" : "text-[var(--text-muted)]"
+            isLowStock ? "text-(--warning)" : "text-(--text-muted)"
           }`}
         >
           {isLowStock
@@ -93,7 +93,7 @@ export default function CartItem({ item }) {
           <div
             className="
               flex items-center
-              border border-[var(--border-soft)]
+              border border-(--border-soft)
               rounded-lg
               overflow-hidden
             "
@@ -103,8 +103,8 @@ export default function CartItem({ item }) {
               disabled={item.quantity <= 1}
               className="
                 px-2 py-1
-                text-[var(--text-muted)]
-                hover:text-[var(--text-primary)]
+                text-(--text-muted)]
+                hover:text-(--text-primary)
                 disabled:opacity-40
                 transition
                 cursor-pointer
@@ -113,7 +113,7 @@ export default function CartItem({ item }) {
               <MinusIcon className="w-4 h-4" />
             </button>
 
-            <span className="px-3 text-sm font-medium min-w-[32px] text-center">
+            <span className="px-3 text-sm font-medium min-w-8 text-center">
               {item.quantity}
             </span>
 
@@ -122,8 +122,8 @@ export default function CartItem({ item }) {
               disabled={item.quantity >= item.stock}
               className="
                 px-2 py-1
-                text-[var(--text-muted)]
-                hover:text-[var(--text-primary)]
+                text-(--text-muted)
+                hover:text-(--text-primary)
                 disabled:opacity-40
                 transition
                 cursor-pointer
@@ -136,7 +136,7 @@ export default function CartItem({ item }) {
       </div>
 
       <div className="flex flex-col items-end justify-between">
-        <span className="text-sm font-bold text-[var(--text-primary)]">
+        <span className="text-sm font-bold text-(--text-primary)">
           ${(item.price * item.quantity).toLocaleString()}
         </span>
 
@@ -144,8 +144,8 @@ export default function CartItem({ item }) {
           onClick={() => removeFromCart(item.key)}
           title="Eliminar producto"
           className="
-            text-[var(--text-muted)]
-            hover:text-[var(--danger)]
+            text-(--text-muted)
+            hover:text-(--danger)
             transition
             cursor-pointer
           "

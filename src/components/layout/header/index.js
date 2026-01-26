@@ -8,8 +8,8 @@ export default function Header() {
     <header
       className="
         w-full
-        bg-[var(--bg-page)]
-        border-b border-[var(--border-soft)]
+        bg-(--bg-page)
+        border-b border-(--border-soft)
         overflow-visible
       "
       role="banner"

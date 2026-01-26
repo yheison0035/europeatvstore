@@ -56,11 +56,11 @@ export default function HorizontalSection({
   return (
     <section>
       <div className="text-center mb-8">
-        <h2 className="text-3xl font-extrabold text-[var(--text-primary)]">
+        <h2 className="text-3xl font-extrabold text-(--text-primary)">
           {title}
         </h2>
         {subtitle && (
-          <p className="text-sm text-[var(--text-muted)] mt-2">{subtitle}</p>
+          <p className="text-sm text-(--text-muted) mt-2">{subtitle}</p>
         )}
       </div>
 
@@ -111,7 +111,7 @@ export default function HorizontalSection({
             className="flex gap-4 overflow-x-auto pb-2 scroll-smooth scrollbar-hide px-2 sm:px-16"
           >
             {items.map((item) => (
-              <div key={item.id} className="min-w-[240px]">
+              <div key={item.id} className="min-w-60">
                 <ProductCardMini product={item} />
               </div>
             ))}
@@ -153,9 +153,9 @@ function Arrow({ direction, disabled, onClick, mobile }) {
 
         w-10 h-10
         rounded-full
-        bg-[var(--bg-page)]
-        border border-[var(--border-soft)]
-        shadow-[var(--shadow-md)]
+        bg-(--bg-page)
+        border border-(--border-soft)
+        shadow-(--shadow-md)
 
         flex items-center justify-center
         transition-opacity duration-200
@@ -168,7 +168,7 @@ function Arrow({ direction, disabled, onClick, mobile }) {
         }
       `}
     >
-      <Icon className="w-5 h-5 text-[var(--brand-primary)]" />
+      <Icon className="w-5 h-5 text-(--brand-primary)" />
     </button>
   );
 }

@@ -51,7 +51,7 @@ export default function SearchBar() {
       <div className="relative">
         <MagnifyingGlassIcon
           className="absolute left-4 top-1/2 -translate-y-1/2 w-6 h-6
-          text-[var(--text-muted)]"
+          text-(--text-muted)"
         />
 
         <input
@@ -65,13 +65,13 @@ export default function SearchBar() {
             w-full
             pl-14 pr-4 py-2
             rounded-xl
-            border border-[var(--border-soft)]
-            bg-[var(--bg-page)]
-            text-[var(--text-primary)]
-            placeholder:text-[var(--text-muted)]
-            focus:ring-2 focus:ring-[var(--brand-primary)]
+            border border-(--border-soft)
+            bg-(--bg-page)
+            text-(--text-primary)
+            placeholder:text-(--text-muted)
+            focus:ring-2 focus:ring-(--brand-primary)
             outline-none
-            shadow-[var(--shadow-sm)]
+            shadow-(--shadow-sm)
             cursor-pointer
           "
         />

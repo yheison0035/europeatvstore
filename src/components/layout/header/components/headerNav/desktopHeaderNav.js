@@ -77,7 +77,7 @@ export default function DesktopHeaderNav({
 
   return (
     <div className="hidden md:flex items-center gap-4 w-full">
-      <div className="flex gap-6 flex-shrink-0 py-3">
+      <div className="flex gap-6 shrink-0 py-3">
         {["home", "novedades"].map((key) => (
           <button
             key={key}
@@ -85,7 +85,7 @@ export default function DesktopHeaderNav({
             className={`pb-1 cursor-pointer ${
               activeSlug === key
                 ? "border-b-2 border-white font-semibold"
-                : "hover:text-[var(--brand-accent)]"
+                : "hover:text-(--brand-accent)"
             }`}
           >
             {key === "home" ? "Inicio" : "Novedades"}
@@ -124,7 +124,7 @@ export default function DesktopHeaderNav({
                 className={`pb-1 whitespace-nowrap cursor-pointer ${
                   activeSlug === slug
                     ? "border-b-2 border-white font-semibold"
-                    : "hover:text-[var(--brand-accent)]"
+                    : "hover:text-(--brand-accent)"
                 }`}
               >
                 {formatText(cat.name, "capitalize")}

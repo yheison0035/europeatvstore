@@ -8,12 +8,12 @@ export default function SearchResults({ results }) {
     <div
       className="
         absolute top-full mt-2 w-full
-        bg-[var(--bg-page)]
+        bg-(--bg-page)
         rounded-2xl
-        shadow-[var(--shadow-lg)]
+        shadow-(--shadow-lg)
         max-h-[75vh]
         overflow-y-auto
-        z-[999]
+        z-999
       "
     >
       {results.map((product) => (

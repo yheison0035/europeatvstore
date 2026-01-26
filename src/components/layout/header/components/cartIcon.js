@@ -19,8 +19,8 @@ export default function CartIcon() {
         <ShoppingCartIcon
           className="
             w-6 h-6
-            text-[var(--text-primary)]
-            hover:text-[var(--brand-accent)]
+            text-(--text-primary)
+            hover:text-(--brand-accent)
             transition
           "
         />
@@ -29,7 +29,7 @@ export default function CartIcon() {
           <span
             className="
               absolute -top-2 -right-2
-              bg-[var(--cta-primary)]
+              bg-(--cta-primary)
               text-white text-xs
               w-5 h-5 rounded-full
               flex items-center justify-center

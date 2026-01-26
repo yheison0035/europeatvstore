@@ -11,11 +11,11 @@ export default function ProductCardMini({ product }) {
       className="
         group relative
         rounded-xl
-        border border-[var(--border-soft)]
-        bg-[var(--bg-page)]
+        border border-(--border-soft)
+        bg-(--bg-page)
         p-3
         flex flex-col
-        hover:shadow-[var(--shadow-md)]
+        hover:shadow-(--shadow-md)
         transition
         h-full
       "
@@ -24,8 +24,8 @@ export default function ProductCardMini({ product }) {
         <span
           className="
             absolute top-2 left-2 z-10
-            bg-[var(--danger)]
-            text-[var(--text-inverted)]
+            bg-(--danger)
+            text-(--text-inverted)
             text-xs font-semibold
             px-2 py-0.5
             rounded-full
@@ -35,7 +35,7 @@ export default function ProductCardMini({ product }) {
         </span>
       )}
 
-      <div className="relative w-full h-32 rounded-lg overflow-hidden flex-shrink-0">
+      <div className="relative w-full h-32 rounded-lg overflow-hidden shrink-0">
         {product.image && (
           <img
             src={product.image}
@@ -53,9 +53,9 @@ export default function ProductCardMini({ product }) {
       <div className="mt-3 flex flex-col flex-1">
         <p
           className="
-            text-sm font-medium text-[var(--text-primary)]
+            text-sm font-medium text-(--text-primary)
             line-clamp-2
-            min-h-[2.75rem]
+            min-h-11
           "
         >
           {product.name}
@@ -63,11 +63,11 @@ export default function ProductCardMini({ product }) {
 
         <div className="mt-2 leading-tight">
           {product.oldPrice && (
-            <span className="block text-xs text-[var(--text-muted)] line-through">
+            <span className="block text-xs text-(--text-muted) line-through">
               ${product.oldPrice.toLocaleString()}
             </span>
           )}
-          <span className="text-lg font-bold text-[var(--cta-primary)]">
+          <span className="text-lg font-bold text-(--cta-primary)">
             ${product.price.toLocaleString()}
           </span>
         </div>
@@ -78,8 +78,8 @@ export default function ProductCardMini({ product }) {
             mt-auto pt-2
             inline-block
             text-xs font-semibold
-            text-[var(--brand-primary)]
-            hover:text-[var(--brand-accent)]
+            text-(--brand-primary)
+            hover:text-(--brand-accent)
             transition
           "
         >

@@ -35,7 +35,7 @@ export default function HeaderTop() {
         <SearchBar />
       </div>
 
-      <div className="flex justify-center md:justify-end gap-6 text-[var(--text-primary)]">
+      <div className="flex justify-center md:justify-end gap-6 text-(--text-primary)">
         <UserIcon />
         <CartIcon count={count} />
       </div>

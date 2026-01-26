@@ -8,8 +8,8 @@ export default function UserIcon() {
       className="
         w-6 h-6
         cursor-pointer
-        text-[var(--text-primary)]
-        hover:text-[var(--brand-accent)]
+        text-(--text-primary)
+        hover:text-(--brand-accent)
         transition
       "
       aria-label="Cuenta de usuario"

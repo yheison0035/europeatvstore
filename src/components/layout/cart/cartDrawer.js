@@ -21,29 +21,29 @@ export default function CartDrawer({ open, onClose }) {
 
   return (
     <>
-      <div className="fixed inset-0 bg-black/40 z-[998]" onClick={onClose} />
+      <div className="fixed inset-0 bg-black/40 z-998" onClick={onClose} />
 
       <aside
         className="
           fixed right-0 top-0 h-full w-full max-w-md
-          bg-[var(--bg-page)]
-          z-[999]
+          bg-(--bg-page)
+          z-999
           flex flex-col
-          shadow-[var(--shadow-lg)]
+          shadow-(--shadow-lg)
         "
       >
-        <div className="flex items-center justify-between p-4 border-b border-[var(--border-soft)]">
-          <h2 className="text-lg font-semibold text-[var(--text-primary)]">
+        <div className="flex items-center justify-between p-4 border-b border-(--border-soft)">
+          <h2 className="text-lg font-semibold text-(--text-primary)">
             Tu carrito
           </h2>
           <button onClick={onClose}>
-            <XMarkIcon className="w-6 h-6 text-[var(--text-muted)] cursor-pointer" />
+            <XMarkIcon className="w-6 h-6 text-(--text-muted) cursor-pointer" />
           </button>
         </div>
 
         <div className="flex-1 overflow-y-auto p-4">
           {items.length === 0 ? (
-            <p className="text-sm text-[var(--text-muted)] text-center mt-10">
+            <p className="text-sm text-(--text-muted) text-center mt-10">
               Tu carrito está vacío
             </p>
           ) : (

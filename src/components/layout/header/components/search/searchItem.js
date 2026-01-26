@@ -72,8 +72,8 @@ export default function SearchItem({ product }) {
       className="
         grid grid-cols-1 md:grid-cols-[100px_1fr_220px]
         gap-5 p-5
-        border-b border-[var(--border-soft)]
-        bg-[var(--bg-page)]
+        border-b border-(--border-soft)
+        bg-(--bg-page)
       "
     >
       <div className="w-24 h-24 rounded-xl overflow-hidden">
@@ -87,11 +87,9 @@ export default function SearchItem({ product }) {
       </div>
 
       <div className="flex flex-col gap-1">
-        <p className="font-semibold text-[var(--text-primary)]">
-          {product.name}
-        </p>
+        <p className="font-semibold text-(--text-primary)">{product.name}</p>
 
-        <div className="text-sm text-[var(--text-secondary)]">
+        <div className="text-sm text-(--text-secondary)">
           <p className={expanded ? "" : "line-clamp-2"}>
             {expanded ? product.description : shortDescription}
           </p>
@@ -101,7 +99,7 @@ export default function SearchItem({ product }) {
               onClick={() => setExpanded(!expanded)}
               className="
                 mt-1 text-xs font-medium
-                text-[var(--cta-primary)]
+                text-(--cta-primary)
                 hover:underline
                 cursor-pointer
               "
@@ -113,7 +111,7 @@ export default function SearchItem({ product }) {
 
         {hasColors && (
           <div className="mt-2">
-            <p className="text-xs font-medium text-[var(--text-muted)] mb-1">
+            <p className="text-xs font-medium text-(--text-muted) mb-1">
               Color
             </p>
 
@@ -133,8 +131,8 @@ export default function SearchItem({ product }) {
                   }}
                   className={`w-4 h-4 rounded-full border transition cursor-pointer ${
                     selectedColor === c.name
-                      ? "border-[var(--brand-primary)] scale-110"
-                      : "border-[var(--border-strong)]"
+                      ? "border-(--brand-primary) scale-110"
+                      : "border-(--border-strong)"
                   }`}
                   style={{ backgroundColor: getColorHexByName(c.name) }}
                 />
@@ -142,7 +140,7 @@ export default function SearchItem({ product }) {
             </div>
 
             {selectedColor && (
-              <p className="text-xs text-[var(--text-muted)] mt-1">
+              <p className="text-xs text-(--text-muted) mt-1">
                 Stock {selectedColor}: {colorStock}
               </p>
             )}
@@ -151,48 +149,48 @@ export default function SearchItem({ product }) {
 
         <div className="mt-2 flex items-center gap-2">
           {product.oldPrice && (
-            <span className="text-sm line-through text-[var(--text-muted)]">
+            <span className="text-sm line-through text-(--text-muted)">
               ${product.oldPrice.toLocaleString()}
             </span>
           )}
 
-          <span className="text-xl font-bold text-[var(--cta-primary)]">
+          <span className="text-xl font-bold text-(--cta-primary)">
             ${product.price.toLocaleString()}
           </span>
 
           {product.discount > 0 && (
-            <span className="text-xs bg-red-100 text-[var(--danger)] px-2 py-0.5 rounded-full">
+            <span className="text-xs bg-red-100 text-(--danger) px-2 py-0.5 rounded-full">
               -{product.discount}%
             </span>
           )}
         </div>
         {selectedColor &&
           itemsInCart.some((i) => i.color === selectedColor) && (
-            <p className="text-xs mt-1 text-[var(--success)]">
+            <p className="text-xs mt-1 text-(--success)">
               ✔ Este color ya está en tu carrito
             </p>
           )}
 
-        {error && <p className="text-xs text-[var(--danger)] mt-1">{error}</p>}
+        {error && <p className="text-xs text-(--danger) mt-1">{error}</p>}
       </div>
 
       <div className="flex flex-col gap-3 items-start">
-        <div className="flex items-center border border-[var(--border-soft)] rounded-lg h-9 overflow-hidden">
+        <div className="flex items-center border border-(--border-soft) rounded-lg h-9 overflow-hidden">
           <button
             onClick={() => setQty(Math.max(1, qty - 1))}
-            className="px-3 text-[var(--text-muted)] hover:text-[var(--text-primary)] cursor-pointer"
+            className="px-3 text-(--text-muted) hover:text-(--text-primary) cursor-pointer"
           >
             <MinusIcon className="w-4 h-4" />
           </button>
 
-          <span className="px-4 text-sm font-semibold min-w-[40px] text-center">
+          <span className="px-4 text-sm font-semibold min-w-10 text-center">
             {qty}
           </span>
 
           <button
             disabled={!selectedColor || qty >= colorStock}
             onClick={() => setQty((q) => q + 1)}
-            className="px-3 text-[var(--text-muted)] hover:text-[var(--text-primary)] disabled:opacity-40 cursor-pointer"
+            className="px-3 text-(--text-muted) hover:text-(--text-primary) disabled:opacity-40 cursor-pointer"
           >
             <PlusIcon className="w-4 h-4" />
           </button>
@@ -203,11 +201,11 @@ export default function SearchItem({ product }) {
           className="
             w-full
             flex items-center justify-center gap-2
-            bg-[var(--cta-primary)]
+            bg-(--cta-primary)
             text-white
             py-2 rounded-lg
             font-medium
-            hover:bg-[var(--cta-primary-hover)]
+            hover:bg-(--cta-primary-hover)
             transition
             cursor-pointer
           "

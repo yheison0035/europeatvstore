@@ -42,26 +42,22 @@ export default function CartSummary({ onClose }) {
   const total = subtotal + shipping;
 
   return (
-    <div className="border-t border-[var(--border-soft)] p-4 space-y-4">
-      <div className="flex justify-between text-sm text-[var(--text-secondary)]">
+    <div className="border-t border-(--border-soft) p-4 space-y-4">
+      <div className="flex justify-between text-sm text-(--text-secondary)">
         <span>Subtotal</span>
-        <span className="font-medium text-[var(--text-primary)]">
+        <span className="font-medium text-(--text-primary)">
           ${subtotal.toLocaleString()}
         </span>
       </div>
 
       <div className="flex justify-between text-sm">
         <div className="flex flex-col">
-          <span className="text-[var(--text-secondary)]">Envío</span>
-          <span className="text-xs text-[var(--text-muted)]">
-            {shippingMessage}
-          </span>
+          <span className="text-(--text-secondary)">Envío</span>
+          <span className="text-xs text-(--text-muted)">{shippingMessage}</span>
         </div>
         <span
           className={`font-medium ${
-            shipping === 0
-              ? "text-[var(--success)]"
-              : "text-[var(--text-primary)]"
+            shipping === 0 ? "text-(--success)" : "text-(--text-primary)"
           }`}
         >
           {shippingLabel}
@@ -69,10 +65,8 @@ export default function CartSummary({ onClose }) {
       </div>
 
       <div className="flex justify-between text-base font-semibold">
-        <span className="text-[var(--text-primary)]">Total</span>
-        <span className="text-[var(--cta-primary)]">
-          ${total.toLocaleString()}
-        </span>
+        <span className="text-(--text-primary)">Total</span>
+        <span className="text-(--cta-primary)">${total.toLocaleString()}</span>
       </div>
 
       <Link
@@ -81,8 +75,8 @@ export default function CartSummary({ onClose }) {
         className="
           flex items-center justify-center gap-2
           w-full
-          bg-[var(--cta-primary)]
-          text-[var(--text-inverted)]
+          bg-(--cta-primary)
+          text-(--text-inverted)
           py-3 rounded-lg
           font-medium
           hover:opacity-90
@@ -99,8 +93,8 @@ export default function CartSummary({ onClose }) {
         className="
           flex items-center justify-center gap-2
           w-full
-          bg-[var(--success)]
-          text-[var(--text-inverted)]
+          bg-(--success)
+          text-(--text-inverted)
           py-3 rounded-lg
           font-medium
           hover:opacity-90
@@ -117,8 +111,8 @@ export default function CartSummary({ onClose }) {
           onClick={onClose}
           className="
             inline-flex items-center gap-1
-            text-sm text-[var(--text-muted)]
-            hover:text-[var(--brand-primary)]
+            text-sm text-(--text-muted)
+            hover:text-(--brand-primary)
             underline underline-offset-4
             transition
           "
