@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   PhoneIcon,
   EnvelopeIcon,
@@ -13,6 +14,19 @@ import {
 import { FaWhatsapp, FaInstagram, FaTiktok, FaFacebookF } from "react-icons/fa";
 
 export default function Footer() {
+  const pathname = usePathname();
+
+  const isActive = (href) => pathname === href;
+
+  const handleNavigate = () => {
+    // asegura que al cambiar de documento legal,
+    // el usuario empiece a leer desde arriba
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
   return (
     <footer className="bg-(--bg-dark) text-(--text-inverted)">
       <div className="max-w-7xl mx-auto px-4 py-16">
@@ -30,7 +44,15 @@ export default function Footer() {
               <li>
                 <Link
                   href="/legal/quienes-somos"
-                  className="hover:text-(--brand-accent) transition"
+                  onClick={handleNavigate}
+                  className={`
+                    transition
+                    ${
+                      isActive("/legal/quienes-somos")
+                        ? "text-(--brand-accent) font-medium underline"
+                        : "hover:text-(--brand-accent)"
+                    }
+                  `}
                 >
                   Quiénes somos
                 </Link>
@@ -43,70 +65,54 @@ export default function Footer() {
 
             <nav aria-label="Información legal">
               <ul className="space-y-2 text-sm text-(--text-muted)">
-                <li>
-                  <Link
-                    href="/legal/terminos-y-condiciones"
-                    className="hover:text-(--brand-accent)"
-                  >
-                    Términos y condiciones
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/legal/politicas-de-privacidad"
-                    className="hover:text-(--brand-accent)"
-                  >
-                    Políticas de privacidad
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/legal/autorizacion-de-datos"
-                    className="hover:text-(--brand-accent)"
-                  >
-                    Autorización de datos
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/legal/derecho-de-retracto"
-                    className="hover:text-(--brand-accent)"
-                  >
-                    Derecho de retracto
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/legal/politica-de-envios"
-                    className="hover:text-(--brand-accent)"
-                  >
-                    Política de envíos
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/legal/cambios-y-devoluciones"
-                    className="hover:text-(--brand-accent)"
-                  >
-                    Cambios y devoluciones
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/legal/garantias"
-                    className="hover:text-(--brand-accent)"
-                  >
-                    Política de garantías
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/legal/condiciones-de-promociones"
-                    className="hover:text-(--brand-accent)"
-                  >
-                    Condiciones de promociones
-                  </Link>
-                </li>
+                {[
+                  {
+                    href: "/legal/terminos-y-condiciones",
+                    label: "Términos y condiciones",
+                  },
+                  {
+                    href: "/legal/politicas-de-privacidad",
+                    label: "Políticas de privacidad",
+                  },
+                  {
+                    href: "/legal/autorizacion-de-datos",
+                    label: "Autorización de datos",
+                  },
+                  {
+                    href: "/legal/derecho-de-retracto",
+                    label: "Derecho de retracto",
+                  },
+                  {
+                    href: "/legal/politica-de-envios",
+                    label: "Política de envíos",
+                  },
+                  {
+                    href: "/legal/cambios-y-devoluciones",
+                    label: "Cambios y devoluciones",
+                  },
+                  { href: "/legal/garantias", label: "Política de garantías" },
+                  {
+                    href: "/legal/condiciones-de-promociones",
+                    label: "Condiciones de promociones",
+                  },
+                ].map((item) => (
+                  <li key={item.href}>
+                    <Link
+                      href={item.href}
+                      onClick={handleNavigate}
+                      className={`
+                        transition
+                        ${
+                          isActive(item.href)
+                            ? "text-(--brand-accent) font-medium underline"
+                            : "hover:text-(--brand-accent)"
+                        }
+                      `}
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
                 <li>
                   <a
                     href="https://sedeelectronica.sic.gov.co/"
