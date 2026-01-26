@@ -30,7 +30,7 @@ export const metadata = {
     siteName: "EUROPEATVSTORE",
     images: [
       {
-        url: "/og-image.jpg", // 👈 aquí irá la imagen que estamos creando
+        url: "/og-image.png",
         width: 1200,
         height: 630,
         alt: "EUROPEATVSTORE",
