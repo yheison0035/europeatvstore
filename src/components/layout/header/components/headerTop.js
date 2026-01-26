@@ -5,6 +5,7 @@ import SearchBar from "./search/searchBar";
 import UserIcon from "./userIcon";
 import CartIcon from "./cartIcon";
 import { useCart } from "@/context/cartContext";
+import Link from "next/link";
 
 export default function HeaderTop() {
   const { count } = useCart();
@@ -18,15 +19,17 @@ export default function HeaderTop() {
         md:items-center
       "
     >
-      <div className="flex justify-center md:justify-start">
-        <Image
-          src="/logo.png"
-          alt="EUROPEATVSTORE – Tecnología y Hogar"
-          width={70}
-          height={70}
-          priority
-        />
-      </div>
+      <Link href="/">
+        <div className="flex justify-center md:justify-start cursor-pointer">
+          <Image
+            src="/logo.png"
+            alt="EUROPEATVSTORE – Tecnología y Hogar"
+            width={70}
+            height={70}
+            priority
+          />
+        </div>
+      </Link>
 
       <div className="flex justify-center w-full">
         <SearchBar />

@@ -54,7 +54,7 @@ export default function HorizontalSection({
   };
 
   return (
-    <section className="relative">
+    <section>
       <div className="text-center mb-8">
         <h2 className="text-3xl font-extrabold text-[var(--text-primary)]">
           {title}
@@ -64,59 +64,63 @@ export default function HorizontalSection({
         )}
       </div>
 
-      <Arrow
-        direction="left"
-        disabled={!canPrev}
-        onClick={() =>
-          layout === "grid" ? canPrev && setPage((p) => p - 1) : scroll("left")
-        }
-        position="left"
-      />
-      <Arrow
-        direction="right"
-        disabled={!canNext}
-        onClick={() =>
-          layout === "grid" ? canNext && setPage((p) => p + 1) : scroll("right")
-        }
-        position="right"
-      />
-
-      {loading ? (
-        <SkeletonGrid
-          count={ITEMS_PER_PAGE}
-          compact
-          cols={
+      <div className="relative">
+        <Arrow
+          direction="left"
+          disabled={!canPrev}
+          onClick={() =>
             layout === "grid"
-              ? "grid-cols-2 sm:grid-cols-3"
-              : "grid-cols-2 sm:grid-cols-4"
+              ? canPrev && setPage((p) => p - 1)
+              : scroll("left")
           }
         />
-      ) : layout === "grid" ? (
-        <div className="grid gap-4 grid-cols-2 sm:grid-cols-3">
-          {visibleItems.map((item) =>
-            type === "category" ? (
-              <CategoryCard key={item.id} category={item} />
-            ) : null,
-          )}
-        </div>
-      ) : (
-        <div
-          ref={scrollRef}
-          className="
-            flex gap-4 overflow-x-auto pb-2
-            scroll-smooth scrollbar-hide
-          "
-        >
-          {items.map((item) => (
-            <div key={item.id} className="min-w-[240px]">
-              <ProductCardMini product={item} />
+
+        <Arrow
+          direction="right"
+          disabled={!canNext}
+          onClick={() =>
+            layout === "grid"
+              ? canNext && setPage((p) => p + 1)
+              : scroll("right")
+          }
+        />
+
+        {loading ? (
+          <SkeletonGrid
+            count={ITEMS_PER_PAGE}
+            compact
+            cols={
+              layout === "grid"
+                ? "grid-cols-2 sm:grid-cols-3"
+                : "grid-cols-2 sm:grid-cols-4"
+            }
+          />
+        ) : layout === "grid" ? (
+          <div className="relative px-2 sm:px-16">
+            <div className="grid gap-4 grid-cols-2 sm:grid-cols-3">
+              {visibleItems.map((item) =>
+                type === "category" ? (
+                  <CategoryCard key={item.id} category={item} />
+                ) : null,
+              )}
             </div>
-          ))}
-        </div>
-      )}
+          </div>
+        ) : (
+          <div
+            ref={scrollRef}
+            className="flex gap-4 overflow-x-auto pb-2 scroll-smooth scrollbar-hide px-2 sm:px-16"
+          >
+            {items.map((item) => (
+              <div key={item.id} className="min-w-[240px]">
+                <ProductCardMini product={item} />
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
 
       {layout === "grid" && (
-        <div className="flex sm:hidden justify-center gap-6 mt-9">
+        <div className="flex sm:hidden justify-center gap-6 pt-14">
           <Arrow
             direction="left"
             disabled={!canPrev}
@@ -135,26 +139,33 @@ export default function HorizontalSection({
   );
 }
 
-function Arrow({ direction, disabled, onClick, position, mobile }) {
+function Arrow({ direction, disabled, onClick, mobile }) {
   const Icon = direction === "left" ? ChevronLeftIcon : ChevronRightIcon;
 
   return (
     <button
-      disabled={disabled}
-      onClick={onClick}
+      onClick={!disabled ? onClick : undefined}
+      aria-disabled={disabled}
       className={`
         ${mobile ? "" : "hidden sm:flex absolute"}
-        ${position === "left" ? "-left-14" : "-right-14"}
-        top-[60%] -translate-y-1/2
-        w-12 h-12
+        ${direction === "left" ? "left-3" : "right-3"}
+        top-1/2 -translate-y-1/2
+
+        w-10 h-10
         rounded-full
         bg-[var(--bg-page)]
         border border-[var(--border-soft)]
         shadow-[var(--shadow-md)]
+
         flex items-center justify-center
-        transition
-        z-10
-        ${disabled ? "opacity-30 cursor-not-allowed" : "hover:scale-110"}
+        transition-opacity duration-200
+        z-20
+
+        ${
+          disabled
+            ? "opacity-30 cursor-default"
+            : "opacity-90 hover:opacity-100 cursor-pointer"
+        }
       `}
     >
       <Icon className="w-5 h-5 text-[var(--brand-primary)]" />
