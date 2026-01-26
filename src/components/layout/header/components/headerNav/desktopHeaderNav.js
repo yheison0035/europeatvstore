@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 import { slugifyCategory } from "@/utils/slugify";
 import { formatText } from "@/utils/textFormat";
@@ -19,18 +19,20 @@ export default function DesktopHeaderNav({
   const [canLeft, setCanLeft] = useState(false);
   const [canRight, setCanRight] = useState(false);
 
-  const updateArrows = () => {
+  const updateArrows = useCallback(() => {
     const el = scrollRef.current;
     if (!el) return;
+
     setCanLeft(el.scrollLeft > 0);
     setCanRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 1);
-  };
+  }, []);
 
   useEffect(() => {
     const el = scrollRef.current;
     if (!el) return;
 
     updateArrows();
+
     el.addEventListener("scroll", updateArrows);
     window.addEventListener("resize", updateArrows);
 
@@ -38,7 +40,13 @@ export default function DesktopHeaderNav({
       el.removeEventListener("scroll", updateArrows);
       window.removeEventListener("resize", updateArrows);
     };
-  }, []);
+  }, [updateArrows]);
+
+  useEffect(() => {
+    requestAnimationFrame(() => {
+      updateArrows();
+    });
+  }, [categories, updateArrows]);
 
   useEffect(() => {
     const el = scrollRef.current;
