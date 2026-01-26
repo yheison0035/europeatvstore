@@ -32,7 +32,6 @@ export default function CatalogProductCard({ product, category }) {
     <article
       className="
         group
-        relative
         bg-(--bg-page)
         border border-(--border-soft)
         rounded-2xl
@@ -45,26 +44,23 @@ export default function CatalogProductCard({ product, category }) {
     >
       <Link href={`/${category}/${slugifyCategory(product.name)}`} prefetch>
         <div className="relative aspect-square bg-(--bg-soft)">
-          <div className="relative aspect-square bg-(--bg-soft) cursor-pointer">
-            <img
-              src={product.image}
-              alt={product.name}
-              className="
-                    w-full h-full object-contain p-4
-                    transition-transform duration-300
-                    group-hover:scale-105
-                "
-            />
-          </div>
+          <img
+            src={product.image}
+            alt={product.name}
+            className="
+              w-full h-full object-contain p-3 sm:p-4
+              transition-transform duration-300
+              group-hover:scale-105
+            "
+          />
 
           {product.discount > 0 && (
             <span
               className="
-                absolute top-4 left-4
+                absolute top-3 left-3
                 bg-(--danger)
-                text-white text-xs font-bold
-                px-3 py-1 rounded-full
-                shadow
+                text-white text-[11px] sm:text-xs font-bold
+                px-2 py-1 rounded-full
               "
             >
               -{product.discount}%
@@ -73,12 +69,15 @@ export default function CatalogProductCard({ product, category }) {
         </div>
       </Link>
 
-      <div className="p-5 flex flex-col gap-3 flex-1">
+      <div className="p-3 sm:p-5 flex flex-col gap-2 sm:gap-3 flex-1">
         <Link href={`/${category}/${slugifyCategory(product.name)}`} prefetch>
           <h3
             className="
-                text-sm font-semibold text-(--text-primary)
-                line-clamp-2 hover:underline
+              text-sm sm:text-base
+              font-semibold text-(--text-primary)
+              line-clamp-2
+              min-h-10 sm:min-h-12
+              hover:underline
             "
           >
             {product.name}
@@ -86,7 +85,7 @@ export default function CatalogProductCard({ product, category }) {
         </Link>
 
         <div className="flex items-end gap-2">
-          <span className="text-xl font-bold text-(--cta-primary)">
+          <span className="text-lg sm:text-xl font-bold text-(--cta-primary)">
             ${product.price.toLocaleString()}
           </span>
 
@@ -104,7 +103,8 @@ export default function CatalogProductCard({ product, category }) {
                 key={c.name}
                 onClick={() => selectColor(c)}
                 className={`
-                  w-5 h-5 rounded-full border
+                  w-4 h-4 sm:w-5 sm:h-5
+                  rounded-full border
                   transition cursor-pointer
                   ${
                     selectedColor === c.name
@@ -118,54 +118,64 @@ export default function CatalogProductCard({ product, category }) {
           </div>
         )}
 
-        {selectedColor && (
-          <p className="text-xs text-(--text-muted)">
-            Stock disponible: {colorStock}
-          </p>
-        )}
+        <div className="min-h-8 flex flex-col justify-center">
+          {selectedColor && colorStock <= 5 && (
+            <p className="text-xs text-(--warning)">
+              ¡Solo quedan {colorStock}!
+            </p>
+          )}
 
-        {error && (
-          <p className="text-xs text-(--danger) font-medium">{error}</p>
-        )}
+          {selectedColor && (
+            <p className="text-xs text-(--text-muted)">
+              Stock {selectedColor}: {colorStock}
+            </p>
+          )}
 
-        <div className="mt-auto flex flex-col gap-3">
+          {alreadyInCart && (
+            <p className="text-xs text-(--success)">
+              ✔ Ya tienes {qty} en tu carrito
+            </p>
+          )}
+
+          {error && (
+            <p className="text-xs text-(--danger) font-medium">{error}</p>
+          )}
+        </div>
+
+        <div className="mt-auto flex flex-col gap-2">
           <div className="flex items-center justify-between">
             <span className="text-xs text-(--text-muted)">Cantidad</span>
 
             <div className="flex items-center border border-(--border-soft) rounded-lg overflow-hidden">
               <button
                 onClick={decrementQty}
-                className="px-3 py-1 hover:bg-(--bg-soft) cursor-pointer"
+                className="px-2 sm:px-3 py-1 hover:bg-(--bg-soft) cursor-pointer"
               >
                 <MinusIcon className="w-4 h-4" />
               </button>
 
-              <span className="px-4 text-sm font-semibold">{qty}</span>
+              <span className="px-3 text-sm font-semibold">{qty}</span>
 
               <button
                 onClick={incrementQty}
                 disabled={qty >= colorStock}
-                className="px-3 py-1 hover:bg-(--bg-soft) disabled:opacity-40 cursor-pointer"
+                className="px-2 sm:px-3 py-1 hover:bg-(--bg-soft) disabled:opacity-40 cursor-pointer"
               >
                 <PlusIcon className="w-4 h-4" />
               </button>
             </div>
           </div>
 
-          {alreadyInCart && (
-            <p className="text-xs mt-1 text-(--success)">
-              ✔ Este color ya está en tu carrito ({qty})
-            </p>
-          )}
           <button
             onClick={handleAddToCart}
             className="
               w-full
-              flex items-center justify-center gap-2
+              flex items-center justify-center gap-1
               bg-(--cta-primary)
               hover:bg-(--cta-primary-hover)
               text-white
-              py-2.5 rounded-xl
+              rounded-xl
+              p-2
               font-semibold text-sm
               transition
               cursor-pointer

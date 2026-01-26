@@ -31,8 +31,10 @@ export default function SearchItem({ product }) {
   return (
     <article
       className="
-        grid grid-cols-[96px_1fr_240px]
-        gap-5 p-5
+        grid grid-cols-1
+        sm:grid-cols-[96px_1fr_240px]
+        gap-4 sm:gap-5
+        p-4 sm:p-5
         border-b border-(--border-soft)
         bg-(--bg-page)
         hover:bg-(--bg-soft)
@@ -41,22 +43,32 @@ export default function SearchItem({ product }) {
     >
       <Link
         href={`/${product.category}/${slugifyCategory(product.name)}`}
-        className="relative w-24 h-24 rounded-xl bg-(--bg-soft) overflow-hidden"
+        className="
+          relative
+          w-full sm:w-24
+          h-40 sm:h-24
+          rounded-xl
+          bg-(--bg-soft)
+          overflow-hidden
+        "
         prefetch
       >
         <img
           src={product.image}
           alt={product.name}
-          className="w-full h-full object-contain p-2"
+          className="w-full h-full object-contain p-3"
         />
 
         {product.discount > 0 && (
           <span
             className="
               absolute top-2 left-2
-              bg-red-500 text-white
-              text-[11px] font-semibold
-              px-2 py-0.5 rounded-full
+              bg-(--danger)
+              text-white
+              text-[11px]
+              font-semibold
+              px-2 py-0.5
+              rounded-full
             "
           >
             -{product.discount}%
@@ -73,7 +85,8 @@ export default function SearchItem({ product }) {
             className="
               font-semibold text-(--text-primary)
               leading-snug
-              hover:underline cursor-pointer
+              hover:underline
+              line-clamp-2
             "
           >
             {product.name}
@@ -87,7 +100,7 @@ export default function SearchItem({ product }) {
             </span>
           )}
 
-          <span className="text-xl font-bold text-(--cta-primary)">
+          <span className="text-lg font-bold text-(--cta-primary)">
             ${product.price.toLocaleString()}
           </span>
         </div>
@@ -113,56 +126,62 @@ export default function SearchItem({ product }) {
           </div>
         )}
 
-        {selectedColor && (
-          <p className="text-xs text-(--text-muted)">
-            Stock {selectedColor}: {colorStock}
-          </p>
-        )}
+        <div className="min-h-7 mt-1">
+          {selectedColor && (
+            <p className="text-xs text-(--text-muted)">
+              Stock {selectedColor}: {colorStock}
+            </p>
+          )}
 
-        {alreadyInCart && (
-          <p className="text-xs text-(--success) font-medium mt-1">
-            ✔ Ya tienes {qty} en tu carrito
-          </p>
-        )}
+          {alreadyInCart && (
+            <p className="text-xs text-(--success)">
+              ✔ Ya tienes {qty} en tu carrito
+            </p>
+          )}
 
-        {error && (
-          <p className="text-xs text-(--danger) font-medium">{error}</p>
-        )}
+          {error && (
+            <p className="text-xs text-(--danger) font-medium">{error}</p>
+          )}
+        </div>
       </div>
 
-      <div className="flex flex-col justify-between items-start">
-        <div className="flex items-center border border-(--border-soft) rounded-lg h-9 overflow-hidden">
-          <button
-            onClick={decrementQty}
-            className="px-3 hover:bg-(--bg-soft) cursor-pointer"
-          >
-            <MinusIcon className="w-4 h-4" />
-          </button>
+      <div
+        className="
+          flex flex-col sm:items-start
+          gap-3
+        "
+      >
+        <div className="flex items-center justify-between sm:justify-start gap-4">
+          <div className="flex items-center border border-(--border-soft) rounded-lg h-9 overflow-hidden">
+            <button
+              onClick={decrementQty}
+              className="px-3 hover:bg-(--bg-soft)"
+            >
+              <MinusIcon className="w-4 h-4" />
+            </button>
 
-          <span className="px-4 text-sm font-semibold">{qty}</span>
+            <span className="px-4 text-sm font-semibold">{qty}</span>
 
-          <button
-            onClick={incrementQty}
-            disabled={qty >= colorStock}
-            className="
-              px-3 hover:bg-(--bg-soft)
-              disabled:opacity-40 cursor-pointer
-            "
-          >
-            <PlusIcon className="w-4 h-4" />
-          </button>
+            <button
+              onClick={incrementQty}
+              disabled={qty >= colorStock}
+              className="px-3 hover:bg-(--bg-soft) disabled:opacity-40"
+            >
+              <PlusIcon className="w-4 h-4" />
+            </button>
+          </div>
         </div>
 
         <button
           onClick={handleAddToCart}
           className="
-            mt-3 w-full
+            w-full
             flex items-center justify-center gap-2
             bg-(--cta-primary)
+            hover:bg-(--cta-primary-hover)
             text-white
             py-2 rounded-lg
             text-sm font-medium
-            hover:bg-(--cta-primary-hover)
             transition
             cursor-pointer
           "
