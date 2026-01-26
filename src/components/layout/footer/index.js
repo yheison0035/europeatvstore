@@ -1,7 +1,229 @@
+"use client";
+
+import Link from "next/link";
+import {
+  PhoneIcon,
+  EnvelopeIcon,
+  MapPinIcon,
+  ShieldCheckIcon,
+  TruckIcon,
+  ChatBubbleLeftRightIcon,
+} from "@heroicons/react/24/outline";
+import { FaWhatsapp, FaInstagram, FaTiktok, FaFacebookF } from "react-icons/fa";
+
 export default function Footer() {
   return (
-    <>
-      <p>Hola soy el footer</p>
-    </>
+    <footer className="bg-(--bg-dark) text-(--text-inverted)">
+      <div className="max-w-7xl mx-auto px-4 py-16">
+        <div
+          className="
+            grid grid-cols-1 gap-12
+            sm:grid-cols-2
+            lg:grid-cols-4
+          "
+        >
+          <div>
+            <h3 className="text-lg font-semibold mb-4">Nuestra empresa</h3>
+
+            <p className="text-sm text-(--text-muted) mb-4 leading-relaxed">
+              EUROPEATVSTORE es una tienda online especializada en productos de
+              tecnología y hogar, ofreciendo soluciones innovadoras con pago
+              contra entrega en Colombia.
+            </p>
+
+            <ul className="space-y-2 text-sm text-(--text-muted)">
+              <li>
+                <Link
+                  href="/legal/quienes-somos"
+                  className="hover:text-(--brand-accent) transition"
+                >
+                  Quiénes somos
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="text-lg font-semibold mb-4">Información legal</h3>
+
+            <ul className="space-y-2 text-sm text-(--text-muted)">
+              <li>
+                <Link
+                  href="/legal/terminos-y-condiciones"
+                  className="hover:text-(--brand-accent)"
+                >
+                  Términos y condiciones
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/legal/politicas-de-privacidad"
+                  className="hover:text-(--brand-accent)"
+                >
+                  Políticas de privacidad
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/legal/autorizacion-de-datos"
+                  className="hover:text-(--brand-accent)"
+                >
+                  Autorización de datos
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/legal/derecho-de-retracto"
+                  className="hover:text-(--brand-accent)"
+                >
+                  Derecho de retracto
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/legal/politica-de-envios"
+                  className="hover:text-(--brand-accent)"
+                >
+                  Política de envíos
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/legal/cambios-y-devoluciones"
+                  className="hover:text-(--brand-accent)"
+                >
+                  Cambios y devoluciones
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="text-lg font-semibold mb-4">Contáctenos</h3>
+
+            <address className="not-italic space-y-3 text-sm text-(--text-muted)">
+              <p className="flex items-center gap-3">
+                <FaWhatsapp className="text-(--brand-accent)" />
+                <a
+                  href="https://wa.me/573147337602"
+                  className="hover:text-(--brand-accent)"
+                >
+                  314 733 7602
+                </a>
+              </p>
+
+              <p className="flex items-center gap-3">
+                <EnvelopeIcon className="w-4 h-4 text-(--brand-accent)" />
+                <a
+                  href="mailto:europeatvstore@gmail.com"
+                  className="hover:text-(--brand-accent)"
+                >
+                  europeatvstore@gmail.com
+                </a>
+              </p>
+
+              <p className="flex items-center gap-3">
+                <PhoneIcon className="w-4 h-4 text-(--brand-accent)" />
+                314 733 7602
+              </p>
+
+              <p className="flex items-center gap-3">
+                <MapPinIcon className="w-4 h-4 text-(--brand-accent)" />
+                CC Plaza Arrayanes, Itagüí
+              </p>
+            </address>
+          </div>
+
+          <div>
+            <h3 className="text-lg font-semibold mb-4">Síguenos</h3>
+
+            <div className="flex gap-4 mb-6">
+              {[
+                {
+                  icon: <FaInstagram />,
+                  href: "https://instagram.com/europeatvstore",
+                  label: "Instagram",
+                },
+                {
+                  icon: <FaTiktok />,
+                  href: "https://tiktok.com/@europeatvstore_oficial",
+                  label: "TikTok",
+                },
+                {
+                  icon: <FaFacebookF />,
+                  href: "https://facebook.com/europeatvstore",
+                  label: "Facebook",
+                },
+              ].map((social) => (
+                <a
+                  key={social.label}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={social.label}
+                  className="
+                    w-10 h-10 rounded-full
+                    flex items-center justify-center
+                    bg-(--brand-secondary)
+                    text-(--text-inverted)
+                    hover:bg-(--brand-accent)
+                    hover:text-(--bg-dark)
+                    transition
+                  "
+                >
+                  {social.icon}
+                </a>
+              ))}
+            </div>
+
+            <ul className="space-y-2 text-sm text-(--text-muted)">
+              <li className="flex items-center gap-2">
+                <ShieldCheckIcon className="w-4 h-4 text-(--brand-accent)" />
+                Compra segura
+              </li>
+              <li className="flex items-center gap-2">
+                <TruckIcon className="w-4 h-4 text-(--brand-accent)" />
+                Pago contra entrega
+              </li>
+              <li className="flex items-center gap-2">
+                <ChatBubbleLeftRightIcon className="w-4 h-4 text-(--brand-accent)" />
+                Atención por WhatsApp
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div className="border-t border-gray-300/20" />
+
+      <div className="max-w-7xl mx-auto px-4 py-6 text-center text-sm text-(--text-muted)">
+        © 2026 <strong>EUROPEATVSTORE</strong>. Todos los derechos reservados.
+      </div>
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            name: "EUROPEATVSTORE",
+            url: "https://www.europeatvstore.com",
+            logo: "https://www.europeatvstore.com/logo.png",
+            contactPoint: {
+              "@type": "ContactPoint",
+              telephone: "+57-314-733-7602",
+              contactType: "customer service",
+              areaServed: "CO",
+              availableLanguage: ["Spanish"],
+            },
+            sameAs: [
+              "https://www.instagram.com/europeatvstore",
+              "https://www.facebook.com/europeatvstore",
+              "https://www.tiktok.com/@europeatvstore_oficial",
+            ],
+          }),
+        }}
+      />
+    </footer>
   );
 }
