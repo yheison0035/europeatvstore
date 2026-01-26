@@ -8,6 +8,7 @@ import {
   ShieldCheckIcon,
   TruckIcon,
   ChatBubbleLeftRightIcon,
+  ClockIcon,
 } from "@heroicons/react/24/outline";
 import { FaWhatsapp, FaInstagram, FaTiktok, FaFacebookF } from "react-icons/fa";
 
@@ -15,20 +16,14 @@ export default function Footer() {
   return (
     <footer className="bg-(--bg-dark) text-(--text-inverted)">
       <div className="max-w-7xl mx-auto px-4 py-16">
-        <div
-          className="
-            grid grid-cols-1 gap-12
-            sm:grid-cols-2
-            lg:grid-cols-4
-          "
-        >
+        <div className="grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-4">
           <div>
             <h3 className="text-lg font-semibold mb-4">Nuestra empresa</h3>
 
             <p className="text-sm text-(--text-muted) mb-4 leading-relaxed">
-              EUROPEATVSTORE es una tienda online especializada en productos de
-              tecnología y hogar, ofreciendo soluciones innovadoras con pago
-              contra entrega en Colombia.
+              EUROPEATVSTORE es una tienda online colombiana especializada en
+              productos para el hogar, tecnología, salud y bienestar, ofreciendo
+              soluciones prácticas con envíos a todo el país.
             </p>
 
             <ul className="space-y-2 text-sm text-(--text-muted)">
@@ -46,56 +41,84 @@ export default function Footer() {
           <div>
             <h3 className="text-lg font-semibold mb-4">Información legal</h3>
 
-            <ul className="space-y-2 text-sm text-(--text-muted)">
-              <li>
-                <Link
-                  href="/legal/terminos-y-condiciones"
-                  className="hover:text-(--brand-accent)"
-                >
-                  Términos y condiciones
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/legal/politicas-de-privacidad"
-                  className="hover:text-(--brand-accent)"
-                >
-                  Políticas de privacidad
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/legal/autorizacion-de-datos"
-                  className="hover:text-(--brand-accent)"
-                >
-                  Autorización de datos
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/legal/derecho-de-retracto"
-                  className="hover:text-(--brand-accent)"
-                >
-                  Derecho de retracto
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/legal/politica-de-envios"
-                  className="hover:text-(--brand-accent)"
-                >
-                  Política de envíos
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/legal/cambios-y-devoluciones"
-                  className="hover:text-(--brand-accent)"
-                >
-                  Cambios y devoluciones
-                </Link>
-              </li>
-            </ul>
+            <nav aria-label="Información legal">
+              <ul className="space-y-2 text-sm text-(--text-muted)">
+                <li>
+                  <Link
+                    href="/legal/terminos-y-condiciones"
+                    className="hover:text-(--brand-accent)"
+                  >
+                    Términos y condiciones
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/legal/politicas-de-privacidad"
+                    className="hover:text-(--brand-accent)"
+                  >
+                    Políticas de privacidad
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/legal/autorizacion-de-datos"
+                    className="hover:text-(--brand-accent)"
+                  >
+                    Autorización de datos
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/legal/derecho-de-retracto"
+                    className="hover:text-(--brand-accent)"
+                  >
+                    Derecho de retracto
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/legal/politica-de-envios"
+                    className="hover:text-(--brand-accent)"
+                  >
+                    Política de envíos
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/legal/cambios-y-devoluciones"
+                    className="hover:text-(--brand-accent)"
+                  >
+                    Cambios y devoluciones
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/legal/garantias"
+                    className="hover:text-(--brand-accent)"
+                  >
+                    Política de garantías
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/legal/condiciones-de-promociones"
+                    className="hover:text-(--brand-accent)"
+                  >
+                    Condiciones de promociones
+                  </Link>
+                </li>
+                <li>
+                  <a
+                    href="https://sedeelectronica.sic.gov.co/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-(--brand-accent)"
+                  >
+                    Superintendencia de Industria y Comercio (SIC)
+                  </a>
+                </li>
+              </ul>
+            </nav>
           </div>
 
           <div>
@@ -131,13 +154,18 @@ export default function Footer() {
                 <MapPinIcon className="w-4 h-4 text-(--brand-accent)" />
                 CC Plaza Arrayanes, Itagüí
               </p>
+
+              <p className="flex items-center gap-3">
+                <ClockIcon className="w-4 h-4 text-(--brand-accent)" />
+                Lun a Sáb · 8:00 a.m. – 6:00 p.m.
+              </p>
             </address>
           </div>
 
           <div>
             <h3 className="text-lg font-semibold mb-4">Síguenos</h3>
 
-            <div className="flex gap-4 mb-6">
+            <nav aria-label="Redes sociales" className="flex gap-4 mb-6">
               {[
                 {
                   icon: <FaInstagram />,
@@ -174,7 +202,7 @@ export default function Footer() {
                   {social.icon}
                 </a>
               ))}
-            </div>
+            </nav>
 
             <ul className="space-y-2 text-sm text-(--text-muted)">
               <li className="flex items-center gap-2">
@@ -183,7 +211,7 @@ export default function Footer() {
               </li>
               <li className="flex items-center gap-2">
                 <TruckIcon className="w-4 h-4 text-(--brand-accent)" />
-                Pago contra entrega
+                Envíos a todo Colombia
               </li>
               <li className="flex items-center gap-2">
                 <ChatBubbleLeftRightIcon className="w-4 h-4 text-(--brand-accent)" />
@@ -198,6 +226,9 @@ export default function Footer() {
 
       <div className="max-w-7xl mx-auto px-4 py-6 text-center text-sm text-(--text-muted)">
         © 2026 <strong>EUROPEATVSTORE</strong>. Todos los derechos reservados.
+        <p className="mt-2 text-xs">
+          Cumplimos con la Ley 1480 de 2011 y la Ley 1581 de 2012.
+        </p>
       </div>
 
       <script
@@ -205,10 +236,16 @@ export default function Footer() {
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             "@context": "https://schema.org",
-            "@type": "Organization",
+            "@type": "Store",
             name: "EUROPEATVSTORE",
             url: "https://www.europeatvstore.com",
             logo: "https://www.europeatvstore.com/logo.png",
+            address: {
+              "@type": "PostalAddress",
+              addressLocality: "Itagüí",
+              addressRegion: "Antioquia",
+              addressCountry: "CO",
+            },
             contactPoint: {
               "@type": "ContactPoint",
               telephone: "+57-314-733-7602",

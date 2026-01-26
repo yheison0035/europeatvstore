@@ -3,6 +3,7 @@ import { ToastProvider } from "@/context/toastContext";
 import { NavProvider } from "@/context/navigationContext";
 import { inter } from "@/styles/fonts";
 import "@/styles/globals.css";
+import GlobalUI from "@/components/layout/globalUI";
 
 export const metadata = {
   metadataBase: new URL("https://www.europeatvstore.com"),
@@ -51,7 +52,10 @@ export default function RootLayout({ children }) {
       <body className={`${inter.className} antialiased`}>
         <NavProvider>
           <ToastProvider>
-            <Providers>{children}</Providers>
+            <Providers>
+              {children}
+              <GlobalUI />
+            </Providers>
           </ToastProvider>
         </NavProvider>
       </body>

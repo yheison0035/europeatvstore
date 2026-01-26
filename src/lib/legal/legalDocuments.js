@@ -1,121 +1,314 @@
 export const legalDocuments = [
+  /* ======================================================
+     QUIÉNES SOMOS
+  ====================================================== */
   {
     slug: "quienes-somos",
     title: "Quiénes somos",
-    content: [
+    sections: [
       {
-        type: "p",
-        text: "EUROPEATVSTORE es una tienda online colombiana especializada en la comercialización de productos para el hogar y tecnología, ofreciendo soluciones innovadoras y prácticas a través de canales digitales.",
+        heading: "Identidad de la empresa",
+        content: [
+          "EUROPEATVSTORE es una tienda online colombiana operada por persona natural, identificada con cédula/NIT 1082159046-1, con domicilio en el municipio de Itagüí, Antioquia.",
+          "Nos especializamos en la comercialización de productos para el hogar, tecnología, salud, cocina, herramientas, bienestar y soluciones prácticas para el día a día.",
+        ],
       },
       {
-        type: "p",
-        text: "Nuestro compromiso es brindar productos de calidad, atención personalizada y opciones de pago confiables, incluyendo pago contra entrega, para garantizar una experiencia de compra segura y transparente.",
+        heading: "Nuestra forma de trabajar",
+        content: [
+          "Operamos a través de canales digitales, ofreciendo envíos a todo el territorio colombiano mediante empresas transportadoras aliadas.",
+          "Contamos con opciones de pago confiables, incluyendo pago contra entrega y pago online a través de plataformas autorizadas.",
+        ],
       },
       {
-        type: "p",
-        text: "Operamos conforme a la normativa vigente en la República de Colombia y promovemos relaciones comerciales basadas en la confianza, el respeto y la satisfacción del cliente.",
+        heading: "Compromiso con nuestros clientes",
+        content: [
+          "Brindar información clara y veraz sobre nuestros productos.",
+          "Ofrecer atención personalizada a través de nuestros canales oficiales.",
+          "Cumplir con la normativa legal vigente en Colombia y proteger los derechos del consumidor.",
+        ],
       },
     ],
   },
 
+  /* ======================================================
+     TÉRMINOS Y CONDICIONES
+  ====================================================== */
   {
     slug: "terminos-y-condiciones",
     title: "Términos y condiciones",
-    content: [
+    sections: [
       {
-        type: "p",
-        text: "El presente documento establece los términos y condiciones bajo los cuales los usuarios pueden acceder y utilizar el sitio web de EUROPEATVSTORE, así como adquirir los productos ofrecidos.",
+        heading: "Aceptación",
+        content: [
+          "Al acceder, navegar o realizar una compra en el sitio web de EUROPEATVSTORE, el usuario acepta de manera expresa estos Términos y Condiciones.",
+          "El usuario declara ser mayor de edad y tener capacidad legal para contratar, conforme a la legislación colombiana.",
+        ],
       },
       {
-        type: "p",
-        text: "Al realizar una compra, el cliente declara ser mayor de edad y acepta expresamente estos términos, de conformidad con la Ley 1480 de 2011 (Estatuto del Consumidor).",
+        heading: "Uso del sitio web",
+        content: [
+          "El sitio web debe ser utilizado de forma responsable y lícita.",
+          "Queda prohibido cualquier uso que afecte el funcionamiento del sitio, infrinja la ley o vulnere derechos de terceros.",
+        ],
       },
       {
-        type: "p",
-        text: "EUROPEATVSTORE se reserva el derecho de modificar estos términos en cualquier momento, sin previo aviso, garantizando su publicación actualizada en el sitio web.",
+        heading: "Productos y precios",
+        content: [
+          "Los precios se expresan en pesos colombianos (COP) e incluyen los impuestos aplicables.",
+          "EUROPEATVSTORE podrá corregir errores evidentes u ostentosos en precios o descripciones, informando al cliente antes del despacho del producto.",
+        ],
+      },
+      {
+        heading: "Pagos",
+        content: [
+          "Se aceptan pagos contra entrega y pagos online mediante plataformas autorizadas.",
+          "Las órdenes pueden estar sujetas a validaciones de seguridad antes de su confirmación y despacho.",
+        ],
+      },
+      {
+        heading: "Responsabilidad",
+        content: [
+          "EUROPEATVSTORE no será responsable por demoras atribuibles a causas externas como fuerza mayor, fallas de transportadoras o eventos fuera de su control.",
+          "La responsabilidad se limita al valor del producto adquirido.",
+        ],
+      },
+      {
+        heading: "Legislación aplicable",
+        content: [
+          "Estos términos se rigen por las leyes de la República de Colombia.",
+          "Cualquier controversia será resuelta por las autoridades competentes colombianas.",
+        ],
       },
     ],
   },
 
+  /* ======================================================
+     POLÍTICA DE PRIVACIDAD
+  ====================================================== */
   {
     slug: "politicas-de-privacidad",
-    title: "Políticas de privacidad",
-    content: [
+    title: "Política de privacidad",
+    sections: [
       {
-        type: "p",
-        text: "EUROPEATVSTORE garantiza la protección de los datos personales suministrados por sus usuarios, en cumplimiento de la Ley 1581 de 2012 y el Decreto 1377 de 2013.",
+        heading: "Marco legal",
+        content: [
+          "EUROPEATVSTORE cumple con la Ley 1581 de 2012, el Decreto 1377 de 2013 y demás normas que regulan la protección de datos personales en Colombia.",
+        ],
       },
       {
-        type: "p",
-        text: "La información recolectada será utilizada exclusivamente para fines comerciales, operativos y de atención al cliente, y no será compartida con terceros sin autorización previa.",
+        heading: "Datos recolectados",
+        content: [
+          "Datos de identificación y contacto.",
+          "Datos necesarios para envíos, facturación y atención al cliente.",
+          "Datos de navegación y uso del sitio web mediante cookies.",
+        ],
       },
       {
-        type: "p",
-        text: "El titular de los datos podrá ejercer sus derechos de acceso, corrección, actualización y supresión mediante solicitud escrita a nuestros canales de atención.",
+        heading: "Finalidades del tratamiento",
+        content: [
+          "Gestionar pedidos, pagos, envíos, garantías y devoluciones.",
+          "Atender solicitudes, reclamos y consultas.",
+          "Enviar información comercial, promociones y novedades por WhatsApp o correo electrónico.",
+        ],
+      },
+      {
+        heading: "Derechos del titular",
+        content: [
+          "Acceder, actualizar y rectificar sus datos personales.",
+          "Solicitar la supresión de los datos o revocar la autorización.",
+          "Presentar quejas ante la Superintendencia de Industria y Comercio (SIC).",
+        ],
       },
     ],
   },
 
+  /* ======================================================
+     AUTORIZACIÓN DE DATOS
+  ====================================================== */
   {
     slug: "autorizacion-de-datos",
     title: "Autorización de tratamiento de datos personales",
-    content: [
+    sections: [
       {
-        type: "p",
-        text: "Al proporcionar sus datos personales, el usuario autoriza de manera libre, previa, expresa e informada a EUROPEATVSTORE para el tratamiento de los mismos.",
+        heading: "Autorización expresa",
+        content: [
+          "El titular autoriza de manera previa, expresa e informada a EUROPEATVSTORE para tratar sus datos personales.",
+          "La información será utilizada para fines comerciales, operativos, administrativos y de comunicación.",
+        ],
       },
       {
-        type: "p",
-        text: "Dicho tratamiento se realizará conforme a las finalidades comerciales, contractuales y de comunicación establecidas, respetando los principios de legalidad, confidencialidad y seguridad.",
+        heading: "Vigencia",
+        content: [
+          "La autorización se otorga por término indefinido o hasta que el titular solicite su revocatoria, salvo obligación legal de conservación.",
+        ],
       },
     ],
   },
 
+  /* ======================================================
+     DERECHO DE RETRACTO
+  ====================================================== */
   {
     slug: "derecho-de-retracto",
     title: "Derecho de retracto",
-    content: [
+    sections: [
       {
-        type: "p",
-        text: "De acuerdo con el artículo 47 de la Ley 1480 de 2011, el consumidor podrá ejercer el derecho de retracto dentro de los cinco (5) días hábiles siguientes a la entrega del producto.",
+        heading: "Plazo legal",
+        content: [
+          "El consumidor podrá ejercer el derecho de retracto dentro de los cinco (5) días hábiles siguientes a la entrega del producto, conforme al artículo 47 de la Ley 1480 de 2011.",
+        ],
       },
       {
-        type: "p",
-        text: "El producto deberá ser devuelto en las mismas condiciones en que fue entregado, sin uso y con su empaque original.",
+        heading: "Condiciones",
+        content: [
+          "El producto debe estar sin uso, en perfecto estado y con su empaque original.",
+          "No aplica para productos de uso personal, higiene, consumo inmediato o aquellos que por su naturaleza no puedan ser devueltos.",
+        ],
+      },
+      {
+        heading: "Reembolsos",
+        content: [
+          "Una vez recibido el producto y verificado su estado, el reembolso se realizará dentro de los plazos legales.",
+          "EUROPEATVSTORE asumirá el costo del envío en los retractos aprobados.",
+        ],
       },
     ],
   },
 
+  /* ======================================================
+     POLÍTICA DE ENVÍOS
+  ====================================================== */
   {
     slug: "politica-de-envios",
     title: "Política de envíos",
-    content: [
+    sections: [
       {
-        type: "p",
-        text: "EUROPEATVSTORE realiza envíos a nivel nacional dentro del territorio colombiano, a través de empresas transportadoras aliadas.",
+        heading: "Cobertura",
+        content: [
+          "EUROPEATVSTORE realiza envíos a todo el territorio colombiano mediante transportadoras de terceros.",
+        ],
       },
       {
-        type: "p",
-        text: "Los tiempos de entrega estimados oscilan entre 2 y 7 días hábiles, dependiendo de la ciudad de destino.",
+        heading: "Tiempos de entrega",
+        content: [
+          "Los tiempos estimados de entrega son de 2 a 7 días hábiles, dependiendo de la ciudad de destino.",
+          "Estos tiempos pueden variar por factores externos como clima o logística de la transportadora.",
+        ],
       },
       {
-        type: "p",
-        text: "El pago contra entrega está disponible en ciudades habilitadas y podrá estar sujeto a confirmación previa.",
+        heading: "Costos de envío",
+        content: [
+          "Envío gratuito para compras iguales o superiores a $100.000 COP.",
+          "Para compras inferiores, el costo será informado antes de finalizar la compra.",
+        ],
+      },
+    ],
+  },
+
+  /* ======================================================
+     CAMBIOS Y DEVOLUCIONES
+  ====================================================== */
+  {
+    slug: "cambios-y-devoluciones",
+    title: "Cambios y devoluciones",
+    sections: [
+      {
+        heading: "Condiciones generales",
+        content: [
+          "Los cambios y devoluciones se realizan conforme a la Ley 1480 de 2011.",
+          "EUROPEATVSTORE asumirá el costo del envío en devoluciones aprobadas.",
+        ],
+      },
+      {
+        heading: "Cambios por gusto",
+        content: [
+          "Los cambios por gusto estarán sujetos a condiciones de estado del producto, empaque original y disponibilidad.",
+          "El cliente deberá comunicarse previamente con nuestros canales de atención.",
+        ],
+      },
+      {
+        heading: "Garantía",
+        content: [
+          "Todos los productos cuentan con una garantía mínima de treinta (30) días calendario.",
+          "La garantía cubre defectos de fabricación y no cubre daños por uso indebido.",
+        ],
       },
     ],
   },
 
   {
-    slug: "cambios-y-devoluciones",
-    title: "Cambios y devoluciones",
-    content: [
+    slug: "garantias",
+    title: "Política de garantías",
+    sections: [
       {
-        type: "p",
-        text: "Los cambios y devoluciones se realizarán conforme a lo establecido en la Ley 1480 de 2011, garantizando el derecho del consumidor.",
+        heading: "Garantía legal",
+        content: [
+          "Todos los productos comercializados por EUROPEATVSTORE cuentan con una garantía mínima de treinta (30) días calendario, conforme a lo establecido en la Ley 1480 de 2011.",
+          "La garantía cubre defectos de fabricación y fallas atribuibles al producto.",
+        ],
       },
       {
-        type: "p",
-        text: "El cliente deberá comunicarse con nuestros canales de atención dentro de los plazos establecidos para solicitar el proceso correspondiente.",
+        heading: "Exclusiones de la garantía",
+        content: [
+          "La garantía no cubre daños ocasionados por uso indebido, mala manipulación, golpes, caídas, humedad, conexión a voltajes inadecuados o intervención de terceros no autorizados.",
+          "No se cubren daños derivados del desgaste normal del producto.",
+        ],
+      },
+      {
+        heading: "Procedimiento para hacer efectiva la garantía",
+        content: [
+          "El cliente deberá comunicarse con EUROPEATVSTORE a través de los canales oficiales dentro del periodo de garantía.",
+          "Se deberá presentar evidencia del defecto y comprobante de compra.",
+          "EUROPEATVSTORE evaluará el caso y, de ser procedente, realizará la reparación, reposición o reembolso conforme a la ley.",
+        ],
+      },
+      {
+        heading: "Costos asociados",
+        content: [
+          "EUROPEATVSTORE asumirá los costos de transporte derivados del trámite de garantía cuando esta sea aprobada.",
+          "En caso de no proceder la garantía, el cliente será informado oportunamente.",
+        ],
+      },
+    ],
+  },
+
+  {
+    slug: "condiciones-de-promociones",
+    title: "Condiciones de promociones",
+    sections: [
+      {
+        heading: "Vigencia de las promociones",
+        content: [
+          "Todas las promociones ofrecidas por EUROPEATVSTORE contarán con una fecha de inicio y finalización claramente informadas.",
+          "Las promociones estarán vigentes hasta agotar existencias o hasta la fecha indicada, lo que ocurra primero.",
+        ],
+      },
+      {
+        heading: "Disponibilidad y stock",
+        content: [
+          "Las promociones están sujetas a disponibilidad de inventario.",
+          "En caso de agotarse el stock promocional, EUROPEATVSTORE podrá finalizar la promoción sin previo aviso.",
+        ],
+      },
+      {
+        heading: "Condiciones especiales",
+        content: [
+          "Algunas promociones podrán estar sujetas a montos mínimos de compra, productos seleccionados o unidades máximas por cliente.",
+          "Las condiciones particulares de cada promoción serán informadas en el anuncio correspondiente.",
+        ],
+      },
+      {
+        heading: "No acumulabilidad",
+        content: [
+          "Salvo indicación expresa, las promociones no son acumulables con otros descuentos, cupones u ofertas.",
+        ],
+      },
+      {
+        heading: "Derechos del consumidor",
+        content: [
+          "Las compras realizadas bajo promociones conservan los derechos del consumidor, incluyendo garantía legal y derecho de retracto, conforme a la Ley 1480 de 2011.",
+        ],
       },
     ],
   },
