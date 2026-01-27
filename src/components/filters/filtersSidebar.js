@@ -7,7 +7,15 @@ export default function FiltersSidebar() {
   const { toggle, has, get, set } = useFilters();
 
   return (
-    <aside className="bg-(--bg-page) p-5 rounded-xl border border-(--border-soft)">
+    <aside
+      className="
+        bg-(--bg-page)
+        p-5
+        rounded-xl
+        border border-(--border-soft)
+        shadow-sm
+      "
+    >
       <h3 className="font-semibold mb-4">Filtrar por</h3>
 
       <Group title="Color">
