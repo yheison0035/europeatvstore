@@ -43,7 +43,7 @@ export default function CatalogProductCard({ product, category }) {
       "
     >
       <Link href={`/${category}/${slugifyCategory(product.name)}`} prefetch>
-        <div className="relative aspect-square bg-(--bg-soft)">
+        <div className="relative aspect-square bg-(--bg-soft) cursor-pointer">
           <img
             src={product.image}
             alt={product.name}

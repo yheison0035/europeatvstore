@@ -5,6 +5,7 @@ import {
   getProducts,
   getProductById,
   searchProducts,
+  getProductBySlug,
 } from "../routes/products/index";
 
 export default function useProducts() {
@@ -33,11 +34,16 @@ export default function useProducts() {
     (term) => wrap(searchProducts, term),
     [wrap],
   );
+  const getProductBySlugFn = useCallback(
+    (productSlug) => wrap(getProductBySlug, productSlug),
+    [wrap],
+  );
 
   return {
     getProducts: getProductsFn,
     getProductById: getProductByIdFn,
     searchProducts: searchProductsFn,
+    getProductBySlug: getProductBySlugFn,
     loading,
     error,
   };
