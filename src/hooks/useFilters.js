@@ -20,6 +20,10 @@ export function useFilters() {
     router.push(`?${params.toString()}`);
   }
 
+  function get(key) {
+    return searchParams.get(key) || "";
+  }
+
   function set(key, value) {
     const params = new URLSearchParams(searchParams);
     value ? params.set(key, value) : params.delete(key);
@@ -27,14 +31,19 @@ export function useFilters() {
   }
 
   function clearAll() {
-    router.push(window.location.pathname);
+    const params = new URLSearchParams(searchParams);
+    params.forEach((_, key) => params.delete(key));
+    router.push(`?${params.toString()}`);
   }
 
   function has(key, value) {
     return (searchParams.get(key) || "").split(",").includes(value);
   }
 
-  const count = [...searchParams.entries()].filter(([_, v]) => v).length;
+  const count = [...searchParams.entries()].reduce((acc, [_, value]) => {
+    if (!value) return acc;
+    return acc + value.split(",").filter(Boolean).length;
+  }, 0);
 
-  return { toggle, set, has, clearAll, count };
+  return { toggle, set, get, has, clearAll, count };
 }

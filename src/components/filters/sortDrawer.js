@@ -2,6 +2,7 @@
 
 import { useSearchParams, useRouter } from "next/navigation";
 import Drawer from "./drawer";
+import Portal from "../ui/portal";
 
 const SORTS = [
   { label: "Precio: menor a mayor", value: "price_asc" },
@@ -23,13 +24,14 @@ export default function SortDrawer({ open, onClose }) {
   }
 
   return (
-    <Drawer open={open} onClose={onClose} title="Ordenar por">
-      <div className="space-y-3">
-        {SORTS.map((s) => (
-          <button
-            key={s.value}
-            onClick={() => apply(s.value)}
-            className={`
+    <Portal>
+      <Drawer open={open} onClose={onClose} title="Ordenar por">
+        <div className="space-y-3">
+          {SORTS.map((s) => (
+            <button
+              key={s.value}
+              onClick={() => apply(s.value)}
+              className={`
               w-full text-left px-4 py-3 rounded-lg border cursor-pointer
               ${
                 active === s.value
@@ -37,11 +39,12 @@ export default function SortDrawer({ open, onClose }) {
                   : "border-(--border-soft)"
               }
             `}
-          >
-            {s.label}
-          </button>
-        ))}
-      </div>
-    </Drawer>
+            >
+              {s.label}
+            </button>
+          ))}
+        </div>
+      </Drawer>
+    </Portal>
   );
 }

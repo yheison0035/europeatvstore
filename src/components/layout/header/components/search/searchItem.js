@@ -155,7 +155,7 @@ export default function SearchItem({ product }) {
           <div className="flex items-center border border-(--border-soft) rounded-lg h-9 overflow-hidden">
             <button
               onClick={decrementQty}
-              className="px-3 hover:bg-(--bg-soft)"
+              className="px-3 hover:bg-(--bg-soft) cursor-pointer"
             >
               <MinusIcon className="w-4 h-4" />
             </button>
@@ -165,7 +165,7 @@ export default function SearchItem({ product }) {
             <button
               onClick={incrementQty}
               disabled={qty >= colorStock}
-              className="px-3 hover:bg-(--bg-soft) disabled:opacity-40"
+              className="px-3 hover:bg-(--bg-soft) disabled:opacity-40 cursor-pointer"
             >
               <PlusIcon className="w-4 h-4" />
             </button>

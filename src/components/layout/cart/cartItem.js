@@ -3,6 +3,8 @@
 import { MinusIcon, PlusIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { useCart } from "@/context/cartContext";
 import { getColorHexByName } from "@/utils/getColor";
+import Link from "next/link";
+import { slugifyCategory } from "@/utils/slugify";
 
 export default function CartItem({ item }) {
   const { updateItemQuantity, removeFromCart } = useCart();
@@ -22,21 +24,25 @@ export default function CartItem({ item }) {
   return (
     <div className="flex gap-4 py-5 border-b border-(--border-soft)">
       <div className="w-20 h-20 rounded-xl flex items-center justify-center overflow-hidden bg-(--bg-soft)">
-        {item.image ? (
-          <img
-            src={item.image}
-            alt={item.name}
-            className="w-full h-full object-contain"
-          />
-        ) : (
-          <span className="text-xs text-(--text-muted)">IMG</span>
-        )}
+        <Link href={`/${item.category}/${slugifyCategory(item.name)}`} prefetch>
+          {item.image ? (
+            <img
+              src={item.image}
+              alt={item.name}
+              className="w-full h-full object-contain"
+            />
+          ) : (
+            <span className="text-xs text-(--text-muted)">IMG</span>
+          )}
+        </Link>
       </div>
 
       <div className="flex-1 flex flex-col gap-1">
-        <p className="font-semibold text-sm text-(--text-primary) leading-tight">
-          {item.name}
-        </p>
+        <Link href={`/${item.category}/${slugifyCategory(item.name)}`} prefetch>
+          <p className="font-semibold text-sm text-(--text-primary) leading-tight hover:underline">
+            {item.name}
+          </p>
+        </Link>
 
         {item.color && (
           <div className="flex items-center gap-2 text-xs text-(--text-muted)">
@@ -79,7 +85,6 @@ export default function CartItem({ item }) {
             : `Stock disponible: ${item.stock}`}
         </p>
 
-        {/* Controles */}
         <div className="flex items-center mt-3">
           <div className="flex items-center border border-(--border-soft) rounded-lg overflow-hidden">
             <button

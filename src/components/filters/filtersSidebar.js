@@ -4,64 +4,68 @@ import { filtersConfig } from "@/utils/filters.config";
 import { useFilters } from "@/hooks/useFilters";
 
 export default function FiltersSidebar() {
-  const { toggle, set } = useFilters();
+  const { toggle, has, get, set } = useFilters();
 
   return (
     <aside className="bg-(--bg-page) p-5 rounded-xl border border-(--border-soft)">
-      <h3 className="font-semibold mb-4 text-(--text-primary)">Filtrar por</h3>
+      <h3 className="font-semibold mb-4">Filtrar por</h3>
 
-      <FilterGroup title="Color">
+      <Group title="Color">
         {filtersConfig.colors.map((c) => (
-          <Checkbox
+          <Check
             key={c.value}
             label={c.label}
+            checked={has("colors", c.value)}
             onChange={() => toggle("colors", c.value)}
           />
         ))}
-      </FilterGroup>
+      </Group>
 
-      <FilterGroup title="Marca">
+      <Group title="Marca">
         {filtersConfig.brands.map((b) => (
-          <Checkbox
+          <Check
             key={b.value}
             label={b.label}
+            checked={has("brands", b.value)}
             onChange={() => toggle("brands", b.value)}
           />
         ))}
-      </FilterGroup>
+      </Group>
 
-      <FilterGroup title="Precio">
+      <Group title="Precio">
         <div className="flex gap-2">
           <input
             type="number"
             placeholder="Desde"
-            onBlur={(e) => set("minPrice", e.target.value)}
-            className="w-full border border-(--border-soft) rounded px-2 py-1 text-sm"
+            value={get("minPrice")}
+            onChange={(e) => set("minPrice", e.target.value)}
+            className="w-full border rounded px-2 py-1"
           />
           <input
             type="number"
             placeholder="Hasta"
-            onBlur={(e) => set("maxPrice", e.target.value)}
-            className="w-full border border-(--border-soft) rounded px-2 py-1 text-sm"
+            value={get("maxPrice")}
+            onChange={(e) => set("maxPrice", e.target.value)}
+            className="w-full border rounded px-2 py-1"
           />
         </div>
-      </FilterGroup>
+      </Group>
     </aside>
   );
 }
 
-function FilterGroup({ title, children }) {
+function Group({ title, children }) {
   return (
     <div className="mb-6">
-      <p className="text-sm font-medium text-(--text-primary) mb-2">{title}</p>
+      <p className="text-sm font-medium mb-2">{title}</p>
       <div className="space-y-2">{children}</div>
     </div>
   );
 }
 
-function Checkbox({ label, checked, onChange }) {
+function Check({ label, checked, onChange }) {
   return (
-    <label className="flex items-center gap-2 text-sm text-(--text-secondary) cursor-pointer">
+    <label className="flex items-center gap-2 text-sm cursor-pointer">
       <input
         type="checkbox"
         checked={checked}

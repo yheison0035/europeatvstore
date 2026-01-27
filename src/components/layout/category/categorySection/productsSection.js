@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import useCategories from "@/lib/utils/api/hooks/useCategories";
 
@@ -8,7 +8,7 @@ import ProductCard from "./productCard";
 import SkeletonGrid from "@/components/ui/skeletons/skeletonGrid";
 import Breadcrumbs from "../breadcrumbs";
 import MobileFiltersBar from "@/components/filters/mobileFiltersBar";
-import { filtersConfig } from "@/utils/filters.config";
+import { DesktopSort } from "@/components/filters/desktopSort";
 
 export default function ProductsSection({ category }) {
   const { getProductsByCategory, loading } = useCategories();
@@ -40,45 +40,28 @@ export default function ProductsSection({ category }) {
   }, [category, filters, getProductsByCategory]);
 
   return (
-    <section>
+    <section className="space-y-4">
+      {/* MOBILE */}
       <MobileFiltersBar total={products.length} />
 
-      <div className="md:hidden px-4 mt-3">
+      <div className="md:hidden px-4">
         <Breadcrumbs category={category} />
       </div>
 
+      {/* DESKTOP */}
       <div className="hidden md:flex justify-between items-center">
         <Breadcrumbs category={category} />
-
-        <select
-          value={filters.sort}
-          onChange={(e) => set("sort", e.target.value)}
-          className="
-            border border-(--border-soft)
-            rounded-lg px-3 py-2
-            bg-(--bg-page)
-            text-sm
-            min-w-55
-          "
-        >
-          <option value="">Ordenar por</option>
-
-          {filtersConfig.sort.map((s) => (
-            <option key={s.value} value={s.value}>
-              {s.label}
-            </option>
-          ))}
-        </select>
+        <DesktopSort />
       </div>
 
       {loading ? (
         <SkeletonGrid count={6} cols="grid-cols-2 md:grid-cols-3" />
       ) : products.length === 0 ? (
         <div className="py-20 text-center text-(--text-muted)">
-          No se encontraron productos para esta categoría.
+          No se encontraron productos.
         </div>
       ) : (
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-6 mt-3">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
           {products.map((product) => (
             <ProductCard
               key={product.id}

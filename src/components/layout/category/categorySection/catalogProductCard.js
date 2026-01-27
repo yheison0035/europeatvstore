@@ -24,7 +24,7 @@ export default function CatalogProductCard({ product, category }) {
     handleAddToCart,
     alreadyInCart,
     actionLabel,
-  } = useProductCartLogic(product, 1);
+  } = useProductCartLogic({ ...product, category }, 1);
 
   if (!ready) return null;
 

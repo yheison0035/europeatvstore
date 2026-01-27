@@ -16,14 +16,7 @@ export default function CartIcon() {
         className="relative cursor-pointer"
         aria-label="Carrito de compras"
       >
-        <ShoppingCartIcon
-          className="
-            w-6 h-6
-            text-(--text-primary)
-            hover:text-(--brand-accent)
-            transition
-          "
-        />
+        <ShoppingCartIcon className="w-6 h-6 text-(--text-primary) hover:text-(--brand-accent) transition" />
 
         {count > 0 && (
           <span

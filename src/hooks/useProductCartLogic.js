@@ -60,6 +60,7 @@ export default function useProductCartLogic(product, initialQty = 1) {
         {
           id: product.id,
           name: product.name,
+          category: product.category,
           price: product.price,
           oldPrice: product.oldPrice ?? null,
           discount: product.discount ?? 0,
