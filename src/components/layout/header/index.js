@@ -1,16 +1,12 @@
 "use client";
-
 import HeaderTop from "./components/headerTop";
 import HeaderNav from "./components/headerNav";
 import { forwardRef } from "react";
 
-const Header = forwardRef(function Header({ offset }, ref) {
+const Header = forwardRef(function Header({ navRef }, headerRef) {
   return (
     <header
-      ref={ref}
-      style={{
-        transform: `translateY(-${offset}px)`,
-      }}
+      ref={headerRef}
       className="
         fixed top-0 left-0 w-full z-50
         bg-(--bg-page)
@@ -19,7 +15,9 @@ const Header = forwardRef(function Header({ offset }, ref) {
       "
     >
       <HeaderTop />
-      <HeaderNav />
+      <div ref={navRef}>
+        <HeaderNav />
+      </div>
     </header>
   );
 });

@@ -2,25 +2,22 @@
 
 import Header from "@/components/layout/header";
 import { useHeaderHeight } from "@/hooks/useHeaderHeight";
-import { useHeaderOffset } from "@/hooks/useHeaderOffset";
-import { LayoutContext } from "@/context/layoutContext";
+import { useSmoothHeader } from "@/hooks/useSmoothHeader";
 
 export default function CategoryLayout({ children }) {
-  const { ref, height } = useHeaderHeight();
-  const offset = useHeaderOffset(height);
+  const { headerRef, navRef, heights } = useHeaderHeight();
+
+  const hideHeight = heights.header - heights.nav;
+
+  useSmoothHeader(headerRef, hideHeight);
 
   return (
-    <LayoutContext.Provider
-      value={{
-        headerHeight: height,
-        headerOffset: offset,
-      }}
-    >
-      <Header ref={ref} offset={offset} />
+    <>
+      <Header ref={headerRef} navRef={navRef} />
 
-      <main style={{ paddingTop: height }} className="bg-(--bg-soft)">
+      <main style={{ paddingTop: heights.header }} className="bg-(--bg-soft)">
         {children}
       </main>
-    </LayoutContext.Provider>
+    </>
   );
 }

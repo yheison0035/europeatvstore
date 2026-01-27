@@ -1,22 +1,43 @@
 "use client";
-
 import { useLayoutEffect, useRef, useState } from "react";
 
 export function useHeaderHeight() {
-  const ref = useRef(null);
-  const [height, setHeight] = useState(0);
+  const headerRef = useRef(null);
+  const navRef = useRef(null);
+
+  const [heights, setHeights] = useState({
+    header: 0,
+    nav: 0,
+  });
 
   useLayoutEffect(() => {
-    if (!ref.current) return;
+    function update() {
+      if (!headerRef.current || !navRef.current) return;
 
-    const update = () => {
-      setHeight(ref.current.offsetHeight);
-    };
+      const headerH = headerRef.current.offsetHeight;
+      const navH = navRef.current.offsetHeight;
+
+      setHeights({ header: headerH, nav: navH });
+
+      document.documentElement.style.setProperty(
+        "--header-height",
+        `${headerH}px`,
+      );
+
+      document.documentElement.style.setProperty(
+        "--header-nav-height",
+        `${navH}px`,
+      );
+    }
 
     update();
     window.addEventListener("resize", update);
     return () => window.removeEventListener("resize", update);
   }, []);
 
-  return { ref, height };
+  return {
+    headerRef,
+    navRef,
+    heights,
+  };
 }
