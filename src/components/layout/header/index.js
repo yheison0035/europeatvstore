@@ -3,16 +3,16 @@
 import HeaderNav from "./components/headerNav";
 import HeaderTop from "./components/headerTop";
 
-export default function Header() {
+export default function Header({ hidden = false }) {
   return (
     <header
-      role="banner"
-      className="
-        fixed top-0 left-0 w-full
+      className={`
+        fixed top-0 left-0 w-full z-50
         bg-(--bg-page)
         border-b border-(--border-soft)
-        z-50
-      "
+        transition-transform duration-300
+        ${hidden ? "-translate-y-full" : "translate-y-0"}
+      `}
     >
       <HeaderTop />
       <HeaderNav />
