@@ -6,6 +6,8 @@ import {
   PlusIcon,
   MinusIcon,
   ShoppingCartIcon,
+  TruckIcon,
+  ShieldCheckIcon,
 } from "@heroicons/react/24/outline";
 
 const FREE_SHIPPING_FROM = 100000;
@@ -30,51 +32,59 @@ export default function ProductInfo({ product, category }) {
   const freeShipping = product.price * qty >= FREE_SHIPPING_FROM;
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-(--text-primary)">
+    <div className="bg-white border border-(--border-soft) rounded-2xl p-4 sm:p-6 space-y-5 shadow-(--shadow-sm)">
+      {/* Title */}
+      <h1 className="text-lg sm:text-2xl font-semibold text-(--text-primary)">
         {product.name}
       </h1>
 
-      <div className="flex items-end gap-3">
-        <span className="text-3xl font-bold text-(--cta-primary)">
+      {/* Price */}
+      <div className="flex items-end gap-3 flex-wrap">
+        <span className="text-2xl sm:text-3xl font-bold text-(--cta-primary)">
           ${product.price.toLocaleString()}
         </span>
 
         {product.oldPrice && (
           <>
-            <span className="line-through text-(--text-muted)">
+            <span className="line-through text-sm text-(--text-muted)">
               ${product.oldPrice.toLocaleString()}
             </span>
-            <span className="text-(--danger) font-semibold">
-              -{product.discount}%
+            <span className="text-sm font-semibold text-(--danger)">
+              {product.discount}% OFF
             </span>
           </>
         )}
       </div>
 
-      <p
-        className={`text-sm ${
-          freeShipping ? "text-(--success)" : "text-(--text-muted)"
-        }`}
-      >
-        {freeShipping
-          ? "✔ Envío gratis"
-          : "Envío gratis por compras desde $100.000"}
-      </p>
+      {/* Shipping */}
+      <div className="flex items-center gap-2 text-sm">
+        <TruckIcon className="w-5 h-5" />
+        <span
+          className={freeShipping ? "text-(--success)" : "text-(--text-muted)"}
+        >
+          {freeShipping ? "Envío gratis" : "Envío gratis desde $100.000"}
+        </span>
+      </div>
 
+      <div className="flex items-center gap-2 text-sm text-(--text-muted)">
+        <ShieldCheckIcon className="w-4 h-4 text-(--success)" />
+        Compra segura · Garantía incluida
+      </div>
+
+      {/* Colors */}
       {hasColors && (
         <div>
           <p className="text-sm font-medium mb-2">Color</p>
-          <div className="flex gap-2">
+          <div className="flex gap-3 flex-wrap">
             {product.colors.map((c) => (
               <button
                 key={c.name}
                 onClick={() => selectColor(c)}
                 className={`
-                  w-7 h-7 rounded-full border
+                  w-8 h-8 rounded-full border
                   ${
                     selectedColor === c.name
-                      ? "border-(--brand-accent) scale-110"
+                      ? "border-(--brand-accent) ring-2 ring-(--brand-accent)"
                       : "border-(--border-soft)"
                   }
                 `}
@@ -85,17 +95,18 @@ export default function ProductInfo({ product, category }) {
         </div>
       )}
 
-      <div className="flex items-center gap-4">
-        <span className="text-sm">Cantidad</span>
-        <div className="flex items-center border rounded-lg">
-          <button onClick={decrementQty} className="p-2">
+      {/* Quantity */}
+      <div>
+        <p className="text-sm font-medium mb-2">Cantidad</p>
+        <div className="inline-flex items-center border rounded-xl">
+          <button onClick={decrementQty} className="p-3">
             <MinusIcon className="w-4 h-4" />
           </button>
           <span className="px-4 font-semibold">{qty}</span>
           <button
             onClick={incrementQty}
             disabled={qty >= colorStock}
-            className="p-2 disabled:opacity-40"
+            className="p-3 disabled:opacity-40"
           >
             <PlusIcon className="w-4 h-4" />
           </button>
@@ -104,33 +115,38 @@ export default function ProductInfo({ product, category }) {
 
       {error && <p className="text-(--danger) text-sm">{error}</p>}
 
-      <button
-        onClick={handleAddToCart}
-        className="
-          w-full
-          bg-(--cta-primary)
-          hover:bg-(--cta-primary-hover)
-          text-white
-          py-3 rounded-xl
-          font-semibold
-          flex items-center justify-center gap-2
-        "
-      >
-        <ShoppingCartIcon className="w-5 h-5" />
-        {actionLabel}
-      </button>
+      {/* CTAs */}
+      <div className="space-y-3 pt-2">
+        <button
+          onClick={handleAddToCart}
+          className="
+            w-full
+            bg-(--cta-primary)
+            hover:bg-(--cta-primary-hover)
+            text-white
+            py-4
+            rounded-xl
+            font-semibold
+            flex items-center justify-center gap-2
+          "
+        >
+          <ShoppingCartIcon className="w-5 h-5" />
+          {actionLabel}
+        </button>
 
-      <button
-        className="
-          w-full
-          border border-(--border-soft)
-          py-3 rounded-xl
-          font-semibold
-          hover:bg-(--bg-soft)
-        "
-      >
-        Comprar ahora
-      </button>
+        <button
+          className="
+            w-full
+            border border-(--border-soft)
+            py-4
+            rounded-xl
+            font-semibold
+            hover:bg-(--bg-soft)
+          "
+        >
+          Comprar ahora
+        </button>
+      </div>
     </div>
   );
 }

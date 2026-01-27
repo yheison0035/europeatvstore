@@ -2,21 +2,20 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import Zoom from "react-medium-image-zoom";
-import "react-medium-image-zoom/dist/styles.css";
 
 export default function ProductGallery({ images }) {
   const [active, setActive] = useState(images[0]);
 
   return (
-    <div className="flex gap-4">
-      <div className="flex flex-col gap-2">
+    <div className="flex flex-col lg:flex-row gap-4">
+      {/* Thumbnails */}
+      <div className="flex lg:flex-col gap-2 order-2 lg:order-1">
         {images.map((img) => (
           <button
             key={img}
             onClick={() => setActive(img)}
             className={`
-              w-16 h-16 rounded-lg border
+              relative w-16 h-16 rounded-lg border overflow-hidden
               ${
                 active === img
                   ? "border-(--brand-accent)"
@@ -24,22 +23,31 @@ export default function ProductGallery({ images }) {
               }
             `}
           >
-            <Image src={img} alt="" width={64} height={64} />
+            <Image src={img} alt="" fill className="object-contain" />
           </button>
         ))}
       </div>
 
-      <div className="flex-1 border border-(--border-soft) rounded-2xl bg-(--bg-page)">
-        <Zoom>
-          <Image
-            src={active}
-            alt=""
-            width={600}
-            height={600}
-            className="object-contain p-6"
-            priority
-          />
-        </Zoom>
+      {/* Main */}
+      <div className="relative flex-1 bg-(--bg-page) border border-(--border-soft) rounded-2xl overflow-hidden group">
+        <Image
+          src={active}
+          alt=""
+          width={700}
+          height={700}
+          priority
+          className="
+            object-contain
+            w-full h-full
+            transition-transform duration-300
+            group-hover:scale-125
+            cursor-zoom-in
+          "
+        />
+
+        <span className="hidden lg:block absolute bottom-3 right-3 text-xs bg-black/60 text-white px-2 py-1 rounded">
+          Pasa el mouse para ampliar
+        </span>
       </div>
     </div>
   );
