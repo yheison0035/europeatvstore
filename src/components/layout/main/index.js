@@ -6,7 +6,7 @@ import NewsSection from "@/components/sections/newsSection";
 
 export default function Main() {
   return (
-    <main className="bg-(--bg-soft) py-10">
+    <main className="bg-(--bg-soft) py-10 md:pt-49 pt-70">
       <Container>
         <SectionWrapper>
           <CategoriesSection />

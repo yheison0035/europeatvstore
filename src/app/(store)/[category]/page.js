@@ -1,14 +1,7 @@
-import CategoryLayout from "@/components/layout/category/categoryLayout";
-import Container from "@/components/layout/container";
+import CatalogClient from "@/components/layout/catalog/catalogClient";
 
-export default async function CategoryPage({ params }) {
+export default async function CatalogPage({ params }) {
   const { category } = await params;
 
-  return (
-    <main className="bg-(--bg-soft) py-4 md:py-12">
-      <Container>
-        <CategoryLayout category={category} />
-      </Container>
-    </main>
-  );
+  return <CatalogClient category={category} />;
 }

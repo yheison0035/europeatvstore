@@ -1,21 +1,27 @@
 "use client";
 
-import HeaderNav from "./components/headerNav";
 import HeaderTop from "./components/headerTop";
+import HeaderNav from "./components/headerNav";
+import { forwardRef } from "react";
 
-export default function Header({ hidden = false }) {
+const Header = forwardRef(function Header({ offset }, ref) {
   return (
     <header
-      className={`
+      ref={ref}
+      style={{
+        transform: `translateY(-${offset}px)`,
+      }}
+      className="
         fixed top-0 left-0 w-full z-50
         bg-(--bg-page)
         border-b border-(--border-soft)
-        transition-transform duration-300
-        ${hidden ? "-translate-y-full" : "translate-y-0"}
-      `}
+        will-change-transform
+      "
     >
       <HeaderTop />
       <HeaderNav />
     </header>
   );
-}
+});
+
+export default Header;

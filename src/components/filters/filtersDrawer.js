@@ -11,7 +11,6 @@ export default function FiltersDrawer({ open, onClose }) {
   return (
     <Portal>
       <Drawer open={open} onClose={onClose} title="Filtrar productos">
-        {/* Header */}
         <div className="flex justify-between items-center mb-4">
           <span className="text-sm text-(--text-muted)">
             {count} filtro{count !== 1 && "s"} activo{count !== 1 && "s"}
@@ -27,7 +26,6 @@ export default function FiltersDrawer({ open, onClose }) {
           )}
         </div>
 
-        {/* Marca */}
         <Section title="Marca">
           {filtersConfig.brands.map((b) => (
             <Check
@@ -39,7 +37,6 @@ export default function FiltersDrawer({ open, onClose }) {
           ))}
         </Section>
 
-        {/* Color */}
         <Section title="Color">
           {filtersConfig.colors.map((c) => (
             <Check
@@ -51,7 +48,6 @@ export default function FiltersDrawer({ open, onClose }) {
           ))}
         </Section>
 
-        {/* Precio */}
         <Section title="Precio">
           <div className="flex gap-3">
             <input
