@@ -1,4 +1,6 @@
 export function slugifyCategory(text) {
+  if (!text) return "";
+
   return text
     .toLowerCase()
     .normalize("NFD")
