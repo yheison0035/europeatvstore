@@ -1,3 +1,4 @@
+import { unslugify } from "@/utils/unslugify";
 import Link from "next/link";
 
 export default function Breadcrumbs({ category, product }) {
@@ -7,13 +8,15 @@ export default function Breadcrumbs({ category, product }) {
       <span>/</span>
 
       <Link href={`/${category}`} className="capitalize">
-        {category.replace("-", " ")}
+        {unslugify(category)}
       </Link>
 
       {product && (
         <>
           <span>/</span>
-          <span className="text-(--text-primary) font-medium">{product}</span>
+          <span className="text-(--text-primary) font-medium">
+            {unslugify(product)}
+          </span>
         </>
       )}
     </nav>

@@ -63,7 +63,8 @@ export default function ListProductHeader({
             )}/${slugifyCategory(product.name)}`;
 
             return (
-              <div
+              <Link
+                href={productSlug}
                 key={product.id}
                 className="
                   group relative
@@ -108,7 +109,7 @@ export default function ListProductHeader({
                 </div>
 
                 <div className="mt-3">
-                  <p className="text-sm font-medium text-(--text-primary) line-clamp-2">
+                  <p className="text-sm font-medium text-(--text-primary) line-clamp-2 hover:underline">
                     {product.name}
                   </p>
 
@@ -123,20 +124,20 @@ export default function ListProductHeader({
                     </span>
                   </div>
 
-                  <Link
-                    href={productSlug}
+                  <p
                     className="
                       mt-2 inline-block
                       text-xs font-semibold
                       text-(--brand-primary)
                       hover:text-(--brand-accent)
                       transition
+                      hover:underline
                     "
                   >
                     Ver producto →
-                  </Link>
+                  </p>
                 </div>
-              </div>
+              </Link>
             );
           })}
         </div>

@@ -25,6 +25,7 @@ export default function ProductInfo({ product, category }) {
     decrementQty,
     handleAddToCart,
     actionLabel,
+    alreadyInCart,
   } = useProductCartLogic({ ...product, category }, 1);
 
   if (!ready) return null;
@@ -32,13 +33,21 @@ export default function ProductInfo({ product, category }) {
   const freeShipping = product.price * qty >= FREE_SHIPPING_FROM;
 
   return (
-    <div className="bg-white border border-(--border-soft) rounded-2xl p-4 sm:p-6 space-y-5 shadow-(--shadow-sm)">
-      {/* Title */}
-      <h1 className="text-lg sm:text-2xl font-semibold text-(--text-primary)">
+    <div
+      className="
+        bg-white
+        border border-(--border-soft)
+        rounded-2xl
+        p-4 sm:p-6
+        space-y-5
+        shadow-(--shadow-sm)
+        max-w-full
+      "
+    >
+      <h1 className="text-base sm:text-xl font-semibold text-(--text-primary)">
         {product.name}
       </h1>
 
-      {/* Price */}
       <div className="flex items-end gap-3 flex-wrap">
         <span className="text-2xl sm:text-3xl font-bold text-(--cta-primary)">
           ${product.price.toLocaleString()}
@@ -56,7 +65,6 @@ export default function ProductInfo({ product, category }) {
         )}
       </div>
 
-      {/* Shipping */}
       <div className="flex items-center gap-2 text-sm">
         <TruckIcon className="w-5 h-5" />
         <span
@@ -66,12 +74,11 @@ export default function ProductInfo({ product, category }) {
         </span>
       </div>
 
-      <div className="flex items-center gap-2 text-sm text-(--text-muted)">
+      <div className="flex items-center gap-2 text-xs text-(--text-muted)">
         <ShieldCheckIcon className="w-4 h-4 text-(--success)" />
         Compra segura · Garantía incluida
       </div>
 
-      {/* Colors */}
       {hasColors && (
         <div>
           <p className="text-sm font-medium mb-2">Color</p>
@@ -82,6 +89,7 @@ export default function ProductInfo({ product, category }) {
                 onClick={() => selectColor(c)}
                 className={`
                   w-8 h-8 rounded-full border
+                  transition cursor-pointer
                   ${
                     selectedColor === c.name
                       ? "border-(--brand-accent) ring-2 ring-(--brand-accent)"
@@ -95,27 +103,45 @@ export default function ProductInfo({ product, category }) {
         </div>
       )}
 
-      {/* Quantity */}
       <div>
         <p className="text-sm font-medium mb-2">Cantidad</p>
         <div className="inline-flex items-center border rounded-xl">
-          <button onClick={decrementQty} className="p-3">
+          <button onClick={decrementQty} className="p-3 cursor-pointer">
             <MinusIcon className="w-4 h-4" />
           </button>
           <span className="px-4 font-semibold">{qty}</span>
           <button
             onClick={incrementQty}
             disabled={qty >= colorStock}
-            className="p-3 disabled:opacity-40"
+            className="p-3 disabled:opacity-40 cursor-pointer"
           >
             <PlusIcon className="w-4 h-4" />
           </button>
         </div>
       </div>
 
-      {error && <p className="text-(--danger) text-sm">{error}</p>}
+      <div className="min-h-8 flex flex-col justify-center">
+        {selectedColor && colorStock <= 5 && (
+          <p className="text-xs text-(--warning)">¡Solo quedan {colorStock}!</p>
+        )}
 
-      {/* CTAs */}
+        {selectedColor && (
+          <p className="text-xs text-(--text-muted)">
+            Stock {selectedColor}: {colorStock}
+          </p>
+        )}
+
+        {alreadyInCart && (
+          <p className="text-xs text-(--success)">
+            ✔ Ya tienes {qty} en tu carrito
+          </p>
+        )}
+
+        {error && (
+          <p className="text-xs text-(--danger) font-medium">{error}</p>
+        )}
+      </div>
+
       <div className="space-y-3 pt-2">
         <button
           onClick={handleAddToCart}
@@ -127,7 +153,7 @@ export default function ProductInfo({ product, category }) {
             py-4
             rounded-xl
             font-semibold
-            flex items-center justify-center gap-2
+            flex items-center justify-center gap-2 cursor-pointer
           "
         >
           <ShoppingCartIcon className="w-5 h-5" />
@@ -141,7 +167,7 @@ export default function ProductInfo({ product, category }) {
             py-4
             rounded-xl
             font-semibold
-            hover:bg-(--bg-soft)
+            hover:bg-(--bg-soft) cursor-pointer
           "
         >
           Comprar ahora

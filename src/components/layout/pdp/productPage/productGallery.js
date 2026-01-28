@@ -3,19 +3,28 @@
 import { useState } from "react";
 import Image from "next/image";
 
-export default function ProductGallery({ images }) {
-  const [active, setActive] = useState(images[0]);
+export default function ProductGallery({ images = [] }) {
+  const safeImages = Array.isArray(images) ? images : [];
+  const [active, setActive] = useState(safeImages[0] || null);
+
+  if (!safeImages.length) {
+    return (
+      <div className="bg-white border border-(--border-soft) rounded-2xl h-80 flex items-center justify-center text-sm text-(--text-muted)">
+        Imagen no disponible
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col lg:flex-row gap-4">
       {/* Thumbnails */}
-      <div className="flex lg:flex-col gap-2 order-2 lg:order-1">
-        {images.map((img) => (
+      <div className="flex lg:flex-col gap-2 order-2 lg:order-1 overflow-x-auto lg:overflow-visible">
+        {safeImages.map((img, i) => (
           <button
-            key={img}
+            key={`${img}-${i}`}
             onClick={() => setActive(img)}
             className={`
-              relative w-16 h-16 rounded-lg border overflow-hidden
+              relative shrink-0 w-16 h-16 rounded-lg border overflow-hidden cursor-pointer
               ${
                 active === img
                   ? "border-(--brand-accent)"
@@ -23,24 +32,31 @@ export default function ProductGallery({ images }) {
               }
             `}
           >
-            <Image src={img} alt="" fill className="object-contain" />
+            <Image
+              src={img}
+              alt=""
+              fill
+              sizes="64px"
+              className="object-contain"
+              unoptimized
+            />
           </button>
         ))}
       </div>
 
-      {/* Main */}
-      <div className="relative flex-1 bg-(--bg-page) border border-(--border-soft) rounded-2xl overflow-hidden group">
+      {/* Main image */}
+      <div className="relative flex-1 bg-white border border-(--border-soft) rounded-2xl overflow-hidden group">
         <Image
           src={active}
           alt=""
           width={700}
           height={700}
           priority
+          unoptimized
           className="
-            object-contain
-            w-full h-full
+            w-full h-full object-contain
             transition-transform duration-300
-            group-hover:scale-125
+            lg:group-hover:scale-125
             cursor-zoom-in
           "
         />
