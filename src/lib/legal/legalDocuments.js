@@ -9,23 +9,42 @@ export const legalDocuments = [
       {
         heading: "Identidad de la empresa",
         content: [
-          "EUROPEATVSTORE es una tienda online colombiana operada por persona natural, identificada con cédula/NIT 1082159046-1, con domicilio en el municipio de Itagüí, Antioquia.",
-          "Nos especializamos en la comercialización de productos para el hogar, tecnología, salud, cocina, herramientas, bienestar y soluciones prácticas para el día a día.",
+          "EUROPEATVSTORE es una tienda online colombiana operada por persona natural, con domicilio en el municipio de Itagüí, Antioquia.",
+          "Nacimos hace más de tres años con el propósito de comercializar productos en eventos feriales realizados en centros comerciales, logrando un contacto directo con nuestros clientes y entendiendo de primera mano sus necesidades.",
+          "Nos especializamos en la comercialización de productos para el hogar, tecnología, salud, cocina, herramientas, bienestar y soluciones prácticas que facilitan el día a día de las familias colombianas.",
+        ],
+      },
+      {
+        heading: "Nuestra trayectoria y crecimiento",
+        content: [
+          "Durante nuestros primeros años, consolidamos nuestra presencia principalmente en el sur del Valle de Aburrá, con eventos feriales en municipios como Itagüí, La Estrella, Sabaneta y Envigado, así como en Bello y el centro de Medellín.",
+          "También hemos llevado nuestra propuesta a diferentes ciudades del país como Tuluá, Caucasia, Planeta Rica y Pasto, fortaleciendo nuestra experiencia y alcance a nivel nacional.",
+          "Esta trayectoria nos permitió evolucionar hacia el entorno digital, creando este sitio web con el objetivo de darnos a conocer en toda Colombia y ofrecer una experiencia de compra cómoda, segura y confiable.",
         ],
       },
       {
         heading: "Nuestra forma de trabajar",
         content: [
-          "Operamos a través de canales digitales, ofreciendo envíos a todo el territorio colombiano mediante empresas transportadoras aliadas.",
-          "Contamos con opciones de pago confiables, incluyendo pago contra entrega y pago online a través de plataformas autorizadas.",
+          "Operamos a través de canales digitales, gestionando pedidos de manera organizada y realizando envíos a todo el territorio colombiano mediante empresas transportadoras aliadas y confiables.",
+          "Ofrecemos opciones de pago seguras y accesibles, incluyendo pago contra entrega y pago online a través de plataformas autorizadas, para que nuestros clientes compren con total tranquilidad.",
+          "Seleccionamos cuidadosamente cada producto, priorizando la calidad, la funcionalidad y la relación costo-beneficio.",
         ],
       },
       {
         heading: "Compromiso con nuestros clientes",
         content: [
-          "Brindar información clara y veraz sobre nuestros productos.",
-          "Ofrecer atención personalizada a través de nuestros canales oficiales.",
+          "Brindar información clara, honesta y veraz sobre cada uno de nuestros productos.",
+          "Ofrecer atención personalizada antes, durante y después de la compra a través de nuestros canales oficiales.",
           "Cumplir con la normativa legal vigente en Colombia y proteger los derechos del consumidor.",
+          "Trabajar continuamente para garantizar que cada cliente quede satisfecho con su experiencia de compra.",
+        ],
+      },
+      {
+        heading: "Nuestra visión a futuro",
+        content: [
+          "Nuestro objetivo es seguir creciendo de manera responsable, ampliando nuestro portafolio y fortaleciendo nuestra presencia a nivel nacional.",
+          "A futuro, aspiramos a iniciar procesos de importación directa y contar con nuestra propia bodega, lo que nos permitirá optimizar costos y ofrecer mejores precios a nuestros clientes.",
+          "Queremos generar más empleo, fortalecer nuestro equipo de trabajo y consolidarnos como una marca confiable que lleve productos de excelente calidad y un servicio cercano a los hogares colombianos.",
         ],
       },
     ],

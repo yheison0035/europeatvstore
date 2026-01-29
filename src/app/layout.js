@@ -7,12 +7,15 @@ import GlobalUI from "@/components/layout/globalUI";
 
 export const metadata = {
   metadataBase: new URL("https://www.europeatvstore.com"),
+
   title: {
     default: "EUROPEATVSTORE® | Tecnología, Hogar y Ofertas en Colombia",
     template: "%s | EUROPEATVSTORE®",
   },
+
   description:
     "EUROPEATVSTORE® – Tienda online en Colombia de tecnología, hogar y bienestar. Ofertas reales, pago contraentrega y envíos rápidos.",
+
   keywords: [
     "tienda online colombia",
     "productos para el hogar",
@@ -23,27 +26,34 @@ export const metadata = {
     "tv box",
     "comprar online colombia",
   ],
+
+  alternates: {
+    canonical: "https://www.europeatvstore.com",
+  },
+
   openGraph: {
-    title: "EUROPEATVSTORE | Tecnología, Hogar y Bienestar",
+    title: "EUROPEATVSTORE® | Tecnología, Hogar y Ofertas en Colombia",
     description:
-      "Tu tienda online de tecnología y hogar en Colombia. Compra fácil, rápido y seguro.",
+      "Compra productos innovadores para el hogar y tecnología. Pago contraentrega y envíos a toda Colombia.",
     url: "https://www.europeatvstore.com",
     siteName: "EUROPEATVSTORE",
+    locale: "es_CO",
+    type: "website",
     images: [
       {
-        url: "/og-image.png",
+        url: "https://www.europeatvstore.com/og-image.png",
         width: 1200,
         height: 630,
         alt: "EUROPEATVSTORE",
       },
     ],
-    locale: "es_CO",
-    type: "website",
   },
+
   robots: {
     index: true,
     follow: true,
   },
+
   other: {
     "application/ld+json": JSON.stringify({
       "@context": "https://schema.org",
@@ -76,21 +86,3 @@ export default function RootLayout({ children }) {
     </html>
   );
 }
-
-<script
-  type="application/ld+json"
-  dangerouslySetInnerHTML={{
-    __html: JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      name: "EUROPEATVSTORE",
-      url: "https://www.europeatvstore.com",
-      logo: "https://www.europeatvstore.com/logo.png",
-      sameAs: [
-        "https://www.facebook.com/europeatvstore",
-        "https://www.instagram.com/europeatvstore",
-        "https://www.tiktok.com/@europeatvstore",
-      ],
-    }),
-  }}
-/>;
