@@ -27,11 +27,6 @@ export default function CheckoutPage() {
     setShowConfirm(false);
 
     if (paymentMethod === "online") {
-      if (!window.WidgetCheckout) {
-        alert("La pasarela de pago no está disponible");
-        return;
-      }
-
       const subtotal = items.reduce((sum, i) => sum + i.price * i.quantity, 0);
 
       const { cost } = calculateShipping(subtotal);
@@ -46,6 +41,7 @@ export default function CheckoutPage() {
       return;
     }
 
+    // PAGO CONTRA ENTREGA
     if (paymentMethod === "cod") {
       setIsSubmitting(true);
       console.log("Crear orden contra entrega");
