@@ -14,6 +14,7 @@ import OffersSection from "@/components/sections/offersSection";
 import SectionWrapper from "../sectionWrapper";
 import RelatedProducts from "@/components/sections/relatedProductsSection";
 import { slugifyCategory } from "@/utils/slugify";
+import ProductSchema from "@/components/seo/productSchema";
 
 export default function ProductPage({ category, productSlug }) {
   const [product, setProduct] = useState(null);
@@ -38,6 +39,7 @@ export default function ProductPage({ category, productSlug }) {
 
   return (
     <>
+      <ProductSchema product={product} category={category} />
       <main className="bg-(--bg-soft)">
         <Container>
           <SectionWrapper>
