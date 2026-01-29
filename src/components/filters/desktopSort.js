@@ -1,10 +1,11 @@
 "use client";
 
 import { useFilters } from "@/hooks/useFilters";
-import { filtersConfig } from "@/utils/filters.config";
 
-export function DesktopSort() {
+export function DesktopSort({ filters }) {
   const { set } = useFilters();
+
+  if (!filters?.sort) return null;
 
   return (
     <select
@@ -18,7 +19,7 @@ export function DesktopSort() {
       "
     >
       <option value="">Ordenar por</option>
-      {filtersConfig.sort.map((s) => (
+      {filters.sort.map((s) => (
         <option key={s.value} value={s.value}>
           {s.label}
         </option>

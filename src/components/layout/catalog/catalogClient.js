@@ -1,14 +1,14 @@
 "use client";
 
 import CatalogLayout from "@/components/layout/catalog/catalogLayout";
-import Container from "@/components/layout/container";
+import CatalogContainer from "../catalogContainer";
 
 export default function CatalogClient({ category }) {
   return (
     <main className="bg-(--bg-soft)">
-      <Container>
+      <CatalogContainer>
         <CatalogLayout category={category} />
-      </Container>
+      </CatalogContainer>
     </main>
   );
 }

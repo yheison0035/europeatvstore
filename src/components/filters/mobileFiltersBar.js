@@ -6,10 +6,11 @@ import {
   FunnelIcon,
   AdjustmentsHorizontalIcon,
 } from "@heroicons/react/24/outline";
+
 import SortDrawer from "./sortDrawer";
 import FiltersDrawer from "./filtersDrawer";
 
-export default function MobileFiltersBar({ total }) {
+export default function MobileFiltersBar({ total, filters }) {
   const { count } = useFilters();
 
   const [openSort, setOpenSort] = useState(false);
@@ -55,8 +56,17 @@ export default function MobileFiltersBar({ total }) {
         </div>
       </nav>
 
-      <SortDrawer open={openSort} onClose={() => setOpenSort(false)} />
-      <FiltersDrawer open={openFilters} onClose={() => setOpenFilters(false)} />
+      <SortDrawer
+        open={openSort}
+        onClose={() => setOpenSort(false)}
+        sorts={filters?.sort}
+      />
+
+      <FiltersDrawer
+        open={openFilters}
+        onClose={() => setOpenFilters(false)}
+        filters={filters}
+      />
     </>
   );
 }

@@ -4,12 +4,12 @@ export async function getCategories() {
   return apiFetch("/ecommerce/categories");
 }
 
-export async function getCatalogProducts(params = {}) {
-  const query = new URLSearchParams();
+export function getCatalogProducts(params = {}) {
+  const search = new URLSearchParams();
 
   Object.entries(params).forEach(([key, value]) => {
-    if (value) query.append(key, value);
+    if (value) search.append(key, value);
   });
 
-  return apiFetch(`/ecommerce/catalog?${query.toString()}`);
+  return apiFetch(`/ecommerce/catalog?${search.toString()}`);
 }
