@@ -4,17 +4,12 @@ export async function getCategories() {
   return apiFetch("/ecommerce/categories");
 }
 
-export async function getProductsByCategory(slug, filters = {}) {
-  const params = new URLSearchParams();
+export async function getCatalogProducts(params = {}) {
+  const query = new URLSearchParams();
 
-  Object.entries(filters).forEach(([key, value]) => {
-    if (value) params.append(key, value);
+  Object.entries(params).forEach(([key, value]) => {
+    if (value) query.append(key, value);
   });
 
-  const query = params.toString();
-  const url = query
-    ? `/ecommerce/category/${slug}?${query}`
-    : `/ecommerce/category/${slug}`;
-
-  return apiFetch(url);
+  return apiFetch(`/ecommerce/catalog?${query.toString()}`);
 }

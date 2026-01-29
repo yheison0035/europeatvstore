@@ -12,6 +12,8 @@ import Breadcrumbs from "../catalog/breadcrumbs";
 import NewsSection from "@/components/sections/newsSection";
 import OffersSection from "@/components/sections/offersSection";
 import SectionWrapper from "../sectionWrapper";
+import RelatedProducts from "@/components/sections/relatedProductsSection";
+import { slugifyCategory } from "@/utils/slugify";
 
 export default function ProductPage({ category, productSlug }) {
   const [product, setProduct] = useState(null);
@@ -51,6 +53,9 @@ export default function ProductPage({ category, productSlug }) {
             </div>
           </SectionWrapper>
 
+          <SectionWrapper>
+            <RelatedProducts productSlug={slugifyCategory(product.name)} />
+          </SectionWrapper>
           <SectionWrapper>
             <NewsSection />
           </SectionWrapper>

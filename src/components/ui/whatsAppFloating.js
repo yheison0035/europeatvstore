@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { FaWhatsapp } from "react-icons/fa";
 
 export default function WhatsAppFloating({ offsetBottom = 20 }) {
@@ -7,7 +8,7 @@ export default function WhatsAppFloating({ offsetBottom = 20 }) {
   const message = "Hola 👋, estoy interesado en un producto de EUROPEATVSTORE";
 
   return (
-    <a
+    <Link
       href={`https://wa.me/${phone}?text=${encodeURIComponent(message)}`}
       target="_blank"
       rel="noopener noreferrer"
@@ -24,6 +25,6 @@ export default function WhatsAppFloating({ offsetBottom = 20 }) {
       "
     >
       <FaWhatsapp className="w-7 h-7" />
-    </a>
+    </Link>
   );
 }

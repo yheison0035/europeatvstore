@@ -98,11 +98,17 @@ export default function HorizontalSection({
         ) : layout === "grid" ? (
           <div className="relative px-2 sm:px-16">
             <div className="grid gap-4 grid-cols-2 sm:grid-cols-3">
-              {visibleItems.map((item) =>
-                type === "category" ? (
-                  <CategoryCard key={item.id} category={item} />
-                ) : null,
-              )}
+              {visibleItems.map((item) => {
+                if (type === "category") {
+                  return <CategoryCard key={item.id} category={item} />;
+                }
+
+                if (type === "product") {
+                  return <ProductCardMini key={item.id} product={item} />;
+                }
+
+                return null;
+              })}
             </div>
           </div>
         ) : (

@@ -114,14 +114,14 @@ export default function Footer() {
                   </li>
                 ))}
                 <li>
-                  <a
+                  <Link
                     href="https://sedeelectronica.sic.gov.co/"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="hover:text-(--brand-accent)"
                   >
                     Superintendencia de Industria y Comercio (SIC)
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </nav>
@@ -133,23 +133,23 @@ export default function Footer() {
             <address className="not-italic space-y-3 text-sm text-(--text-muted)">
               <p className="flex items-center gap-3">
                 <FaWhatsapp className="text-(--brand-accent)" />
-                <a
+                <Link
                   href="https://wa.me/573147337602"
                   className="hover:text-(--brand-accent)"
                   target="_blank"
                 >
                   314 733 7602
-                </a>
+                </Link>
               </p>
 
               <p className="flex items-center gap-3">
                 <EnvelopeIcon className="w-4 h-4 text-(--brand-accent)" />
-                <a
+                <Link
                   href="mailto:europeatvstore@gmail.com"
                   className="hover:text-(--brand-accent)"
                 >
                   europeatvstore@gmail.com
-                </a>
+                </Link>
               </p>
 
               <p className="flex items-center gap-3">
@@ -190,7 +190,7 @@ export default function Footer() {
                   label: "Facebook",
                 },
               ].map((social) => (
-                <a
+                <Link
                   key={social.label}
                   href={social.href}
                   target="_blank"
@@ -207,7 +207,7 @@ export default function Footer() {
                   "
                 >
                   {social.icon}
-                </a>
+                </Link>
               ))}
             </nav>
 

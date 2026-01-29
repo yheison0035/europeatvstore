@@ -8,59 +8,67 @@ export default function ProductCardMini({ product }) {
 
   return (
     <Link
-      href={`/${slugifyCategory(product.category)}/${slugifyCategory(product.name)}`}
+      href={`/${slugifyCategory(product.category)}/${product.slug}`}
+      className="block h-full"
     >
-      <div
+      <article
         className="
-        group relative
-        rounded-xl
-        border border-(--border-soft)
-        bg-(--bg-page)
-        p-3
-        flex flex-col
-        hover:shadow-(--shadow-md)
-        transition
-        h-full
-      "
+          group
+          relative
+          h-full
+          w-full
+          max-w-60
+
+          rounded-xl
+          border border-(--border-soft)
+          bg-(--bg-page)
+          p-3
+
+          flex flex-col
+          transition
+          hover:shadow-(--shadow-md)
+        "
       >
         {product.discount > 0 && (
           <span
             className="
-            absolute top-2 left-2 z-10
-            bg-(--danger)
-            text-(--text-inverted)
-            text-xs font-semibold
-            px-2 py-0.5
-            rounded-full
-          "
+              absolute top-2 left-2 z-10
+              bg-(--danger)
+              text-white
+              text-xs font-semibold
+              px-2 py-0.5
+              rounded-full
+            "
           >
             -{product.discount}%
           </span>
         )}
 
-        <div className="relative w-full h-32 rounded-lg overflow-hidden shrink-0">
-          {product.image && (
+        <div className="relative w-full h-32 rounded-lg overflow-hidden flex items-center justify-center">
+          {product.image ? (
             <img
               src={product.image}
               alt={product.name}
               className="
-              w-full h-full
-              object-contain
-              transition
-              group-hover:scale-105
-            "
+                max-w-full max-h-full
+                object-contain
+                transition-transform
+                group-hover:scale-105
+              "
             />
+          ) : (
+            <span className="text-xs text-(--text-muted)">Sin imagen</span>
           )}
         </div>
 
         <div className="mt-3 flex flex-col flex-1">
           <p
             className="
-            text-sm font-medium text-(--text-primary)
-            line-clamp-2
-            min-h-11
-            hover:underline
-          "
+              text-sm font-medium text-(--text-primary)
+              line-clamp-2
+              min-h-11
+              hover:underline
+            "
           >
             {product.name}
           </p>
@@ -76,21 +84,19 @@ export default function ProductCardMini({ product }) {
             </span>
           </div>
 
-          <p
+          <span
             className="
-            mt-auto pt-2
-            inline-block
-            text-xs font-semibold
-            text-(--brand-primary)
-            hover:text-(--brand-accent)
-            transition
-            hover:underline
-          "
+              mt-auto pt-2
+              text-xs font-semibold
+              text-(--brand-primary)
+              group-hover:text-(--brand-accent)
+              transition
+            "
           >
             Ver producto →
-          </p>
+          </span>
         </div>
-      </div>
+      </article>
     </Link>
   );
 }

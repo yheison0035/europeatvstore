@@ -15,6 +15,7 @@ export default function MobileHeaderNav({
   const items = [
     { label: "Inicio", slug: "home" },
     { label: "Novedades", slug: "novedades" },
+    { label: "Ofertas", slug: "ofertas" },
     ...categories.map((c) => ({
       label: c.name,
       slug: slugifyCategory(c.name),

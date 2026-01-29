@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import useCategories from "@/lib/utils/api/hooks/useCategories";
 import DesktopHeaderNav from "./headerNav/desktopHeaderNav";
@@ -18,12 +18,18 @@ export default function HeaderNav() {
 
   const closeTimer = useRef(null);
 
-  useEffect(() => {
-    (async () => {
-      const res = await getCategories();
-      if (res?.success) setCategories(res.data || []);
-    })();
+  const fetchCategories = useCallback(async () => {
+    try {
+      const { data } = await getCategories();
+      setCategories(data);
+    } catch (err) {
+      console.error(err);
+    }
   }, [getCategories]);
+
+  useEffect(() => {
+    fetchCategories();
+  }, [fetchCategories]);
 
   const activeSlug = pathname === "/" ? "home" : pathname.split("/")[1];
 

@@ -42,6 +42,7 @@ export default function ListProductHeader({
         shadow-(--shadow-lg)
         rounded-xl
         z-9999
+        mt-1
         p-6
       "
       style={megaMenuStyle}
@@ -60,7 +61,7 @@ export default function ListProductHeader({
           {hoveredCat.cat.products.slice(0, 4).map((product) => {
             const productSlug = `/${slugifyCategory(
               hoveredCat.cat.name,
-            )}/${slugifyCategory(product.name)}`;
+            )}/${product.slug}`;
 
             return (
               <Link

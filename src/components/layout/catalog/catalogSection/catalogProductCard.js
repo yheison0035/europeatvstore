@@ -7,7 +7,6 @@ import {
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { getColorHexByName } from "@/utils/getColor";
-import { slugifyCategory } from "@/utils/slugify";
 import useProductCartLogic from "@/hooks/useProductCartLogic";
 
 export default function CatalogProductCard({ product, category }) {
@@ -42,7 +41,7 @@ export default function CatalogProductCard({ product, category }) {
         flex flex-col
       "
     >
-      <Link href={`/${category}/${slugifyCategory(product.name)}`} prefetch>
+      <Link href={`/${category}/${product.slug}`}>
         <div className="relative aspect-square bg-(--bg-soft) cursor-pointer">
           <img
             src={product.image}
@@ -70,7 +69,7 @@ export default function CatalogProductCard({ product, category }) {
       </Link>
 
       <div className="p-3 sm:p-5 flex flex-col gap-2 sm:gap-3 flex-1">
-        <Link href={`/${category}/${slugifyCategory(product.name)}`} prefetch>
+        <Link href={`/${category}/${product.slug}`}>
           <h3
             className="
               text-sm sm:text-base

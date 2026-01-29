@@ -7,3 +7,7 @@ export async function getNews() {
 export async function getOffers() {
   return apiFetch("/ecommerce/ofertas");
 }
+
+export async function getRelatedProducts(slug) {
+  return apiFetch(`/ecommerce/product/${slug}/related`);
+}

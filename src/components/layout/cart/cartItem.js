@@ -4,12 +4,17 @@ import { MinusIcon, PlusIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { useCart } from "@/context/cartContext";
 import { getColorHexByName } from "@/utils/getColor";
 import Link from "next/link";
-import { slugifyCategory } from "@/utils/slugify";
 
 export default function CartItem({ item }) {
   const { updateItemQuantity, removeFromCart } = useCart();
 
   const isLowStock = item.stock <= 3;
+
+  const image = Array.isArray(item.images)
+    ? item.images[0]
+    : typeof item.images === "string"
+      ? item.images
+      : null;
 
   function increase() {
     if (item.quantity < item.stock) {
@@ -18,27 +23,39 @@ export default function CartItem({ item }) {
   }
 
   function decrease() {
-    updateItemQuantity(item.key, item.quantity - 1);
+    if (item.quantity > 1) {
+      updateItemQuantity(item.key, item.quantity - 1);
+    } else {
+      removeFromCart(item.key);
+    }
   }
 
   return (
     <div className="flex gap-4 py-5 border-b border-(--border-soft)">
-      <div className="w-20 h-20 rounded-xl flex items-center justify-center overflow-hidden bg-(--bg-soft)">
-        <Link href={`/${item.category}/${slugifyCategory(item.name)}`} prefetch>
-          {item.image ? (
-            <img
-              src={item.image}
-              alt={item.name}
-              className="w-full h-full object-contain"
-            />
-          ) : (
-            <span className="text-xs text-(--text-muted)">IMG</span>
-          )}
-        </Link>
-      </div>
+      <Link
+        href={`/${item.category}/${item.slug}`}
+        className="
+          w-20 h-20
+          rounded-xl
+          flex items-center justify-center
+          overflow-hidden
+          bg-(--bg-soft)
+          shrink-0
+        "
+      >
+        {image ? (
+          <img
+            src={image}
+            alt={item.name}
+            className="w-full h-full object-contain"
+          />
+        ) : (
+          <span className="text-xs text-(--text-muted)">IMG</span>
+        )}
+      </Link>
 
       <div className="flex-1 flex flex-col gap-1">
-        <Link href={`/${item.category}/${slugifyCategory(item.name)}`} prefetch>
+        <Link href={`/${item.category}/${item.slug}`}>
           <p className="font-semibold text-sm text-(--text-primary) leading-tight hover:underline">
             {item.name}
           </p>
@@ -57,7 +74,7 @@ export default function CartItem({ item }) {
           </div>
         )}
 
-        <div className="flex items-center gap-2 mt-1">
+        <div className="flex items-center gap-2 mt-1 flex-wrap">
           {item.oldPrice && (
             <span className="text-xs text-(--text-muted) line-through">
               ${item.oldPrice.toLocaleString()}
@@ -81,7 +98,7 @@ export default function CartItem({ item }) {
           }`}
         >
           {isLowStock
-            ? `¡Solo quedan ${item.stock} disponibles!`
+            ? `¡Solo quedan ${item.stock}!`
             : `Stock disponible: ${item.stock}`}
         </p>
 

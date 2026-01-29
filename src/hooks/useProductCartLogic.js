@@ -54,17 +54,17 @@ export default function useProductCartLogic(product, initialQty = 1) {
 
     const key = `${product.id}-${selectedColor}`;
     const existing = itemsInCart.find((i) => i.color === selectedColor);
-
     if (!existing) {
       addToCart(
         {
           id: product.id,
           name: product.name,
+          slug: product.slug,
           category: product.category,
           price: product.price,
           oldPrice: product.oldPrice ?? null,
           discount: product.discount ?? 0,
-          image: product.image,
+          images: product.images || product.image,
           color: selectedColor,
           stock: colorStock,
         },

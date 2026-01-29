@@ -8,7 +8,6 @@ import {
 import { getColorHexByName } from "@/utils/getColor";
 import useProductCartLogic from "@/hooks/useProductCartLogic";
 import Link from "next/link";
-import { slugifyCategory } from "@/utils/slugify";
 
 export default function SearchItem({ product }) {
   const {
@@ -42,7 +41,7 @@ export default function SearchItem({ product }) {
       "
     >
       <Link
-        href={`/${product.category}/${slugifyCategory(product.name)}`}
+        href={`/${product.category}/${product.slug}`}
         className="
           relative
           w-full sm:w-24
@@ -77,10 +76,7 @@ export default function SearchItem({ product }) {
       </Link>
 
       <div className="flex flex-col gap-1">
-        <Link
-          href={`/${product.category}/${slugifyCategory(product.name)}`}
-          prefetch
-        >
+        <Link href={`/${product.category}/${product.slug}`} prefetch>
           <h3
             className="
               font-semibold text-(--text-primary)

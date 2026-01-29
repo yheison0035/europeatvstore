@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import { getCategories, getProductsByCategory } from "../routes/categories";
+import { getCategories, getCatalogProducts } from "../routes/categories";
 
 export default function useCategories() {
   const [loading, setLoading] = useState(false);
@@ -22,14 +22,14 @@ export default function useCategories() {
 
   const getCategoriesFn = useCallback(() => wrap(getCategories), [wrap]);
 
-  const getProductsByCategoryFn = useCallback(
-    (slug, filters = {}) => wrap(getProductsByCategory, slug, filters),
+  const getCatalogProductsFn = useCallback(
+    (slug, filters = {}) => wrap(getCatalogProducts, slug, filters),
     [wrap],
   );
 
   return {
     getCategories: getCategoriesFn,
-    getProductsByCategory: getProductsByCategoryFn,
+    getCatalogProducts: getCatalogProductsFn,
     loading,
     error,
   };

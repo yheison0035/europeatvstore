@@ -17,7 +17,6 @@ export default function ProductGallery({ images = [] }) {
 
   return (
     <div className="flex flex-col lg:flex-row gap-4">
-      {/* Thumbnails */}
       <div className="flex lg:flex-col gap-2 order-2 lg:order-1 overflow-x-auto lg:overflow-visible">
         {safeImages.map((img, i) => (
           <button
@@ -44,11 +43,10 @@ export default function ProductGallery({ images = [] }) {
         ))}
       </div>
 
-      {/* Main image */}
       <div className="relative flex-1 bg-white border border-(--border-soft) rounded-2xl overflow-hidden group">
         <Image
           src={active}
-          alt=""
+          alt="img-gallery"
           width={700}
           height={700}
           priority

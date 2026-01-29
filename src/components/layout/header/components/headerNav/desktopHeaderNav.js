@@ -75,20 +75,29 @@ export default function DesktopHeaderNav({
     });
   };
 
+  const NAV_ITEMS = [
+    { key: "home", label: "Inicio" },
+    { key: "novedades", label: "Novedades" },
+    { key: "ofertas", label: "Ofertas" },
+  ];
+
   return (
     <div className="hidden md:flex items-center gap-4 w-full">
       <div className="flex gap-6 shrink-0 py-3">
-        {["home", "novedades"].map((key) => (
+        {NAV_ITEMS.map(({ key, label }) => (
           <button
             key={key}
             onClick={() => onNavigate(key)}
-            className={`pb-1 cursor-pointer ${
-              activeSlug === key
-                ? "border-b-2 border-white font-semibold"
-                : "hover:text-(--brand-accent)"
-            }`}
+            className={`
+        pb-1 cursor-pointer transition
+        ${
+          activeSlug === key
+            ? "border-b-2 border-white font-semibold"
+            : "hover:text-(--brand-accent)"
+        }
+      `}
           >
-            {key === "home" ? "Inicio" : "Novedades"}
+            {label}
           </button>
         ))}
       </div>
