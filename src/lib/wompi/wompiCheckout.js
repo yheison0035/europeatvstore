@@ -1,21 +1,37 @@
-export function openWompiCheckout({
+export async function openWompiCheckout({
   amount,
   currency = "COP",
   reference,
   customerEmail,
 }) {
-  if (!window?.Wompi) return;
+  const amountInCents = Math.round(Number(amount) * 100);
 
-  const checkout = new window.Wompi.Checkout({
-    publicKey: process.env.NEXT_PUBLIC_WOMPI_PUBLIC_KEY,
-    currency,
-    amountInCents: Math.round(amount * 100),
-    reference,
-    redirectUrl: process.env.NEXT_PUBLIC_WOMPI_REDIRECT_URL,
-    customerData: {
-      email: customerEmail,
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/wompi/signature`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        reference,
+        amountInCents,
+        currency,
+      }),
     },
-  });
+  );
 
-  checkout.open();
+  const { signature } = await res.json();
+
+  const url =
+    `https://checkout.wompi.co/p/?` +
+    `public-key=${process.env.NEXT_PUBLIC_WOMPI_PUBLIC_KEY}` +
+    `&currency=${currency}` +
+    `&amount-in-cents=${amountInCents}` +
+    `&reference=${reference}` +
+    `&signature:integrity=${signature}` +
+    `&redirect-url=${encodeURIComponent(
+      process.env.NEXT_PUBLIC_WOMPI_REDIRECT_URL,
+    )}` +
+    `&customer-data:email=${encodeURIComponent(customerEmail)}`;
+
+  window.location.href = url;
 }

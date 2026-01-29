@@ -27,8 +27,8 @@ export default function CheckoutPage() {
     setShowConfirm(false);
 
     if (paymentMethod === "online") {
-      if (!window.Wompi) {
-        alert("La pasarela de pago no está disponible. Recarga la página.");
+      if (!window.WidgetCheckout) {
+        alert("La pasarela de pago no está disponible");
         return;
       }
 
@@ -48,7 +48,7 @@ export default function CheckoutPage() {
 
     if (paymentMethod === "cod") {
       setIsSubmitting(true);
-      console.log("Crear orden contra entrega (frontend)");
+      console.log("Crear orden contra entrega");
     }
   }
 
