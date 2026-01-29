@@ -1,10 +1,16 @@
 import CatalogClient from "@/components/layout/catalog/catalogClient";
+import BreadcrumbSchema from "@/components/seo/breadcrumbSchema";
 
 export default async function CatalogPage(props) {
   const params = await props.params;
   const category = params.category;
 
-  return <CatalogClient category={category} />;
+  return (
+    <>
+      <BreadcrumbSchema category={category} />
+      <CatalogClient category={category} />
+    </>
+  );
 }
 
 export async function generateMetadata(props) {
