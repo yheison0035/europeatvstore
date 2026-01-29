@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useFilters } from "@/hooks/useFilters";
 import {
   FunnelIcon,
@@ -56,11 +56,13 @@ export default function MobileFiltersBar({ total, filters }) {
         </div>
       </nav>
 
-      <SortDrawer
-        open={openSort}
-        onClose={() => setOpenSort(false)}
-        sorts={filters?.sort}
-      />
+      <Suspense fallback={null}>
+        <SortDrawer
+          open={openSort}
+          onClose={() => setOpenSort(false)}
+          sorts={filters?.sort}
+        />
+      </Suspense>
 
       <FiltersDrawer
         open={openFilters}

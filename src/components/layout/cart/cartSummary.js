@@ -7,13 +7,7 @@ import {
   BanknotesIcon,
   ArrowLeftIcon,
 } from "@heroicons/react/24/outline";
-
-const SHIPPING_RULES = [
-  { min: 0, max: 50000, price: 16000 },
-  { min: 50001, max: 99999, price: 21000 },
-];
-
-const FREE_SHIPPING_FROM = 100000;
+import { calculateShipping } from "@/utils/shipping";
 
 export default function CartSummary({ onClose }) {
   const { items } = useCart();
@@ -23,21 +17,11 @@ export default function CartSummary({ onClose }) {
     0,
   );
 
-  let shipping = 0;
-  let shippingLabel = "Gratis";
-  let shippingMessage = "Por compras superiores a $100.000";
-
-  if (subtotal < FREE_SHIPPING_FROM) {
-    const rule = SHIPPING_RULES.find(
-      (r) => subtotal >= r.min && subtotal <= r.max,
-    );
-
-    shipping = rule?.price || 0;
-    shippingLabel = `$${shipping.toLocaleString()}`;
-    shippingMessage = `Te faltan $${(
-      FREE_SHIPPING_FROM - subtotal
-    ).toLocaleString()} para envío gratis`;
-  }
+  const {
+    cost: shipping,
+    label: shippingLabel,
+    message: shippingMessage,
+  } = calculateShipping(subtotal);
 
   const total = subtotal + shipping;
 
@@ -55,6 +39,7 @@ export default function CartSummary({ onClose }) {
           <span className="text-(--text-secondary)">Envío</span>
           <span className="text-xs text-(--text-muted)">{shippingMessage}</span>
         </div>
+
         <span
           className={`font-medium ${
             shipping === 0 ? "text-(--success)" : "text-(--text-primary)"
@@ -70,7 +55,7 @@ export default function CartSummary({ onClose }) {
       </div>
 
       <Link
-        href="/checkout"
+        href="/checkout?payment=online"
         onClick={onClose}
         className="
           flex items-center justify-center gap-2
@@ -88,7 +73,7 @@ export default function CartSummary({ onClose }) {
       </Link>
 
       <Link
-        href="/checkout"
+        href="/checkout?payment=cod"
         onClick={onClose}
         className="
           flex items-center justify-center gap-2
