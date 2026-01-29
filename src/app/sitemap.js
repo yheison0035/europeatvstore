@@ -21,8 +21,6 @@ export default async function sitemap() {
    * CATEGORÍAS
    * =============================== */
   const staticCategories = [
-    "novedades",
-    "ofertas",
     "aseo",
     "barberia",
     "belleza-mujer",
