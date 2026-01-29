@@ -70,11 +70,12 @@ export default function useProductCartLogic(product, initialQty = 1) {
         },
         qty,
       );
+      toast.success("Se añadio al carrito correctamente");
     } else {
       updateItemQuantity(key, qty);
+      toast.success("Se actualiza la cantidad del carrito");
     }
 
-    toast.success("Carrito actualizado");
     setError(null);
   }
 
