@@ -8,11 +8,11 @@ import GlobalUI from "@/components/layout/globalUI";
 export const metadata = {
   metadataBase: new URL("https://www.europeatvstore.com"),
   title: {
-    default: "EUROPEATVSTORE | Tecnología, Hogar y Bienestar en Colombia",
-    template: "%s | EUROPEATVSTORE",
+    default: "EUROPEATVSTORE® | Tecnología, Hogar y Ofertas en Colombia",
+    template: "%s | EUROPEATVSTORE®",
   },
   description:
-    "Compra productos innovadores para el hogar, tecnología, cocina y bienestar. Ofertas exclusivas, pago contraentrega y envíos a toda Colombia.",
+    "EUROPEATVSTORE® – Tienda online en Colombia de tecnología, hogar y bienestar. Ofertas reales, pago contraentrega y envíos rápidos.",
   keywords: [
     "tienda online colombia",
     "productos para el hogar",
@@ -44,6 +44,20 @@ export const metadata = {
     index: true,
     follow: true,
   },
+  other: {
+    "application/ld+json": JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      name: "EUROPEATVSTORE",
+      url: "https://www.europeatvstore.com",
+      logo: "https://www.europeatvstore.com/logo.png",
+      sameAs: [
+        "https://www.facebook.com/europeatvstore",
+        "https://www.instagram.com/europeatvstore",
+        "https://www.tiktok.com/@europeatvstore_oficial",
+      ],
+    }),
+  },
 };
 
 export default function RootLayout({ children }) {
@@ -62,3 +76,21 @@ export default function RootLayout({ children }) {
     </html>
   );
 }
+
+<script
+  type="application/ld+json"
+  dangerouslySetInnerHTML={{
+    __html: JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      name: "EUROPEATVSTORE",
+      url: "https://www.europeatvstore.com",
+      logo: "https://www.europeatvstore.com/logo.png",
+      sameAs: [
+        "https://www.facebook.com/europeatvstore",
+        "https://www.instagram.com/europeatvstore",
+        "https://www.tiktok.com/@europeatvstore",
+      ],
+    }),
+  }}
+/>;
