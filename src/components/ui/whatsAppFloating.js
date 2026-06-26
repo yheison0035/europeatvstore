@@ -1,16 +1,20 @@
 "use client";
 
 import { useWebsiteContext } from "@/context/websiteContext";
+import { getCompanyName, getWhatsapp } from "@/lib/website";
 import Link from "next/link";
 import { FaWhatsapp } from "react-icons/fa";
 
 export default function WhatsAppFloating({ offsetBottom = 20 }) {
   const { website } = useWebsiteContext();
 
-  const phone = website?.whatsappPhone || "3147337602";
+  const companyName = getCompanyName(website);
+  const whatsapp = getWhatsapp(website);
+
+  const phone = whatsapp || "3147337602";
   const message =
     website?.whatsappMessage ||
-    `Hola 👋, estoy interesado en un producto de ${website?.companyName || "EUROPEATVSTORE"}`;
+    `Hola 👋, estoy interesado en un producto de ${companyName || "EUROPEATVSTORE"}`;
 
   return (
     <Link

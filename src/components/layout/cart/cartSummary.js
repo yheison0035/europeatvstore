@@ -35,17 +35,17 @@ export default function CartSummary({ onClose }) {
 
   const message = `🛒 *SOLICITUD DE COMPRA*
 
-Hola, deseo realizar la siguiente compra:
+      Hola, deseo realizar la siguiente compra:
 
-${products}
+      ${products}
 
-━━━━━━━━━━━━━━
+      ━━━━━━━━━━━━━━
 
-*Subtotal:* $${subtotal.toLocaleString()}
+      *Subtotal:* $${subtotal.toLocaleString()}
 
-━━━━━━━━━━━━━━
+      ━━━━━━━━━━━━━━
 
-Quedo atento para finalizar el pedido.`;
+      Quedo atento para finalizar el pedido.`;
 
   const whatsappUrl = whatsapp
     ? `https://wa.me/57${whatsapp.replace(
