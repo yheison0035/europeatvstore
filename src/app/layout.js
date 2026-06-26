@@ -4,71 +4,86 @@ import { NavProvider } from "@/context/navigationContext";
 import { inter } from "@/styles/fonts";
 import "@/styles/globals.css";
 import GlobalUI from "@/components/layout/globalUI";
+import { headers } from "next/headers";
 
-export const metadata = {
-  metadataBase: new URL("https://www.europeatvstore.com"),
+const API_URL = (
+  process.env.NEXT_PUBLIC_API_URL || "http://localhost:3005"
+).replace(/\/$/, "");
 
-  title: {
-    default: "EUROPEATVSTORE® | Tecnología, Hogar y Ofertas en Colombia",
-    template: "%s | EUROPEATVSTORE®",
-  },
+export async function generateMetadata() {
+  try {
+    const headersList = await headers();
 
-  description:
-    "EUROPEATVSTORE® – Tienda online en Colombia de tecnología, hogar y bienestar. Ofertas reales, pago contraentrega y envíos rápidos.",
+    const host = headersList.get("host");
 
-  keywords: [
-    "tienda online colombia",
-    "productos para el hogar",
-    "tecnología colombia",
-    "gadgets",
-    "hidrolavadora",
-    "proyectores",
-    "tv box",
-    "comprar online colombia",
-  ],
+    const protocol = process.env.NODE_ENV === "development" ? "http" : "https";
 
-  alternates: {
-    canonical: "https://www.europeatvstore.com",
-  },
-
-  openGraph: {
-    title: "EUROPEATVSTORE® | Tecnología, Hogar y Ofertas en Colombia",
-    description:
-      "Compra productos innovadores para el hogar y tecnología. Pago contraentrega y envíos a toda Colombia.",
-    url: "https://www.europeatvstore.com",
-    siteName: "EUROPEATVSTORE",
-    locale: "es_CO",
-    type: "website",
-    images: [
-      {
-        url: "https://www.europeatvstore.com/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "EUROPEATVSTORE",
+    const res = await fetch(`${API_URL}/website/config`, {
+      headers: {
+        host,
       },
-    ],
-  },
+      cache: "no-store",
+    });
 
-  robots: {
-    index: true,
-    follow: true,
-  },
+    if (!res.ok) {
+      throw new Error("No se pudo cargar la configuración.");
+    }
 
-  other: {
-    "application/ld+json": JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      name: "EUROPEATVSTORE",
-      url: "https://www.europeatvstore.com",
-      logo: "https://www.europeatvstore.com/logo.png",
-      sameAs: [
-        "https://www.facebook.com/europeatvstore",
-        "https://www.instagram.com/europeatvstore",
-        "https://www.tiktok.com/@europeatvstore_oficial",
-      ],
-    }),
-  },
-};
+    const website = await res.json();
+
+    const company = website.company;
+    const settings = website.settings;
+
+    const title = settings?.metaTitle || company.websiteName || company.name;
+
+    const description =
+      settings?.metaDescription || `Compra en ${company.name}`;
+
+    const logo = company.logo;
+    const favicon = company.favicon || "/favicon.ico";
+
+    return {
+      metadataBase: new URL(`${protocol}://${host}`),
+
+      title: {
+        default: title,
+        template: `%s | ${title}`,
+      },
+
+      description,
+
+      icons: {
+        icon: favicon,
+      },
+
+      openGraph: {
+        title,
+        description,
+        url: `${protocol}://${host}`,
+        siteName: company.name,
+        locale: "es_CO",
+        type: "website",
+        images: logo
+          ? [
+              {
+                url: logo,
+              },
+            ]
+          : [],
+      },
+
+      robots: {
+        index: true,
+        follow: true,
+      },
+    };
+  } catch (error) {
+    return {
+      title: "Sitio Web",
+      description: "Sitio Web",
+    };
+  }
+}
 
 export default function RootLayout({ children }) {
   return (

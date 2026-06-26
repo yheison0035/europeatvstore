@@ -7,8 +7,17 @@ import CartIcon from "./cartIcon";
 import { useCart } from "@/context/cartContext";
 import Link from "next/link";
 
+import { getCompanyName, getLogo } from "@/lib/website";
+import { useWebsiteContext } from "@/context/websiteContext";
+
 export default function HeaderTop() {
   const { count } = useCart();
+
+  const { website, loading } = useWebsiteContext();
+
+  if (loading) {
+    return null;
+  }
 
   return (
     <div
@@ -22,8 +31,8 @@ export default function HeaderTop() {
       <Link href="/">
         <div className="flex justify-center md:justify-start cursor-pointer">
           <Image
-            src="/logo.png"
-            alt="EUROPEATVSTORE – Tecnología y Hogar"
+            src={getLogo(website)}
+            alt={getCompanyName(website)}
             width={70}
             height={70}
             priority

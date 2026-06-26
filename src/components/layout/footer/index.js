@@ -12,9 +12,38 @@ import {
   ClockIcon,
 } from "@heroicons/react/24/outline";
 import { FaWhatsapp, FaInstagram, FaTiktok, FaFacebookF } from "react-icons/fa";
+import { useWebsiteContext } from "@/context/websiteContext";
+
+import {
+  getCompanyName,
+  getPhone,
+  getEmail,
+  getWhatsapp,
+  getAddress,
+  getSchedule,
+  getFacebook,
+  getInstagram,
+  getTikTok,
+  getFooterText,
+} from "@/lib/website";
 
 export default function Footer() {
   const pathname = usePathname();
+
+  const { website } = useWebsiteContext();
+
+  const companyName = getCompanyName(website);
+  const phone = getPhone(website);
+  const email = getEmail(website);
+  const whatsapp = getWhatsapp(website);
+  const address = getAddress(website);
+  const schedule = getSchedule(website);
+
+  const facebook = getFacebook(website);
+  const instagram = getInstagram(website);
+  const tiktok = getTikTok(website);
+
+  const footerText = getFooterText(website);
 
   const isActive = (href) => pathname === href;
 
@@ -35,7 +64,7 @@ export default function Footer() {
             <h3 className="text-lg font-semibold mb-4">Nuestra empresa</h3>
 
             <p className="text-sm text-(--text-muted) mb-4 leading-relaxed">
-              EUROPEATVSTORE es una tienda online colombiana especializada en
+              {companyName} es una tienda online colombiana especializada en
               productos para el hogar, tecnología, salud y bienestar, ofreciendo
               soluciones prácticas con envíos a todo el país.
             </p>
@@ -134,37 +163,37 @@ export default function Footer() {
               <p className="flex items-center gap-3">
                 <FaWhatsapp className="text-(--brand-accent)" />
                 <Link
-                  href="https://wa.me/573147337602"
+                  href={`https://wa.me/${phone.replace(/\D/g, "")}`}
                   className="hover:text-(--brand-accent)"
                   target="_blank"
                 >
-                  314 733 7602
+                  {whatsapp}
                 </Link>
               </p>
 
               <p className="flex items-center gap-3">
                 <EnvelopeIcon className="w-4 h-4 text-(--brand-accent)" />
                 <Link
-                  href="mailto:europeatvstore@gmail.com"
+                  href={`mailto:${email}`}
                   className="hover:text-(--brand-accent)"
                 >
-                  europeatvstore@gmail.com
+                  {email}
                 </Link>
               </p>
 
               <p className="flex items-center gap-3">
                 <PhoneIcon className="w-4 h-4 text-(--brand-accent)" />
-                314 733 7602
+                +57 {phone}
               </p>
 
               <p className="flex items-center gap-3">
                 <MapPinIcon className="w-4 h-4 text-(--brand-accent)" />
-                CC Plaza Arrayanes, Itagüí
+                {address}
               </p>
 
               <p className="flex items-center gap-3">
                 <ClockIcon className="w-4 h-4 text-(--brand-accent)" />
-                Lun a Sáb · 8:00 a.m. – 6:00 p.m.
+                {schedule}
               </p>
             </address>
           </div>
@@ -176,17 +205,17 @@ export default function Footer() {
               {[
                 {
                   icon: <FaInstagram />,
-                  href: "https://instagram.com/europeatvstore",
+                  href: instagram,
                   label: "Instagram",
                 },
                 {
                   icon: <FaTiktok />,
-                  href: "https://tiktok.com/@europeatvstore_oficial",
+                  href: tiktok,
                   label: "TikTok",
                 },
                 {
                   icon: <FaFacebookF />,
-                  href: "https://facebook.com/europeatvstore",
+                  href: facebook,
                   label: "Facebook",
                 },
               ].map((social) => (
@@ -232,10 +261,8 @@ export default function Footer() {
       <div className="border-t border-gray-300/20" />
 
       <div className="max-w-7xl mx-auto px-4 py-6 text-center text-sm text-(--text-muted)">
-        © 2026 <strong>EUROPEATVSTORE</strong>. Todos los derechos reservados.
-        <p className="mt-2 text-xs">
-          Cumplimos con la Ley 1480 de 2011 y la Ley 1581 de 2012.
-        </p>
+        © 2026 <strong>{companyName}</strong>. Todos los derechos reservados.
+        <p className="mt-2 text-xs">{footerText}</p>
       </div>
 
       <script
@@ -244,7 +271,7 @@ export default function Footer() {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Store",
-            name: "EUROPEATVSTORE",
+            name: { companyName },
             url: "https://www.europeatvstore.com",
             logo: "https://www.europeatvstore.com/logo.png",
             address: {
