@@ -9,6 +9,11 @@ async function apiFetch(path, opts = {}) {
 
   const headers = { ...(opts.headers || {}) };
 
+  // ← NUEVO
+  if (typeof window !== "undefined") {
+    headers["X-Website-Domain"] = window.location.hostname;
+  }
+
   // Por defecto auth es true
   const auth = opts.auth !== false;
 
@@ -33,13 +38,13 @@ async function apiFetch(path, opts = {}) {
 
   const text = await res.text();
   let data = null;
+
   try {
     data = text ? JSON.parse(text) : null;
   } catch {
     data = text;
   }
 
-  // Manejo centralizado de errores
   if (!res.ok) {
     let message = "";
 
