@@ -261,7 +261,7 @@ export default function Footer() {
       <div className="border-t border-gray-300/20" />
 
       <div className="max-w-7xl mx-auto px-4 py-6 text-center text-sm text-(--text-muted)">
-        © 2026 <strong>{companyName}</strong>. Todos los derechos reservados.
+        © 2026 <strong>zorvex</strong>. Todos los derechos reservados.
         <p className="mt-2 text-xs">{footerText}</p>
       </div>
 

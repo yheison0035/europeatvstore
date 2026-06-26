@@ -1,15 +1,20 @@
 "use client";
 
+import { useWebsiteContext } from "@/context/websiteContext";
 import Link from "next/link";
 import { FaWhatsapp } from "react-icons/fa";
 
 export default function WhatsAppFloating({ offsetBottom = 20 }) {
-  const phone = "573147337602";
-  const message = "Hola 👋, estoy interesado en un producto de EUROPEATVSTORE";
+  const { website } = useWebsiteContext();
+
+  const phone = website?.whatsappPhone || "3147337602";
+  const message =
+    website?.whatsappMessage ||
+    `Hola 👋, estoy interesado en un producto de ${website?.companyName || "EUROPEATVSTORE"}`;
 
   return (
     <Link
-      href={`https://wa.me/${phone}?text=${encodeURIComponent(message)}`}
+      href={`https://wa.me/57${phone}?text=${encodeURIComponent(message)}`}
       target="_blank"
       rel="noopener noreferrer"
       aria-label="WhatsApp"
