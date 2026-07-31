@@ -7,7 +7,7 @@ import ProductsSection from "./catalogSection/productsSection";
 import { useCatalog } from "@/hooks/useCatalog";
 import FiltersSidebarSkeleton from "@/components/ui/skeletons/filtersSidebarSkeleton";
 
-export default function CatalogLayout({ category }) {
+export default function CatalogLayout({ category, initialCatalog = null }) {
   const searchParams = useSearchParams();
 
   const filtersFromUrl = useMemo(
@@ -27,7 +27,7 @@ export default function CatalogLayout({ category }) {
     return { mode: "category", category, ...filtersFromUrl };
   }, [category, filtersFromUrl]);
 
-  const catalog = useCatalog(catalogParams);
+  const catalog = useCatalog(catalogParams, initialCatalog);
 
   return (
     <section className="grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-8 md:pt-5">

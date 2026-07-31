@@ -5,7 +5,14 @@ import { getFontClass } from "@/styles/fonts";
 import { buildThemeCss } from "@/styles/themes";
 import "@/styles/globals.css";
 import GlobalUI from "@/components/layout/globalUI";
+import JsonLd from "@/components/seo/jsonLd";
 import { getSiteUrl, getWebsiteConfig } from "@/lib/website.server";
+import {
+  buildStoreSchema,
+  buildWebSiteSchema,
+  siteDescription,
+  siteName,
+} from "@/lib/seo";
 
 // Todo depende del dominio de la petición: nada se puede prerenderizar.
 export const dynamic = "force-dynamic";
@@ -22,16 +29,17 @@ export async function generateMetadata() {
     return {
       title: "Sitio web",
       description: "Sitio web",
+      robots: { index: false, follow: false },
     };
   }
 
-  const title = settings?.metaTitle || company.websiteName || company.name;
-
-  const description =
-    settings?.metaDescription || `Compra online en ${company.name}`;
-
+  const title = settings?.metaTitle || siteName(website);
+  const description = siteDescription(website);
   const logo = company.logo;
-  const favicon = company.favicon || "/favicon.ico";
+
+  // El icono de la pestaña es el favicon que suba la empresa y, si no tiene,
+  // su propio logo. Nunca un archivo fijo del proyecto.
+  const iconUrl = company.favicon || logo || "/favicon.ico";
 
   return {
     metadataBase: new URL(siteUrl),
@@ -43,27 +51,51 @@ export async function generateMetadata() {
 
     description,
 
+    applicationName: siteName(website),
+
     alternates: {
       canonical: siteUrl,
     },
 
     icons: {
-      icon: favicon,
+      icon: [{ url: iconUrl }],
+      shortcut: [{ url: iconUrl }],
+      apple: [{ url: iconUrl }],
     },
 
     openGraph: {
       title,
       description,
       url: siteUrl,
-      siteName: company.name,
+      siteName: siteName(website),
       locale: "es_CO",
       type: "website",
-      images: logo ? [{ url: logo }] : [],
+      images: logo ? [{ url: logo, alt: siteName(website) }] : [],
+    },
+
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: logo ? [logo] : [],
     },
 
     robots: {
       index: true,
       follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+        "max-video-preview": -1,
+      },
+    },
+
+    formatDetection: {
+      telephone: true,
+      address: true,
+      email: true,
     },
   };
 }
@@ -71,6 +103,7 @@ export async function generateMetadata() {
 export default async function RootLayout({ children }) {
   // El tema, los colores y la tipografía salen de la empresa dueña del dominio.
   // Se resuelven en el servidor para que la tienda no parpadee al cargar.
+  const siteUrl = await getSiteUrl();
   const website = await getWebsiteConfig();
   const company = website?.company;
 
@@ -78,11 +111,18 @@ export default async function RootLayout({ children }) {
   const fontClass = getFontClass(company?.fontFamily);
 
   return (
-    <html lang="es" data-theme={company?.theme || "clasico"}>
+    <html lang="es-CO" data-theme={company?.theme || "clasico"}>
       <head>
         <style dangerouslySetInnerHTML={{ __html: themeCss }} />
+        {company?.primaryColor && (
+          <meta name="theme-color" content={company.primaryColor} />
+        )}
       </head>
       <body className={`${fontClass} antialiased`}>
+        {/* Negocio y sitio: se emiten en el servidor, en todas las páginas. */}
+        <JsonLd schema={buildStoreSchema(website, siteUrl)} />
+        <JsonLd schema={buildWebSiteSchema(website, siteUrl)} />
+
         <NavProvider>
           <ToastProvider>
             <Providers>

@@ -1,4 +1,5 @@
 import { slugifyCategory } from "@/utils/slugify";
+import { getProductImage } from "@/lib/website";
 import { formatText } from "@/utils/textFormat";
 import Link from "next/link";
 
@@ -95,18 +96,16 @@ export default function ListProductHeader({
                 )}
 
                 <div className="relative w-full h-28 rounded-lg overflow-hidden">
-                  {product.images?.[0] && (
-                    <img
-                      src={product.images[0]}
-                      alt={product.name}
-                      className="
-                        w-full h-full
-                        object-contain
-                        transition
-                        group-hover:scale-105
-                      "
-                    />
-                  )}
+                  <img
+                    src={getProductImage(product)}
+                    alt={product.name}
+                    className="
+                      w-full h-full
+                      object-contain
+                      transition
+                      group-hover:scale-105
+                    "
+                  />
                 </div>
 
                 <div className="mt-3">

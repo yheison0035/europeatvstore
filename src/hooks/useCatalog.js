@@ -1,53 +1,63 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import useCategories from "@/lib/utils/api/hooks/useCategories";
 
-const PAGE_SIZE = 12;
-
-export function useCatalog(catalogParams) {
+/**
+ * Listado de un catálogo (categoría, novedades u ofertas).
+ *
+ * La primera carga llega ya resuelta desde el servidor (`initialCatalog`) para
+ * que los productos estén en el HTML: es lo que ven los buscadores y evita el
+ * parpadeo. Solo se vuelve a pedir cuando cambian los filtros o la categoría.
+ *
+ * La API devuelve el listado completo de una vez (no pagina), así que aquí no
+ * se acumulan páginas: cada carga reemplaza el resultado. Antes se iban
+ * concatenando y, con 12 productos justos, se repetían indefinidamente.
+ */
+export function useCatalog(catalogParams, initialCatalog = null) {
   const { getCatalogProducts } = useCategories();
 
-  const [products, setProducts] = useState([]);
-  const [filters, setFilters] = useState(null);
-  const [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(true);
-  const [loadingMore, setLoadingMore] = useState(false);
+  const [products, setProducts] = useState(initialCatalog?.data || []);
+  const [filters, setFilters] = useState(initialCatalog?.filters || null);
+  const [loading, setLoading] = useState(!initialCatalog);
 
-  // reset cuando cambian filtros / categoría
+  // Los datos del servidor valen para la primera vez; a partir de ahí manda
+  // lo que pida el usuario con los filtros.
+  const usedInitial = useRef(Boolean(initialCatalog));
+
+  const load = useCallback(async () => {
+    setLoading(true);
+
+    try {
+      const res = await getCatalogProducts(catalogParams);
+
+      if (res?.success) {
+        setProducts(res.data);
+        setFilters(res.filters);
+      }
+    } catch (error) {
+      console.error("No se pudo cargar el catálogo", error);
+    } finally {
+      setLoading(false);
+    }
+  }, [catalogParams, getCatalogProducts]);
+
   useEffect(() => {
-    setProducts([]);
-    setFilters(null);
-    setPage(1);
-    setHasMore(true);
-  }, [catalogParams]);
-
-  const loadMore = useCallback(async () => {
-    if (!hasMore || loadingMore) return;
-
-    setLoadingMore(true);
-
-    const res = await getCatalogProducts({
-      ...catalogParams,
-      page,
-      limit: PAGE_SIZE,
-    });
-
-    if (res?.success) {
-      setProducts((prev) => [...prev, ...res.data]);
-      setFilters(res.filters);
-      setHasMore(res.data.length === PAGE_SIZE);
-      setPage((p) => p + 1);
+    if (usedInitial.current) {
+      usedInitial.current = false;
+      return;
     }
 
-    setLoadingMore(false);
-  }, [catalogParams, page, hasMore, loadingMore, getCatalogProducts]);
+    load();
+  }, [load]);
 
   return {
     products,
     filters,
-    loadMore,
-    hasMore,
-    loadingMore,
+    loading,
+    // Se mantienen por compatibilidad con el listado; la API no pagina.
+    loadMore: () => {},
+    hasMore: false,
+    loadingMore: loading,
   };
 }

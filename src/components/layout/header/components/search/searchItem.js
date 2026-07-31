@@ -1,4 +1,5 @@
 "use client";
+import { getProductImage } from "@/lib/website";
 
 import {
   PlusIcon,
@@ -53,7 +54,7 @@ export default function SearchItem({ product }) {
         prefetch
       >
         <img
-          src={product.image}
+          src={getProductImage(product)}
           alt={product.name}
           className="w-full h-full object-contain p-3"
         />

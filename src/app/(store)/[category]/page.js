@@ -1,17 +1,70 @@
 import CatalogClient from "@/components/layout/catalog/catalogClient";
-import BreadcrumbSchema from "@/components/seo/breadcrumbSchema";
-import { getSiteUrl, getWebsiteConfig } from "@/lib/website.server";
+import JsonLd from "@/components/seo/jsonLd";
+import {
+  fetchFromApi,
+  getSiteUrl,
+  getWebsiteConfig,
+} from "@/lib/website.server";
+import {
+  buildBreadcrumbSchema,
+  buildItemListSchema,
+  humanize,
+  siteDescription,
+  siteName,
+} from "@/lib/seo";
+
+/** Novedades y ofertas son listados especiales, no categorías del inventario. */
+function catalogQuery(category) {
+  if (category === "novedades") return "mode=new";
+  if (category === "ofertas") return "mode=offers";
+
+  return `mode=category&category=${encodeURIComponent(category)}`;
+}
+
+function categoryTitle(category) {
+  if (category === "novedades") return "Novedades";
+  if (category === "ofertas") return "Ofertas";
+
+  return humanize(category);
+}
+
+/** El listado se pide en el servidor para que los productos salgan en el HTML. */
+async function loadCatalog(category) {
+  const response = await fetchFromApi(
+    `/ecommerce/catalog?${catalogQuery(category)}`,
+  ).catch(() => null);
+
+  return response?.success ? response : null;
+}
 
 export default async function CatalogPage(props) {
   const params = await props.params;
   const category = params.category;
 
-  const siteUrl = await getSiteUrl();
+  const [siteUrl, catalog] = await Promise.all([
+    getSiteUrl(),
+    loadCatalog(category),
+  ]);
+
+  const name = categoryTitle(category);
+
+  const breadcrumb = buildBreadcrumbSchema(siteUrl, [
+    { name, url: `${siteUrl}/${category}` },
+  ]);
+
+  const itemList = buildItemListSchema({
+    products: catalog?.data,
+    category,
+    siteUrl,
+    name,
+  });
 
   return (
     <>
-      <BreadcrumbSchema category={category} siteUrl={siteUrl} />
-      <CatalogClient category={category} />
+      <JsonLd schema={breadcrumb} />
+      <JsonLd schema={itemList} />
+
+      <CatalogClient category={category} initialCatalog={catalog} />
     </>
   );
 }
@@ -20,39 +73,35 @@ export async function generateMetadata(props) {
   const params = await props.params;
   const category = params?.category;
 
-  const siteUrl = await getSiteUrl();
-  const website = await getWebsiteConfig();
+  const [siteUrl, website] = await Promise.all([
+    getSiteUrl(),
+    getWebsiteConfig(),
+  ]);
 
-  const company = website?.company;
-  const settings = website?.settings;
-
-  const siteName = company?.websiteName || company?.name || "Tienda online";
-
-  const baseDescription =
-    settings?.metaDescription || `Compra online en ${siteName}.`;
+  const name = siteName(website);
+  const baseDescription = siteDescription(website);
+  const logo = website?.company?.logo;
 
   if (!category) {
     return {
-      title: siteName,
+      title: name,
       description: baseDescription,
       alternates: { canonical: siteUrl },
-      openGraph: {
-        title: siteName,
-        description: baseDescription,
-        url: siteUrl,
-        siteName,
-        locale: "es_CO",
-        type: "website",
-      },
     };
   }
 
-  const categoryName = category
-    .replace(/-/g, " ")
-    .replace(/\b\w/g, (letter) => letter.toUpperCase());
-
+  const categoryName = categoryTitle(category);
   const url = `${siteUrl}/${category}`;
-  const description = `${categoryName} en ${siteName}. ${baseDescription}`;
+
+  // Con el número real de productos la descripción es más útil en resultados.
+  const catalog = await loadCatalog(category);
+  const total = catalog?.total || 0;
+
+  const description = total
+    ? `${categoryName} en ${name}: ${total} ${
+        total === 1 ? "producto disponible" : "productos disponibles"
+      }. ${baseDescription}`
+    : `${categoryName} en ${name}. ${baseDescription}`;
 
   return {
     // El layout raíz añade el nombre del sitio con su plantilla "%s | Sitio".
@@ -60,12 +109,19 @@ export async function generateMetadata(props) {
     description,
     alternates: { canonical: url },
     openGraph: {
-      title: `${categoryName} | ${siteName}`,
+      title: `${categoryName} | ${name}`,
       description,
       url,
-      siteName,
+      siteName: name,
       locale: "es_CO",
       type: "website",
+      images: logo ? [{ url: logo, alt: name }] : [],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${categoryName} | ${name}`,
+      description,
+      images: logo ? [logo] : [],
     },
   };
 }

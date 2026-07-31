@@ -1,5 +1,7 @@
 import { notFound } from "next/navigation";
 import { legalDocuments } from "@/lib/legal/legalDocuments";
+import { getSiteUrl, getWebsiteConfig } from "@/lib/website.server";
+import { siteName } from "@/lib/seo";
 import Container from "@/components/layout/container";
 import Footer from "@/components/layout/footer";
 import Header from "@/components/layout/header";
@@ -42,4 +44,38 @@ export default async function LegalPage({ params }) {
       <Footer />
     </>
   );
+}
+
+export async function generateMetadata({ params }) {
+  const { slug } = await params;
+
+  const doc = legalDocuments.find((item) => item.slug === slug);
+
+  const [siteUrl, website] = await Promise.all([
+    getSiteUrl(),
+    getWebsiteConfig(),
+  ]);
+
+  const name = siteName(website);
+
+  if (!doc) {
+    return { title: "Página no encontrada", robots: { index: false } };
+  }
+
+  const description = `${doc.title} de ${name}.`;
+  const url = `${siteUrl}/legal/${slug}`;
+
+  return {
+    title: doc.title,
+    description,
+    alternates: { canonical: url },
+    openGraph: {
+      title: `${doc.title} | ${name}`,
+      description,
+      url,
+      siteName: name,
+      locale: "es_CO",
+      type: "article",
+    },
+  };
 }

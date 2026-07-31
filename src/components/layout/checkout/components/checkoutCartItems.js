@@ -1,4 +1,5 @@
 "use client";
+import { getProductImage } from "@/lib/website";
 
 import { useCart } from "@/context/cartContext";
 
@@ -13,7 +14,7 @@ export default function CheckoutCartItems() {
           className="flex gap-4 border-b border-(--border-soft) pb-4"
         >
           <img
-            src={Array.isArray(item.images) ? item.images[0] : item.images}
+            src={getProductImage(item)}
             alt={item.name}
             className="w-16 h-16 rounded-lg object-contain bg-(--bg-soft)"
           />

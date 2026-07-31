@@ -13,11 +13,11 @@ import NewsSection from "@/components/sections/newsSection";
 import OffersSection from "@/components/sections/offersSection";
 import SectionWrapper from "../sectionWrapper";
 import RelatedProducts from "@/components/sections/relatedProductsSection";
-import ProductSchema from "@/components/seo/productSchema";
-import BreadcrumbSchema from "@/components/seo/breadcrumbSchema";
 
-export default function ProductPage({ category, productSlug, siteUrl = "" }) {
-  const [product, setProduct] = useState(null);
+export default function ProductPage({ category, productSlug, initialProduct = null }) {
+  // El producto ya viene resuelto del servidor (así sale en el HTML); solo se
+  // vuelve a pedir si por algo no llegó.
+  const [product, setProduct] = useState(initialProduct);
   const { getProductBySlug } = useProducts();
 
   const fetchProductBySlug = useCallback(async () => {
@@ -32,19 +32,14 @@ export default function ProductPage({ category, productSlug, siteUrl = "" }) {
   }, [getProductBySlug, productSlug]);
 
   useEffect(() => {
+    if (initialProduct) return;
     fetchProductBySlug();
-  }, [fetchProductBySlug]);
+  }, [fetchProductBySlug, initialProduct]);
 
   if (!product) return null;
 
   return (
     <>
-      <BreadcrumbSchema
-        category={category}
-        product={product.name}
-        siteUrl={siteUrl}
-      />
-      <ProductSchema product={product} category={category} siteUrl={siteUrl} />
       <main className="bg-(--bg-soft)">
         <Container>
           <SectionWrapper>

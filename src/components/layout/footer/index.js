@@ -27,8 +27,6 @@ import {
   getTikTok,
   getFooterText,
   getDescription,
-  getSiteUrl,
-  getLogo,
 } from "@/lib/website";
 
 export default function Footer() {
@@ -47,12 +45,8 @@ export default function Footer() {
   const instagram = getInstagram(website);
   const tiktok = getTikTok(website);
 
-  const logo = getLogo(website);
-  const local = website?.settings?.ecommerceLocal || null;
-
   const footerText = getFooterText(website);
   const description = getDescription(website);
-  const siteUrl = getSiteUrl(website);
   const whatsappDigits = getWhatsappDigits(website);
 
   // Solo se muestran las redes que la empresa configuró.
@@ -276,45 +270,6 @@ export default function Footer() {
         <p className="mt-2 text-xs">{footerText}</p>
       </div>
 
-      {companyName && (
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "Store",
-              name: companyName,
-              url: siteUrl,
-              ...(logo?.startsWith("http") ? { logo } : {}),
-              ...(local
-                ? {
-                    address: {
-                      "@type": "PostalAddress",
-                      streetAddress: local.address || undefined,
-                      addressLocality: local.city || undefined,
-                      addressRegion: local.department || undefined,
-                      addressCountry: "CO",
-                    },
-                  }
-                : {}),
-              ...(whatsappDigits
-                ? {
-                    contactPoint: {
-                      "@type": "ContactPoint",
-                      telephone: `+${whatsappDigits}`,
-                      contactType: "customer service",
-                      areaServed: "CO",
-                      availableLanguage: ["Spanish"],
-                    },
-                  }
-                : {}),
-              ...(socials.length
-                ? { sameAs: socials.map((social) => social.href) }
-                : {}),
-            }),
-          }}
-        />
-      )}
     </footer>
   );
 }

@@ -1,4 +1,5 @@
 import { fetchFromApi, getSiteUrl } from "@/lib/website.server";
+import { legalDocuments } from "@/lib/legal/legalDocuments";
 
 /**
  * Sitemap dinámico: el dominio y las categorías salen de la empresa dueña
@@ -64,5 +65,13 @@ export default async function sitemap() {
     console.error("Sitemap products error:", error);
   }
 
-  return [...staticPages, ...categoryUrls, ...productUrls];
+  /** PÁGINAS LEGALES (dan confianza y las pide la SIC) */
+  const legalUrls = legalDocuments.map((doc) => ({
+    url: `${baseUrl}/legal/${doc.slug}`,
+    lastModified: now,
+    changeFrequency: "yearly",
+    priority: 0.3,
+  }));
+
+  return [...staticPages, ...categoryUrls, ...productUrls, ...legalUrls];
 }

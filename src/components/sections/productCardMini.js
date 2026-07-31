@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { slugifyCategory } from "@/utils/slugify";
+import { getProductImage } from "@/lib/website";
 
 export default function ProductCardMini({ product }) {
   if (!product) return null;
@@ -45,20 +46,16 @@ export default function ProductCardMini({ product }) {
         )}
 
         <div className="relative w-full h-32 rounded-lg overflow-hidden flex items-center justify-center">
-          {product.image ? (
-            <img
-              src={product.image}
-              alt={product.name}
-              className="
-                max-w-full max-h-full
-                object-contain
-                transition-transform
-                group-hover:scale-105
-              "
-            />
-          ) : (
-            <span className="text-xs text-(--text-muted)">Sin imagen</span>
-          )}
+          <img
+            src={getProductImage(product)}
+            alt={product.name}
+            className="
+              max-w-full max-h-full
+              object-contain
+              transition-transform
+              group-hover:scale-105
+            "
+          />
         </div>
 
         <div className="mt-3 flex flex-col flex-1">

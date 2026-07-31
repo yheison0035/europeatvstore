@@ -2,6 +2,7 @@
 
 import { MinusIcon, PlusIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { useCart } from "@/context/cartContext";
+import { getProductImage } from "@/lib/website";
 import { getColorHexByName } from "@/utils/getColor";
 import Link from "next/link";
 
@@ -10,11 +11,7 @@ export default function CartItem({ item }) {
 
   const isLowStock = item.stock <= 3;
 
-  const image = Array.isArray(item.images)
-    ? item.images[0]
-    : typeof item.images === "string"
-      ? item.images
-      : null;
+  const image = getProductImage(item);
 
   function increase() {
     if (item.quantity < item.stock) {
