@@ -1,7 +1,7 @@
 "use client";
 
 import { useWebsiteContext } from "@/context/websiteContext";
-import { getCompanyName, getWhatsapp } from "@/lib/website";
+import { getCompanyName, getWhatsappDigits } from "@/lib/website";
 import Link from "next/link";
 import { FaWhatsapp } from "react-icons/fa";
 
@@ -9,16 +9,18 @@ export default function WhatsAppFloating({ offsetBottom = 20 }) {
   const { website } = useWebsiteContext();
 
   const companyName = getCompanyName(website);
-  const whatsapp = getWhatsapp(website);
+  const phone = getWhatsappDigits(website);
 
-  const phone = whatsapp || "3147337602";
-  const message =
-    website?.whatsappMessage ||
-    `Hola 👋, estoy interesado en un producto de ${companyName || "EUROPEATVSTORE"}`;
+  // Sin número configurado no se muestra el botón (cada empresa pone el suyo).
+  if (!phone) return null;
+
+  const message = companyName
+    ? `Hola 👋, estoy interesado en un producto de ${companyName}`
+    : "Hola 👋, estoy interesado en un producto";
 
   return (
     <Link
-      href={`https://wa.me/57${phone}?text=${encodeURIComponent(message)}`}
+      href={`https://wa.me/${phone}?text=${encodeURIComponent(message)}`}
       target="_blank"
       rel="noopener noreferrer"
       aria-label="WhatsApp"

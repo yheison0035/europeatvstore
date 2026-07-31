@@ -1,20 +1,23 @@
 "use client";
 
-export default function BreadcrumbSchema({ category, product }) {
+export default function BreadcrumbSchema({ category, product, siteUrl = "" }) {
   if (!category) return null;
+
+  // El dominio lo pasa la página (cada negocio tiene el suyo).
+  const base = siteUrl.replace(/\/$/, "");
 
   const items = [
     {
       "@type": "ListItem",
       position: 1,
       name: "Inicio",
-      item: "https://www.europeatvstore.com",
+      item: base || "/",
     },
     {
       "@type": "ListItem",
       position: 2,
       name: category.replace(/-/g, " "),
-      item: `https://www.europeatvstore.com/${category}`,
+      item: `${base}/${category}`,
     },
   ];
 
@@ -23,9 +26,7 @@ export default function BreadcrumbSchema({ category, product }) {
       "@type": "ListItem",
       position: 3,
       name: product,
-      item: `https://www.europeatvstore.com/${category}/${product
-        .toLowerCase()
-        .replace(/\s+/g, "-")}`,
+      item: `${base}/${category}/${product.toLowerCase().replace(/\s+/g, "-")}`,
     });
   }
 

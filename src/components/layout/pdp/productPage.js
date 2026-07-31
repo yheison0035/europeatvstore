@@ -13,11 +13,10 @@ import NewsSection from "@/components/sections/newsSection";
 import OffersSection from "@/components/sections/offersSection";
 import SectionWrapper from "../sectionWrapper";
 import RelatedProducts from "@/components/sections/relatedProductsSection";
-import { slugifyCategory } from "@/utils/slugify";
 import ProductSchema from "@/components/seo/productSchema";
 import BreadcrumbSchema from "@/components/seo/breadcrumbSchema";
 
-export default function ProductPage({ category, productSlug }) {
+export default function ProductPage({ category, productSlug, siteUrl = "" }) {
   const [product, setProduct] = useState(null);
   const { getProductBySlug } = useProducts();
 
@@ -40,8 +39,12 @@ export default function ProductPage({ category, productSlug }) {
 
   return (
     <>
-      <BreadcrumbSchema category={category} product={product.name} />
-      <ProductSchema product={product} category={category} />
+      <BreadcrumbSchema
+        category={category}
+        product={product.name}
+        siteUrl={siteUrl}
+      />
+      <ProductSchema product={product} category={category} siteUrl={siteUrl} />
       <main className="bg-(--bg-soft)">
         <Container>
           <SectionWrapper>
@@ -58,7 +61,7 @@ export default function ProductPage({ category, productSlug }) {
           </SectionWrapper>
 
           <SectionWrapper>
-            <RelatedProducts productSlug={slugifyCategory(product.name)} />
+            <RelatedProducts productSlug={product.slug} />
           </SectionWrapper>
           <SectionWrapper>
             <NewsSection />

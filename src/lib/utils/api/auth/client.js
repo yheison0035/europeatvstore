@@ -9,9 +9,14 @@ async function apiFetch(path, opts = {}) {
 
   const headers = { ...(opts.headers || {}) };
 
-  // ← NUEVO
-  if (typeof window !== "undefined") {
-    headers["X-Website-Domain"] = window.location.hostname;
+  // El backend identifica la empresa por el dominio. En local el hostname sería
+  // "localhost" (ninguna empresa lo tiene), así que se puede forzar por env.
+  const websiteDomain =
+    process.env.NEXT_PUBLIC_WEBSITE_DOMAIN ||
+    (typeof window !== "undefined" ? window.location.hostname : "");
+
+  if (websiteDomain) {
+    headers["X-Website-Domain"] = websiteDomain;
   }
 
   // Por defecto auth es true

@@ -1,84 +1,68 @@
-import { MetadataRoute } from "next";
-
-const BASE_URL = "https://www.europeatvstore.com";
-
-const API_URL =
-  process.env.NEXT_PUBLIC_API_URL || "https://api.europeatvstore.com";
+import { fetchFromApi, getSiteUrl } from "@/lib/website.server";
 
 /**
- * Sitemap dinámico para EUROPEATVSTORE
- * ✔ Compatible con Next 16
- * ✔ Sin filtros indexables
- * ✔ Seguro en build
+ * Sitemap dinámico: el dominio y las categorías salen de la empresa dueña
+ * del dominio por el que entra la petición, no de una lista fija.
  */
+export const dynamic = "force-dynamic";
+
+function slugify(value) {
+  return (value || "")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .trim()
+    .replace(/\s+/g, "-");
+}
+
 export default async function sitemap() {
-  /** ===============================
-   * PÁGINAS ESTÁTICAS
-   * =============================== */
-  const staticPages = ["", "/novedades", "/ofertas"];
+  const baseUrl = await getSiteUrl();
 
-  /** ===============================
-   * CATEGORÍAS
-   * =============================== */
-  const staticCategories = [
-    "aseo",
-    "barberia",
-    "belleza-mujer",
-    "cocina",
-    "deportes",
-    "herramientas",
-    "humificadores",
-    "jugueteria",
-    "proyectores-y-video",
-    "salud-y-bienestar",
-    "streaming",
-    "utensilios-de-cocina",
-  ];
+  const now = new Date();
 
-  const categoryUrls = staticCategories.map((category) => ({
-    url: `${BASE_URL}/${category}`,
-    lastModified: new Date(),
-    changeFrequency: "weekly",
-    priority: 0.8,
+  const staticPages = ["", "/novedades", "/ofertas"].map((page) => ({
+    url: `${baseUrl}${page}`,
+    lastModified: now,
+    changeFrequency: "daily",
+    priority: 1,
   }));
 
-  /** ===============================
-   * PRODUCTOS (BACKEND)
-   * =============================== */
+  /** CATEGORÍAS */
+  let categoryUrls = [];
+
+  try {
+    const categories = await fetchFromApi("/ecommerce/categories");
+
+    categoryUrls = (categories?.data || [])
+      .map((category) => slugify(category.name))
+      .filter(Boolean)
+      .map((slug) => ({
+        url: `${baseUrl}/${slug}`,
+        lastModified: now,
+        changeFrequency: "weekly",
+        priority: 0.8,
+      }));
+  } catch (error) {
+    console.error("Sitemap categories error:", error);
+  }
+
+  /** PRODUCTOS */
   let productUrls = [];
 
   try {
-    const res = await fetch(`${API_URL}/ecommerce/sitemap/products`, {
-      next: { revalidate: 86400 }, // 1 día
-    });
+    const products = await fetchFromApi("/ecommerce/sitemap/products");
 
-    if (res.ok) {
-      const products = await res.json();
-
-      productUrls = products
-        .filter((p) => p.slug && p.category)
-        .map((product) => ({
-          url: `${BASE_URL}/${product.category}/${product.slug}`,
-          lastModified: new Date(product.updatedAt || Date.now()),
-          changeFrequency: "weekly",
-          priority: 0.9,
-        }));
-    }
+    productUrls = (products || [])
+      .filter((product) => product.slug && product.category)
+      .map((product) => ({
+        url: `${baseUrl}/${product.category}/${product.slug}`,
+        lastModified: product.updatedAt ? new Date(product.updatedAt) : now,
+        changeFrequency: "weekly",
+        priority: 0.9,
+      }));
   } catch (error) {
     console.error("Sitemap products error:", error);
   }
 
-  /** ===============================
-   * RESULTADO FINAL
-   * =============================== */
-  return [
-    ...staticPages.map((page) => ({
-      url: `${BASE_URL}${page}`,
-      lastModified: new Date(),
-      changeFrequency: "daily",
-      priority: 1,
-    })),
-    ...categoryUrls,
-    ...productUrls,
-  ];
+  return [...staticPages, ...categoryUrls, ...productUrls];
 }

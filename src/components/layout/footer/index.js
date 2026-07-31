@@ -19,12 +19,16 @@ import {
   getPhone,
   getEmail,
   getWhatsapp,
+  getWhatsappDigits,
   getAddress,
   getSchedule,
   getFacebook,
   getInstagram,
   getTikTok,
   getFooterText,
+  getDescription,
+  getSiteUrl,
+  getLogo,
 } from "@/lib/website";
 
 export default function Footer() {
@@ -43,7 +47,22 @@ export default function Footer() {
   const instagram = getInstagram(website);
   const tiktok = getTikTok(website);
 
+  const logo = getLogo(website);
+  const local = website?.settings?.ecommerceLocal || null;
+
   const footerText = getFooterText(website);
+  const description = getDescription(website);
+  const siteUrl = getSiteUrl(website);
+  const whatsappDigits = getWhatsappDigits(website);
+
+  // Solo se muestran las redes que la empresa configuró.
+  const socials = [
+    { icon: <FaInstagram />, href: instagram, label: "Instagram" },
+    { icon: <FaTiktok />, href: tiktok, label: "TikTok" },
+    { icon: <FaFacebookF />, href: facebook, label: "Facebook" },
+  ].filter((social) => Boolean(social.href));
+
+  const year = new Date().getFullYear();
 
   const isActive = (href) => pathname === href;
 
@@ -64,9 +83,7 @@ export default function Footer() {
             <h3 className="text-lg font-semibold mb-4">Nuestra empresa</h3>
 
             <p className="text-sm text-(--text-muted) mb-4 leading-relaxed">
-              {companyName} es una tienda online colombiana especializada en
-              productos para el hogar, tecnología, salud y bienestar, ofreciendo
-              soluciones prácticas con envíos a todo el país.
+              {description}
             </p>
 
             <ul className="space-y-2 text-sm text-(--text-muted)">
@@ -160,41 +177,51 @@ export default function Footer() {
             <h3 className="text-lg font-semibold mb-4">Contáctenos</h3>
 
             <address className="not-italic space-y-3 text-sm text-(--text-muted)">
-              <p className="flex items-center gap-3">
-                <FaWhatsapp className="text-(--brand-accent)" />
-                <Link
-                  href={`https://wa.me/${phone.replace(/\D/g, "")}`}
-                  className="hover:text-(--brand-accent)"
-                  target="_blank"
-                >
-                  {whatsapp}
-                </Link>
-              </p>
+              {whatsappDigits && (
+                <p className="flex items-center gap-3">
+                  <FaWhatsapp className="text-(--brand-accent)" />
+                  <Link
+                    href={`https://wa.me/${whatsappDigits}`}
+                    className="hover:text-(--brand-accent)"
+                    target="_blank"
+                  >
+                    {whatsapp}
+                  </Link>
+                </p>
+              )}
 
-              <p className="flex items-center gap-3">
-                <EnvelopeIcon className="w-4 h-4 text-(--brand-accent)" />
-                <Link
-                  href={`mailto:${email}`}
-                  className="hover:text-(--brand-accent)"
-                >
-                  {email}
-                </Link>
-              </p>
+              {email && (
+                <p className="flex items-center gap-3">
+                  <EnvelopeIcon className="w-4 h-4 text-(--brand-accent)" />
+                  <Link
+                    href={`mailto:${email}`}
+                    className="hover:text-(--brand-accent)"
+                  >
+                    {email}
+                  </Link>
+                </p>
+              )}
 
-              <p className="flex items-center gap-3">
-                <PhoneIcon className="w-4 h-4 text-(--brand-accent)" />
-                +57 {phone}
-              </p>
+              {phone && (
+                <p className="flex items-center gap-3">
+                  <PhoneIcon className="w-4 h-4 text-(--brand-accent)" />
+                  {phone}
+                </p>
+              )}
 
-              <p className="flex items-center gap-3">
-                <MapPinIcon className="w-4 h-4 text-(--brand-accent)" />
-                {address}
-              </p>
+              {address && (
+                <p className="flex items-center gap-3">
+                  <MapPinIcon className="w-4 h-4 text-(--brand-accent)" />
+                  {address}
+                </p>
+              )}
 
-              <p className="flex items-center gap-3">
-                <ClockIcon className="w-4 h-4 text-(--brand-accent)" />
-                {schedule}
-              </p>
+              {schedule && (
+                <p className="flex items-center gap-3">
+                  <ClockIcon className="w-4 h-4 text-(--brand-accent)" />
+                  {schedule}
+                </p>
+              )}
             </address>
           </div>
 
@@ -202,23 +229,7 @@ export default function Footer() {
             <h3 className="text-lg font-semibold mb-4">Síguenos</h3>
 
             <nav aria-label="Redes sociales" className="flex gap-4 mb-6">
-              {[
-                {
-                  icon: <FaInstagram />,
-                  href: instagram,
-                  label: "Instagram",
-                },
-                {
-                  icon: <FaTiktok />,
-                  href: tiktok,
-                  label: "TikTok",
-                },
-                {
-                  icon: <FaFacebookF />,
-                  href: facebook,
-                  label: "Facebook",
-                },
-              ].map((social) => (
+              {socials.map((social) => (
                 <Link
                   key={social.label}
                   href={social.href}
@@ -261,40 +272,49 @@ export default function Footer() {
       <div className="border-t border-gray-300/20" />
 
       <div className="max-w-7xl mx-auto px-4 py-6 text-center text-sm text-(--text-muted)">
-        © 2026 <strong>zorvex</strong>. Todos los derechos reservados.
+        © {year} <strong>{companyName}</strong>. Todos los derechos reservados.
         <p className="mt-2 text-xs">{footerText}</p>
       </div>
 
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Store",
-            name: { companyName },
-            url: "https://www.europeatvstore.com",
-            logo: "https://www.europeatvstore.com/logo.png",
-            address: {
-              "@type": "PostalAddress",
-              addressLocality: "Itagüí",
-              addressRegion: "Antioquia",
-              addressCountry: "CO",
-            },
-            contactPoint: {
-              "@type": "ContactPoint",
-              telephone: "+57-314-733-7602",
-              contactType: "customer service",
-              areaServed: "CO",
-              availableLanguage: ["Spanish"],
-            },
-            sameAs: [
-              "https://www.instagram.com/europeatvstore",
-              "https://www.facebook.com/europeatvstore",
-              "https://www.tiktok.com/@europeatvstore_oficial",
-            ],
-          }),
-        }}
-      />
+      {companyName && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Store",
+              name: companyName,
+              url: siteUrl,
+              ...(logo?.startsWith("http") ? { logo } : {}),
+              ...(local
+                ? {
+                    address: {
+                      "@type": "PostalAddress",
+                      streetAddress: local.address || undefined,
+                      addressLocality: local.city || undefined,
+                      addressRegion: local.department || undefined,
+                      addressCountry: "CO",
+                    },
+                  }
+                : {}),
+              ...(whatsappDigits
+                ? {
+                    contactPoint: {
+                      "@type": "ContactPoint",
+                      telephone: `+${whatsappDigits}`,
+                      contactType: "customer service",
+                      areaServed: "CO",
+                      availableLanguage: ["Spanish"],
+                    },
+                  }
+                : {}),
+              ...(socials.length
+                ? { sameAs: socials.map((social) => social.href) }
+                : {}),
+            }),
+          }}
+        />
+      )}
     </footer>
   );
 }

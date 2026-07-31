@@ -10,6 +10,9 @@ import CheckoutConfirmModal from "@/components/layout/checkout/components/checko
 import { useCart } from "@/context/cartContext";
 import { calculateShipping } from "@/utils/shipping";
 import { openWompiCheckout } from "@/lib/wompi/wompiCheckout";
+import { createOrder } from "@/lib/utils/api/routes/checkout";
+import { useToast } from "@/context/toastContext";
+import { useRouter } from "next/navigation";
 
 export default function CheckoutPage() {
   const {
@@ -21,30 +24,88 @@ export default function CheckoutPage() {
     formData,
   } = useCheckout();
 
-  const { items } = useCart();
+  const { items, clearCart } = useCart();
+  const toast = useToast();
+  const router = useRouter();
 
-  function handleConfirm() {
+  async function handleConfirm() {
     setShowConfirm(false);
 
-    if (paymentMethod === "online") {
-      const subtotal = items.reduce((sum, i) => sum + i.price * i.quantity, 0);
+    const orderItems = items
+      .filter((item) => item.variantId)
+      .map((item) => ({
+        inventoryVariantId: item.variantId,
+        quantity: item.quantity,
+      }));
 
-      const { cost } = calculateShipping(subtotal);
-      const total = subtotal + cost;
-
-      openWompiCheckout({
-        amount: total,
-        reference: `ORDER-${Date.now()}`,
-        customerEmail: formData.email,
-      });
-
+    if (orderItems.length !== items.length) {
+      // Pasa con carritos guardados antes de que se guardara la variante.
+      toast.error(
+        "Tu carrito está desactualizado. Vacíalo y agrega los productos de nuevo.",
+      );
       return;
     }
 
-    // PAGO CONTRA ENTREGA
-    if (paymentMethod === "cod") {
-      setIsSubmitting(true);
-      console.log("Crear orden contra entrega");
+    setIsSubmitting(true);
+
+    try {
+      const { billingSameAsShipping } = formData;
+
+      const order = await createOrder({
+        customer: {
+          email: formData.email,
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          phone: formData.phone,
+          documentNumber: formData.documentNumber || undefined,
+          department: formData.department,
+          city: formData.city,
+          address: formData.address,
+          addressDetail: formData.addressDetail || undefined,
+          neighborhood: formData.neighborhood || undefined,
+          isHardToAccess: Boolean(formData.isHardToAccess),
+          billingSameAsShipping: Boolean(billingSameAsShipping),
+          ...(billingSameAsShipping
+            ? {}
+            : {
+                billingFirstName: formData.billingFirstName,
+                billingLastName: formData.billingLastName,
+                billingPhone: formData.billingPhone,
+                billingAddress: formData.billingAddress,
+              }),
+        },
+        items: orderItems,
+        // Contra entrega se cobra en efectivo; el pago en línea es transferencia
+        // y queda EN_VALIDACION hasta que Wompi confirme.
+        paymentMethod: paymentMethod === "online" ? "TRANSFERENCIA" : "EFECTIVO",
+      });
+
+      if (paymentMethod === "online") {
+        const subtotal = items.reduce(
+          (sum, item) => sum + item.price * item.quantity,
+          0,
+        );
+
+        const { cost } = calculateShipping(subtotal);
+
+        // El pedido ya existe: se paga con su código como referencia.
+        await openWompiCheckout({
+          amount: subtotal + cost,
+          reference: order.orderCode,
+          customerEmail: formData.email,
+        });
+
+        clearCart();
+        return;
+      }
+
+      clearCart();
+      toast.success(`¡Pedido ${order.orderCode} confirmado!`);
+      router.push(`/checkout/result?order=${order.orderCode}`);
+    } catch (error) {
+      toast.error(error.message || "No pudimos crear tu pedido");
+    } finally {
+      setIsSubmitting(false);
     }
   }
 

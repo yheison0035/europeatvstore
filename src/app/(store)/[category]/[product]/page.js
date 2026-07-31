@@ -1,60 +1,82 @@
 import ProductPage from "@/components/layout/pdp/productPage";
+import {
+  fetchFromApi,
+  getSiteUrl,
+  getWebsiteConfig,
+} from "@/lib/website.server";
 
 export default async function ContentPDP(props) {
   const params = await props.params;
   const category = params.category;
   const product = params.product;
 
-  return <ProductPage category={category} productSlug={product} />;
+  const siteUrl = await getSiteUrl();
+
+  return (
+    <ProductPage category={category} productSlug={product} siteUrl={siteUrl} />
+  );
 }
 
 export async function generateMetadata(props) {
   const params = await props.params;
   const category = params?.category;
-  const product = params?.product;
+  const productSlug = params?.product;
 
-  // Fallback absoluto (build / prerender)
-  if (!category || !product) {
+  const siteUrl = await getSiteUrl();
+  const website = await getWebsiteConfig();
+
+  const company = website?.company;
+  const settings = website?.settings;
+
+  const siteName = company?.websiteName || company?.name || "Tienda online";
+
+  const baseDescription =
+    settings?.metaDescription || `Compra online en ${siteName}.`;
+
+  if (!category || !productSlug) {
     return {
-      title: "EUROPEATVSTORE® | Compra online en Colombia",
-      description:
-        "Compra productos originales en EUROPEATVSTORE®. Pago contraentrega, envío rápido y ofertas reales en Colombia.",
-      alternates: {
-        canonical: "https://www.europeatvstore.com",
-      },
-      openGraph: {
-        title: "EUROPEATVSTORE®",
-        description:
-          "Compra productos originales en EUROPEATVSTORE®. Pago contraentrega y envíos a toda Colombia.",
-        url: "https://www.europeatvstore.com",
-        siteName: "EUROPEATVSTORE",
-        locale: "es_CO",
-        type: "website",
-      },
+      title: siteName,
+      description: baseDescription,
+      alternates: { canonical: siteUrl },
     };
   }
 
-  const productName = product
-    .replace(/-/g, " ")
-    .replace(/\b\w/g, (l) => l.toUpperCase());
+  // Datos reales del producto (si el backend no responde, se usa el slug).
+  const response = await fetchFromApi(
+    `/ecommerce/product/${productSlug}`,
+  ).catch(() => null);
 
-  const url = `https://www.europeatvstore.com/${category}/${product}`;
+  const product = response?.data || null;
+
+  const productName =
+    product?.name ||
+    productSlug.replace(/-/g, " ").replace(/\b\w/g, (l) => l.toUpperCase());
+
+  const description = product?.description
+    ? product.description.replace(/\s+/g, " ").trim().slice(0, 160)
+    : `${productName} en ${siteName}. ${baseDescription}`;
+
+  const url = `${siteUrl}/${category}/${productSlug}`;
+
+  const images = product?.images?.length
+    ? product.images.slice(0, 4).map((image) => ({ url: image }))
+    : company?.logo
+      ? [{ url: company.logo }]
+      : [];
 
   return {
-    title: `${productName} | Compra en EUROPEATVSTORE®`,
-    description:
-      "Compra productos originales en EUROPEATVSTORE®. Pago contraentrega, envío rápido y ofertas reales en Colombia.",
-    alternates: {
-      canonical: url,
-    },
+    // El layout raíz añade el nombre del sitio con su plantilla "%s | Sitio".
+    title: productName,
+    description,
+    alternates: { canonical: url },
     openGraph: {
-      title: `${productName} | EUROPEATVSTORE®`,
-      description:
-        "Compra productos originales en EUROPEATVSTORE®. Pago contraentrega, envío rápido y ofertas reales en Colombia.",
+      title: `${productName} | ${siteName}`,
+      description,
       url,
-      siteName: "EUROPEATVSTORE",
+      siteName,
       locale: "es_CO",
-      type: "website", // 👈 MUY IMPORTANTE (ver problema 2)
+      type: "website",
+      images,
     },
   };
 }

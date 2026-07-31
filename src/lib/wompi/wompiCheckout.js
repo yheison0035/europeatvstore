@@ -28,8 +28,10 @@ export async function openWompiCheckout({
     `&amount-in-cents=${amountInCents}` +
     `&reference=${reference}` +
     `&signature:integrity=${signature}` +
+    // Cada tienda vuelve a SU dominio; la env solo sirve para forzarlo.
     `&redirect-url=${encodeURIComponent(
-      process.env.NEXT_PUBLIC_WOMPI_REDIRECT_URL,
+      process.env.NEXT_PUBLIC_WOMPI_REDIRECT_URL ||
+        `${window.location.origin}/checkout/result`,
     )}` +
     `&customer-data:email=${encodeURIComponent(customerEmail)}`;
 

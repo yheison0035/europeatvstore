@@ -1,4 +1,10 @@
-export default function robots() {
+import { getSiteUrl } from "@/lib/website.server";
+
+export const dynamic = "force-dynamic";
+
+export default async function robots() {
+  const baseUrl = await getSiteUrl();
+
   return {
     rules: [
       {
@@ -7,6 +13,6 @@ export default function robots() {
         disallow: ["/api/", "/*?*colors=", "/*?*brands=", "/*?*sort="],
       },
     ],
-    sitemap: "https://www.europeatvstore.com/sitemap.xml",
+    sitemap: `${baseUrl}/sitemap.xml`,
   };
 }

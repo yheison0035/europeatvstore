@@ -1,94 +1,88 @@
 import Providers from "@/context/providers";
 import { ToastProvider } from "@/context/toastContext";
 import { NavProvider } from "@/context/navigationContext";
-import { inter } from "@/styles/fonts";
+import { getFontClass } from "@/styles/fonts";
+import { buildThemeCss } from "@/styles/themes";
 import "@/styles/globals.css";
 import GlobalUI from "@/components/layout/globalUI";
-import { headers } from "next/headers";
+import { getSiteUrl, getWebsiteConfig } from "@/lib/website.server";
 
-const API_URL = (
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:3005"
-).replace(/\/$/, "");
+// Todo depende del dominio de la petición: nada se puede prerenderizar.
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata() {
-  try {
-    const headersList = await headers();
+  const siteUrl = await getSiteUrl();
+  const website = await getWebsiteConfig();
 
-    const host = headersList.get("host");
+  const company = website?.company;
+  const settings = website?.settings;
 
-    const protocol = process.env.NODE_ENV === "development" ? "http" : "https";
-
-    const res = await fetch(`${API_URL}/website/config`, {
-      headers: {
-        host,
-      },
-      cache: "no-store",
-    });
-
-    if (!res.ok) {
-      throw new Error("No se pudo cargar la configuración.");
-    }
-
-    const website = await res.json();
-
-    const company = website.company;
-    const settings = website.settings;
-
-    const title = settings?.metaTitle || company.websiteName || company.name;
-
-    const description =
-      settings?.metaDescription || `Compra en ${company.name}`;
-
-    const logo = company.logo;
-    const favicon = company.favicon || "/favicon.ico";
-
+  if (!company) {
+    // Sin configuración no sabemos de qué negocio es el dominio.
     return {
-      metadataBase: new URL(`${protocol}://${host}`),
-
-      title: {
-        default: title,
-        template: `%s | ${title}`,
-      },
-
-      description,
-
-      icons: {
-        icon: favicon,
-      },
-
-      openGraph: {
-        title,
-        description,
-        url: `${protocol}://${host}`,
-        siteName: company.name,
-        locale: "es_CO",
-        type: "website",
-        images: logo
-          ? [
-              {
-                url: logo,
-              },
-            ]
-          : [],
-      },
-
-      robots: {
-        index: true,
-        follow: true,
-      },
-    };
-  } catch (error) {
-    return {
-      title: "Sitio Web",
-      description: "Sitio Web",
+      title: "Sitio web",
+      description: "Sitio web",
     };
   }
+
+  const title = settings?.metaTitle || company.websiteName || company.name;
+
+  const description =
+    settings?.metaDescription || `Compra online en ${company.name}`;
+
+  const logo = company.logo;
+  const favicon = company.favicon || "/favicon.ico";
+
+  return {
+    metadataBase: new URL(siteUrl),
+
+    title: {
+      default: title,
+      template: `%s | ${title}`,
+    },
+
+    description,
+
+    alternates: {
+      canonical: siteUrl,
+    },
+
+    icons: {
+      icon: favicon,
+    },
+
+    openGraph: {
+      title,
+      description,
+      url: siteUrl,
+      siteName: company.name,
+      locale: "es_CO",
+      type: "website",
+      images: logo ? [{ url: logo }] : [],
+    },
+
+    robots: {
+      index: true,
+      follow: true,
+    },
+  };
 }
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+  // El tema, los colores y la tipografía salen de la empresa dueña del dominio.
+  // Se resuelven en el servidor para que la tienda no parpadee al cargar.
+  const website = await getWebsiteConfig();
+  const company = website?.company;
+
+  const themeCss = buildThemeCss(company);
+  const fontClass = getFontClass(company?.fontFamily);
+
   return (
-    <html lang="es">
-      <body className={`${inter.className} antialiased`}>
+    <html lang="es" data-theme={company?.theme || "clasico"}>
+      <head>
+        <style dangerouslySetInnerHTML={{ __html: themeCss }} />
+      </head>
+      <body className={`${fontClass} antialiased`}>
         <NavProvider>
           <ToastProvider>
             <Providers>

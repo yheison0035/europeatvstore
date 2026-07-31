@@ -10,6 +10,7 @@ export default function useProductCartLogic(product, initialQty = 1) {
   const toast = useToast();
 
   const [selectedColor, setSelectedColor] = useState(null);
+  const [selectedVariantId, setSelectedVariantId] = useState(null);
   const [colorStock, setColorStock] = useState(0);
   const [qty, setQty] = useState(initialQty);
   const [error, setError] = useState(null);
@@ -25,6 +26,8 @@ export default function useProductCartLogic(product, initialQty = 1) {
 
   function selectColor(color) {
     setSelectedColor(color.name);
+    // El backend arma el pedido por variante, no por nombre de color.
+    setSelectedVariantId(color.variantId ?? null);
     setColorStock(color.stock);
     setError(null);
 
@@ -66,6 +69,7 @@ export default function useProductCartLogic(product, initialQty = 1) {
           discount: product.discount ?? 0,
           images: product.images || product.image,
           color: selectedColor,
+          variantId: selectedVariantId,
           stock: colorStock,
         },
         qty,

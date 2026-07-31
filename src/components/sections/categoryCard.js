@@ -37,10 +37,12 @@ const CATEGORY_ICON_MAP = {
 };
 
 export default function CategoryCard({ category }) {
-  if (!category || !category.name) return null;
-
+  // Los hooks van antes de cualquier return: si no, React se queja de que el
+  // orden cambia entre renders.
   const router = useRouter();
   const { setActiveCategory } = useNav();
+
+  if (!category || !category.name) return null;
 
   const Icon = CATEGORY_ICON_MAP[category.name] || Squares2X2Icon;
 

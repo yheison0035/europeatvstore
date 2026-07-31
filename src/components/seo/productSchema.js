@@ -1,7 +1,16 @@
 "use client";
 
-export default function ProductSchema({ product, category }) {
+import { useWebsiteContext } from "@/context/websiteContext";
+import { getCompanyName } from "@/lib/website";
+
+export default function ProductSchema({ product, category, siteUrl = "" }) {
+  const { website } = useWebsiteContext();
+
   if (!product) return null;
+
+  // Marca y dominio del negocio dueño de este dominio, no de uno fijo.
+  const companyName = getCompanyName(website);
+  const base = siteUrl.replace(/\/$/, "");
 
   const schema = {
     "@context": "https://schema.org",
@@ -11,20 +20,9 @@ export default function ProductSchema({ product, category }) {
     image: product.images,
     sku: product.id,
 
-    brand: {
-      "@type": "Brand",
-      name: product.brand || "EUROPEATVSTORE",
-    },
-
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: "4.8",
-      reviewCount: "37",
-    },
-
     offers: {
       "@type": "Offer",
-      url: `https://www.europeatvstore.com/${category}/${product.slug}`,
+      url: `${base}/${category}/${product.slug}`,
       priceCurrency: "COP",
       price: product.price,
       availability:
@@ -32,12 +30,24 @@ export default function ProductSchema({ product, category }) {
           ? "https://schema.org/InStock"
           : "https://schema.org/OutOfStock",
       itemCondition: "https://schema.org/NewCondition",
-      seller: {
-        "@type": "Organization",
-        name: "EUROPEATVSTORE",
-      },
     },
   };
+
+  const brand = product.brand || companyName;
+
+  if (brand) {
+    schema.brand = {
+      "@type": "Brand",
+      name: brand,
+    };
+  }
+
+  if (companyName) {
+    schema.offers.seller = {
+      "@type": "Organization",
+      name: companyName,
+    };
+  }
 
   if (product.oldPrice) {
     schema.offers.priceSpecification = {

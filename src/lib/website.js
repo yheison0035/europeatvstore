@@ -42,6 +42,35 @@ export function getYoutube(website) {
   return website?.settings?.youtube || "";
 }
 
+/** Descripción del negocio (la configura cada empresa en su CRM). */
+export function getDescription(website) {
+  const name = getCompanyName(website);
+
+  return (
+    website?.settings?.metaDescription ||
+    (name ? `${name} · compra online con envíos a todo el país.` : "")
+  );
+}
+
+/** Dominio público del negocio, resuelto por el backend según la petición. */
+export function getSiteUrl(website) {
+  if (website?.domain) return `https://${website.domain}`;
+
+  if (typeof window !== "undefined") return window.location.origin;
+
+  return "";
+}
+
+/** Número de WhatsApp listo para usar en un enlace wa.me (solo dígitos). */
+export function getWhatsappDigits(website) {
+  const raw = getWhatsapp(website).replace(/\D/g, "");
+
+  if (!raw) return "";
+
+  // Los números colombianos se guardan sin indicativo; wa.me lo necesita.
+  return raw.length === 10 ? `57${raw}` : raw;
+}
+
 export function getFooterText(website) {
   return (
     website?.settings?.footerText ||
