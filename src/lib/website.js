@@ -42,11 +42,8 @@ export function getYoutube(website) {
   return website?.settings?.youtube || "";
 }
 
-/** Imagen que se muestra cuando un producto no tiene foto cargada. */
-export const PLACEHOLDER_IMAGE = "/sin-imagen.svg";
-
 /**
- * Devuelve la primera imagen utilizable de un producto, o el placeholder.
+ * Primera imagen utilizable de un producto, o null si no tiene ninguna.
  * Los productos llegan a veces con `image` y otras con `images` (array o
  * string), según el endpoint.
  */
@@ -55,7 +52,7 @@ export function getProductImage(product) {
 
   const url = Array.isArray(source) ? source[0] : source;
 
-  return url || PLACEHOLDER_IMAGE;
+  return url || null;
 }
 
 /** Descripción del negocio (la configura cada empresa en su CRM). */

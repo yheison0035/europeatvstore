@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { PLACEHOLDER_IMAGE } from "@/lib/website";
+import ProductImage from "@/components/ui/productImage";
 
 export default function ProductGallery({ images = [] }) {
   const safeImages = Array.isArray(images) ? images : [];
@@ -10,14 +10,8 @@ export default function ProductGallery({ images = [] }) {
 
   if (!safeImages.length) {
     return (
-      <div className="bg-white border border-(--border-soft) rounded-2xl h-80 flex items-center justify-center overflow-hidden">
-        <Image
-          src={PLACEHOLDER_IMAGE}
-          alt="Producto sin imagen"
-          width={320}
-          height={320}
-          className="object-contain"
-        />
+      <div className="border border-(--border-soft) rounded-2xl h-80 overflow-hidden">
+        <ProductImage product={null} alt="Producto" />
       </div>
     );
   }

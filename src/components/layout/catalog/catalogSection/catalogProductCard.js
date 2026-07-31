@@ -6,7 +6,7 @@ import {
   ShoppingCartIcon,
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
-import { getProductImage } from "@/lib/website";
+import ProductImage from "@/components/ui/productImage";
 import { getColorHexByName } from "@/utils/getColor";
 import useProductCartLogic from "@/hooks/useProductCartLogic";
 
@@ -44,9 +44,8 @@ export default function CatalogProductCard({ product, category }) {
     >
       <Link href={`/${category}/${product.slug}`}>
         <div className="relative aspect-square bg-(--bg-soft) cursor-pointer">
-          <img
-            src={getProductImage(product)}
-            alt={product.name}
+          <ProductImage
+            product={product}
             className="
               w-full h-full object-contain p-3 sm:p-4
               transition-transform duration-300

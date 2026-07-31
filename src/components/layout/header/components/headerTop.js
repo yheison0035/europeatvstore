@@ -13,12 +13,10 @@ import { useWebsiteContext } from "@/context/websiteContext";
 export default function HeaderTop() {
   const { count } = useCart();
 
-  const { website, loading } = useWebsiteContext();
+  const { website } = useWebsiteContext();
 
-  if (loading) {
-    return null;
-  }
-
+  // No se oculta mientras carga: si el header desaparece y vuelve, cambia de
+  // altura y el contenido de abajo se descoloca.
   return (
     <div
       className="

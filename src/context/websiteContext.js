@@ -5,13 +5,23 @@ import useWebsite from "@/lib/utils/api/website/hooks/useWebsite";
 
 const WebsiteContext = createContext(null);
 
-export function WebsiteProvider({ children }) {
+/**
+ * Configuración del negocio dueño del dominio.
+ *
+ * Llega ya resuelta desde el servidor (`initialWebsite`): así el logo, el
+ * buscador y el menú están en el primer pintado y el header no cambia de
+ * altura después, que era lo que dejaba el contenido debajo del menú al
+ * recargar.
+ */
+export function WebsiteProvider({ children, initialWebsite = null }) {
   const { getConfig } = useWebsite();
 
-  const [website, setWebsite] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [website, setWebsite] = useState(initialWebsite);
+  const [loading, setLoading] = useState(!initialWebsite);
 
   useEffect(() => {
+    if (initialWebsite) return;
+
     async function loadWebsite() {
       try {
         const response = await getConfig();
@@ -25,7 +35,7 @@ export function WebsiteProvider({ children }) {
     }
 
     loadWebsite();
-  }, [getConfig]);
+  }, [getConfig, initialWebsite]);
 
   return (
     <WebsiteContext.Provider

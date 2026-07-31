@@ -125,7 +125,7 @@ export default async function RootLayout({ children }) {
 
         <NavProvider>
           <ToastProvider>
-            <Providers>
+            <Providers initialWebsite={website}>
               {children}
               <GlobalUI />
             </Providers>

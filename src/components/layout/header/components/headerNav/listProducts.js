@@ -1,5 +1,5 @@
 import { slugifyCategory } from "@/utils/slugify";
-import { getProductImage } from "@/lib/website";
+import ProductImage from "@/components/ui/productImage";
 import { formatText } from "@/utils/textFormat";
 import Link from "next/link";
 
@@ -96,9 +96,8 @@ export default function ListProductHeader({
                 )}
 
                 <div className="relative w-full h-28 rounded-lg overflow-hidden">
-                  <img
-                    src={getProductImage(product)}
-                    alt={product.name}
+                  <ProductImage
+                    product={product}
                     className="
                       w-full h-full
                       object-contain

@@ -1,6 +1,14 @@
 "use client";
 import { useLayoutEffect, useRef, useState } from "react";
 
+/**
+ * Mide el header fijo y publica su altura en variables CSS.
+ *
+ * Se observa el tamaño con ResizeObserver: si el header crece o encoge (al
+ * cargar el logo, al girar el móvil, al aparecer una fila del menú), el
+ * contenido de abajo se reajusta. Antes se medía una sola vez y, si el header
+ * cambiaba después, el catálogo quedaba tapado por el menú.
+ */
 export function useHeaderHeight() {
   const headerRef = useRef(null);
   const navRef = useRef(null);
@@ -11,13 +19,20 @@ export function useHeaderHeight() {
   });
 
   useLayoutEffect(() => {
+    const header = headerRef.current;
+    const nav = navRef.current;
+
+    if (!header || !nav) return;
+
     function update() {
-      if (!headerRef.current || !navRef.current) return;
+      const headerH = header.offsetHeight;
+      const navH = nav.offsetHeight;
 
-      const headerH = headerRef.current.offsetHeight;
-      const navH = navRef.current.offsetHeight;
-
-      setHeights({ header: headerH, nav: navH });
+      setHeights((prev) =>
+        prev.header === headerH && prev.nav === navH
+          ? prev
+          : { header: headerH, nav: navH },
+      );
 
       document.documentElement.style.setProperty(
         "--header-height",
@@ -31,8 +46,17 @@ export function useHeaderHeight() {
     }
 
     update();
+
+    const observer = new ResizeObserver(update);
+    observer.observe(header);
+    observer.observe(nav);
+
     window.addEventListener("resize", update);
-    return () => window.removeEventListener("resize", update);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", update);
+    };
   }, []);
 
   return {

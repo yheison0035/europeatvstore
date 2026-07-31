@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import ProductImage from "@/components/ui/productImage";
 import { slugifyCategory } from "@/utils/slugify";
-import { getProductImage } from "@/lib/website";
 
 export default function ProductCardMini({ product }) {
   if (!product) return null;
@@ -46,9 +46,8 @@ export default function ProductCardMini({ product }) {
         )}
 
         <div className="relative w-full h-32 rounded-lg overflow-hidden flex items-center justify-center">
-          <img
-            src={getProductImage(product)}
-            alt={product.name}
+          <ProductImage
+            product={product}
             className="
               max-w-full max-h-full
               object-contain
