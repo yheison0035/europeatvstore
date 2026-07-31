@@ -121,6 +121,12 @@ export function buildThemeCss(company) {
 
   // Derivados: se recalculan siempre para que no queden colgados del tema base.
   tokens["--bg-brand"] = tokens["--brand-primary"];
+
+  // Las zonas oscuras (footer y aviso de cookies) toman el color principal,
+  // el mismo del menú, para que la tienda se vea de una sola pieza cuando la
+  // empresa cambia su color.
+  tokens["--bg-dark"] = tokens["--brand-primary"];
+
   tokens["--text-accent"] = tokens["--brand-accent"];
   tokens["--cta-secondary"] = tokens["--brand-accent"];
   tokens["--cta-primary-hover"] =
