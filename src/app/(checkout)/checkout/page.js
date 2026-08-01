@@ -51,6 +51,12 @@ export default function CheckoutPage() {
     try {
       const { billingSameAsShipping } = formData;
 
+      const subtotal = items.reduce(
+        (sum, item) => sum + item.price * item.quantity,
+        0,
+      );
+      const { cost: shippingCost } = calculateShipping(subtotal);
+
       const order = await createOrder({
         customer: {
           email: formData.email,
@@ -78,19 +84,13 @@ export default function CheckoutPage() {
         // Contra entrega se cobra en efectivo; el pago en línea es transferencia
         // y queda EN_VALIDACION hasta que Wompi confirme.
         paymentMethod: paymentMethod === "online" ? "TRANSFERENCIA" : "EFECTIVO",
+        shippingCost,
       });
 
       if (paymentMethod === "online") {
-        const subtotal = items.reduce(
-          (sum, item) => sum + item.price * item.quantity,
-          0,
-        );
-
-        const { cost } = calculateShipping(subtotal);
-
         // El pedido ya existe: se paga con su código como referencia.
         await openWompiCheckout({
-          amount: subtotal + cost,
+          amount: subtotal + shippingCost,
           reference: order.orderCode,
           customerEmail: formData.email,
         });
