@@ -96,6 +96,126 @@ export const THEMES = {
       "--radius-xl": "24px",
     },
   },
+
+  esmeralda: {
+    label: "Esmeralda",
+    description: "Fresco y natural: verdes con acento esmeralda.",
+    tokens: {
+      "--brand-primary": "#064e3b",
+      "--brand-secondary": "#065f46",
+      "--brand-accent": "#10b981",
+
+      "--bg-page": "#ffffff",
+      "--bg-soft": "#f0fdf4",
+      "--bg-muted": "#ecfdf5",
+      "--bg-dark": "#022c22",
+
+      "--text-primary": "#064e3b",
+      "--text-secondary": "#334155",
+      "--text-muted": "#64748b",
+      "--text-inverted": "#ffffff",
+
+      "--cta-primary": "#059669",
+
+      "--border-soft": "#d1fae5",
+      "--border-strong": "#a7f3d0",
+
+      "--radius-sm": "6px",
+      "--radius-md": "12px",
+      "--radius-lg": "18px",
+      "--radius-xl": "24px",
+    },
+  },
+
+  purpura: {
+    label: "Púrpura",
+    description: "Elegante y premium: morados profundos.",
+    tokens: {
+      "--brand-primary": "#2e1065",
+      "--brand-secondary": "#4c1d95",
+      "--brand-accent": "#8b5cf6",
+
+      "--bg-page": "#ffffff",
+      "--bg-soft": "#faf5ff",
+      "--bg-muted": "#f5f3ff",
+      "--bg-dark": "#1e1b4b",
+
+      "--text-primary": "#2e1065",
+      "--text-secondary": "#3f3f46",
+      "--text-muted": "#71717a",
+      "--text-inverted": "#ffffff",
+
+      "--cta-primary": "#7c3aed",
+
+      "--border-soft": "#ede9fe",
+      "--border-strong": "#ddd6fe",
+
+      "--radius-sm": "8px",
+      "--radius-md": "14px",
+      "--radius-lg": "20px",
+      "--radius-xl": "28px",
+    },
+  },
+
+  boutique: {
+    label: "Boutique",
+    description: "Moderno y femenino: rosa fucsia sobre blanco.",
+    tokens: {
+      "--brand-primary": "#500724",
+      "--brand-secondary": "#831843",
+      "--brand-accent": "#ec4899",
+
+      "--bg-page": "#ffffff",
+      "--bg-soft": "#fdf2f8",
+      "--bg-muted": "#fce7f3",
+      "--bg-dark": "#500724",
+
+      "--text-primary": "#500724",
+      "--text-secondary": "#3f3f46",
+      "--text-muted": "#71717a",
+      "--text-inverted": "#ffffff",
+
+      "--cta-primary": "#db2777",
+
+      "--border-soft": "#fce7f3",
+      "--border-strong": "#fbcfe8",
+
+      "--radius-sm": "8px",
+      "--radius-md": "16px",
+      "--radius-lg": "22px",
+      "--radius-xl": "30px",
+    },
+  },
+
+  oceano: {
+    label: "Océano",
+    description: "Limpio y confiable: turquesa y azul océano.",
+    tokens: {
+      "--brand-primary": "#083344",
+      "--brand-secondary": "#155e75",
+      "--brand-accent": "#06b6d4",
+
+      "--bg-page": "#ffffff",
+      "--bg-soft": "#ecfeff",
+      "--bg-muted": "#cffafe",
+      "--bg-dark": "#083344",
+
+      "--text-primary": "#083344",
+      "--text-secondary": "#334155",
+      "--text-muted": "#64748b",
+      "--text-inverted": "#ffffff",
+
+      "--cta-primary": "#0891b2",
+
+      "--border-soft": "#cffafe",
+      "--border-strong": "#a5f3fc",
+
+      "--radius-sm": "6px",
+      "--radius-md": "12px",
+      "--radius-lg": "18px",
+      "--radius-xl": "24px",
+    },
+  },
 };
 
 export const DEFAULT_THEME = "clasico";
